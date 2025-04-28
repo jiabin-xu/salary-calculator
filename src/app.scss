@@ -1,3 +1,31 @@
-@use "tailwindcss/base" as *;
-@use "tailwindcss/components" as *;
-@use "tailwindcss/utilities" as *;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* 高德地图风格三角形样式 */
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid;
+}
+
+/* 页面背景 */
+page {
+  background-color: #f5f7fa;
+}
+
+/* 高德蓝色按钮 */
+.btn-amap {
+  background-color: #00aeff;
+  color: white;
+  border-radius: 4px;
+}
+
+/* 文本溢出处理 */
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
