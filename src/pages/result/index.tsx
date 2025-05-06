@@ -68,18 +68,8 @@ const ResultPage: React.FC = () => {
 
   return (
     <View className="p-4 bg-gray-100 min-h-screen pb-20">
-      {/* 顶部标题和城市信息 */}
-      <View className="mb-4 text-center">
-        <Text className="text-2xl font-bold text-gray-800">薪资计算结果</Text>
-        <View className="mt-2 flex items-center justify-center">
-          <Text className="text-lg text-gray-600">
-            {selectedCity} · 月薪 ¥{formatMoney(params.monthlySalary)}
-          </Text>
-        </View>
-      </View>
-
       {/* 年薪概览 - 突出显示关键数据 */}
-      <View className="mb-6 rounded-xl border bg-white px-4 py-6 shadow-sm">
+      <View className="mb-6 rounded-xl  bg-white px-4 py-6 shadow-sm">
         <Text className="mb-3 block text-base font-medium text-gray-700">
           年薪概览
         </Text>
@@ -150,7 +140,7 @@ const ResultPage: React.FC = () => {
 
       {/* 五险一金缴纳详情 */}
       <BasePanel title="五险一金详情" className="mb-4">
-        <View className="rounded-md border">
+        <View className="rounded-md">
           <View className="bg-gray-50 p-3 flex">
             <Text className="w-1/4 text-xs font-medium text-gray-600">
               项目
@@ -354,16 +344,6 @@ const ResultPage: React.FC = () => {
                         result.housingFund.personal
                     )}
                   </Text>
-                  <Text className="text-xs text-blue-500 ml-1">
-                    (
-                    {formatPercent(
-                      socialInsuranceRates.pension.personal +
-                        socialInsuranceRates.medical.personal +
-                        socialInsuranceRates.unemployment.personal +
-                        params.housingFundRate
-                    )}
-                    )
-                  </Text>
                 </View>
                 <View className="w-1/2 flex justify-center items-center">
                   <Text className="text-xs font-medium text-blue-700">
@@ -371,18 +351,6 @@ const ResultPage: React.FC = () => {
                       result.socialInsurance.company.total +
                         result.housingFund.company
                     )}
-                  </Text>
-                  <Text className="text-xs text-blue-500 ml-1">
-                    (
-                    {formatPercent(
-                      socialInsuranceRates.pension.company +
-                        socialInsuranceRates.medical.company +
-                        socialInsuranceRates.unemployment.company +
-                        socialInsuranceRates.injury.company +
-                        socialInsuranceRates.maternity.company +
-                        params.housingFundRate
-                    )}
-                    )
                   </Text>
                 </View>
               </View>
@@ -394,7 +362,7 @@ const ResultPage: React.FC = () => {
       {/* 月度收入详情 */}
       <BasePanel title="月度收入详情" className="mb-4">
         <View className="overflow-x-auto">
-          <View className="w-full rounded-md border">
+          <View className="w-full rounded-md">
             <View className="grid grid-cols-4 bg-gray-50 p-3">
               <Text className="text-center text-xs font-medium text-gray-600">
                 月份
