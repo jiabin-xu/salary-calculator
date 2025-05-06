@@ -6,6 +6,15 @@ import FormField from "../../components/FormField";
 import Input from "../../components/Input";
 import RadioGroup from "../../components/RadioGroup";
 import Selector from "../../components/Selector";
+import MenuItem from "../../components/MenuItem";
+import Modal from "../../components/Modal";
+import {
+  HomeIcon,
+  WorkIcon,
+  SettingsIcon,
+  GiftIcon,
+  CalcIcon,
+} from "../../components/icons";
 import cities, { CityData } from "../../data/cities";
 import { specialDeductions, SpecialDeduction } from "../../data/taxRates";
 import { SalaryParams } from "../../utils/calculator";
@@ -43,7 +52,7 @@ const Index: React.FC = () => {
   const [housingFundBase, setHousingFundBase] = useState<string>("0");
 
   // 公积金缴纳比例
-  const [housingFundRate, setHousingFundRate] = useState<string>("0.07");
+  const [housingFundRate, setHousingFundRate] = useState<string>("0.12");
 
   // 专项附加扣除
   const [deductions, setDeductions] = useState<Record<string, string>>(
@@ -61,6 +70,11 @@ const Index: React.FC = () => {
 
   // 年终奖计税方式
   const [bonusCalcType, setBonusCalcType] = useState<string>("separate");
+
+  // 弹窗状态
+  const [deductionsModalOpen, setDeductionsModalOpen] = useState(false);
+  const [bonusModalOpen, setBonusModalOpen] = useState(false);
+  const [insuranceModalOpen, setInsuranceModalOpen] = useState(false);
 
   // 当选择的城市变化时，更新社保和公积金基数
   useEffect(() => {
@@ -180,9 +194,50 @@ const Index: React.FC = () => {
     });
   };
 
+  // 计算总专项附加扣除金额
+  const totalDeductions = Object.values(deductions).reduce(
+    (sum, value) => sum + Number(value),
+    0
+  );
+
+  // 获取社保公积金摘要信息
+  const getInsuranceSummary = () => {
+    if (!selectedCity) return "请先选择城市";
+
+    return `社保：${
+      socialInsuranceBaseType === "custom"
+        ? "自定义"
+        : socialInsuranceBaseType === "min"
+        ? "最低基数"
+        : "按工资"
+    }，公积金：${
+      housingFundRate ? Number(housingFundRate) * 100 + "%" : "未设置"
+    }`;
+  };
+
+  // 获取年终奖摘要信息
+  const getBonusSummary = () => {
+    const months = Number(bonusMonths);
+    if (months <= 0) return "无年终奖";
+    return `${months}个月，${bonusMonth}月发放`;
+  };
+
   return (
-    <View className="p-4 bg-gray-100 min-h-screen">
-      <BasePanel title="基本信息" className="mb-4">
+    <View className="bg-gray-50 min-h-screen pb-20">
+      {/* 页面标题 */}
+      <View className="bg-blue-600 p-4 text-white mb-4">
+        <Text className="text-xl font-bold">薪资计算器</Text>
+        <Text className="text-sm opacity-80 mt-1 block">
+          精确计算各城市税后工资与社保公积金
+        </Text>
+      </View>
+
+      {/* 基本信息 - 简化版 */}
+      <BasePanel
+        title="基本信息"
+        className="mx-4 mb-4 rounded-lg shadow-sm"
+        icon={<HomeIcon />}
+      >
         <FormField label="城市" required>
           <Selector
             options={cities.map((city) => ({
@@ -198,7 +253,7 @@ const Index: React.FC = () => {
           />
         </FormField>
 
-        <FormField label="月薪" required>
+        <FormField label="税前月薪" required>
           <Input
             type="digit"
             value={monthlySalary}
@@ -208,7 +263,43 @@ const Index: React.FC = () => {
         </FormField>
       </BasePanel>
 
-      <BasePanel title="社保设置" className="mb-4">
+      {/* 社保公积金设置 - 菜单项 */}
+      <View className="mx-4">
+        <MenuItem
+          title="社保公积金设置"
+          subtitle={getInsuranceSummary()}
+          icon={<WorkIcon />}
+          onClick={() => setInsuranceModalOpen(true)}
+        />
+
+        {/* 专项附加扣除 - 菜单项 */}
+        <MenuItem
+          title="专项附加扣除"
+          subtitle={
+            totalDeductions > 0
+              ? `已设置 ${totalDeductions} 元/月`
+              : "暂未设置专项附加扣除"
+          }
+          icon={<SettingsIcon />}
+          onClick={() => setDeductionsModalOpen(true)}
+        />
+
+        {/* 年终奖设置 - 菜单项 */}
+        <MenuItem
+          title="年终奖设置"
+          subtitle={getBonusSummary()}
+          icon={<GiftIcon />}
+          onClick={() => setBonusModalOpen(true)}
+        />
+      </View>
+
+      {/* 社保公积金设置 - 弹窗 */}
+      <Modal
+        title="社保公积金设置"
+        description="设置社保公积金缴纳基数和比例"
+        isOpen={insuranceModalOpen}
+        onClose={() => setInsuranceModalOpen(false)}
+      >
         <FormField label="社保基数计算方式">
           <RadioGroup
             options={baseOptions}
@@ -235,9 +326,7 @@ const Index: React.FC = () => {
             />
           </FormField>
         )}
-      </BasePanel>
 
-      <BasePanel title="公积金设置" className="mb-4">
         <FormField label="公积金基数计算方式">
           <RadioGroup
             options={baseOptions}
@@ -280,26 +369,40 @@ const Index: React.FC = () => {
             }
           />
         </FormField>
-      </BasePanel>
+      </Modal>
 
-      <BasePanel title="专项附加扣除" className="mb-4">
-        {specialDeductions.map((deduction) => (
-          <FormField
-            key={deduction.id}
-            label={deduction.name}
-            helpText={`最高可扣除${deduction.maxAmount}元/月`}
-          >
-            <Input
-              type="digit"
-              value={deductions[deduction.id]}
-              onChange={(value) => handleDeductionChange(deduction.id, value)}
-              prefix="￥"
-            />
-          </FormField>
-        ))}
-      </BasePanel>
+      {/* 专项附加扣除 - 弹窗 */}
+      <Modal
+        title="专项附加扣除"
+        description="填写每月可以抵扣的专项附加扣除金额"
+        isOpen={deductionsModalOpen}
+        onClose={() => setDeductionsModalOpen(false)}
+      >
+        <View className="max-h-[60vh] overflow-y-auto">
+          {specialDeductions.map((deduction) => (
+            <FormField
+              key={deduction.id}
+              label={deduction.name}
+              helpText={`最高可扣除${deduction.maxAmount}元/月`}
+            >
+              <Input
+                type="digit"
+                value={deductions[deduction.id]}
+                onChange={(value) => handleDeductionChange(deduction.id, value)}
+                prefix="￥"
+              />
+            </FormField>
+          ))}
+        </View>
+      </Modal>
 
-      <BasePanel title="年终奖设置" className="mb-4">
+      {/* 年终奖设置 - 弹窗 */}
+      <Modal
+        title="年终奖设置"
+        description="设置年终奖发放月份和计税方式"
+        isOpen={bonusModalOpen}
+        onClose={() => setBonusModalOpen(false)}
+      >
         <FormField label="年终奖月数">
           <Input
             type="digit"
@@ -328,14 +431,18 @@ const Index: React.FC = () => {
             onChange={setBonusCalcType}
           />
         </FormField>
-      </BasePanel>
+      </Modal>
 
-      <View className="fixed left-0 right-0 bottom-0 p-4 bg-white border-t border-gray-200">
+      {/* 底部固定按钮 */}
+      <View className="fixed left-0 right-0 bottom-0 p-4 bg-white border-t border-gray-200 shadow-lg">
         <Button
-          className="bg-blue-500 text-white rounded-lg"
+          className="bg-blue-600 text-white rounded-lg font-medium h-12 flex items-center justify-center w-full"
           onClick={handleCalculate}
         >
-          计算薪资
+          <View className="mr-2">
+            <CalcIcon />
+          </View>
+          计算薪资预估
         </Button>
       </View>
     </View>

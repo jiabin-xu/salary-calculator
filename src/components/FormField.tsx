@@ -15,9 +15,9 @@ const FormField: React.FC<FormFieldProps> = ({
   helpText,
 }) => {
   return (
-    <View className="mb-4">
+    <View className="mb-5">
       <View className="flex items-center mb-2">
-        <Text className="text-sm text-gray-700">{label}</Text>
+        <Text className="text-sm font-medium text-gray-700">{label}</Text>
         {required && <Text className="text-red-500 ml-1">*</Text>}
       </View>
       <View>{children}</View>
