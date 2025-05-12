@@ -310,74 +310,96 @@ const Index: React.FC = () => {
         isOpen={insuranceModalOpen}
         onClose={() => setInsuranceModalOpen(false)}
       >
-        <FormField label="社保基数计算方式">
-          <RadioGroup
-            options={baseOptions}
-            value={socialInsuranceBaseType}
-            onChange={(value) => {
-              setSocialInsuranceBaseType(value);
-              updateSocialInsuranceBase(value);
-            }}
-          />
-        </FormField>
+        <View className="space-y-4">
+          <View className="bg-blue-50 p-2 rounded-lg">
+            <Text className="text-sm font-medium text-blue-800 mb-2">
+              社保基数计算方式
+            </Text>
+            <View className="mb-2">
+              <FormField label="">
+                <RadioGroup
+                  options={baseOptions}
+                  value={socialInsuranceBaseType}
+                  onChange={(value) => {
+                    setSocialInsuranceBaseType(value);
+                    updateSocialInsuranceBase(value);
+                  }}
+                />
+              </FormField>
+            </View>
 
-        {socialInsuranceBaseType === "custom" && (
-          <FormField
-            label="自定义社保基数"
-            inline
-            helpText={
-              selectedCity
-                ? `最低${selectedCity.socialInsurance.minBase}，最高${selectedCity.socialInsurance.maxBase}`
-                : ""
-            }
-          >
-            <Input
-              type="digit"
-              value={socialInsuranceBase}
-              onChange={setSocialInsuranceBase}
-              prefix="￥"
-            />
-          </FormField>
-        )}
+            {socialInsuranceBaseType === "custom" && (
+              <View className="mt-2">
+                <FormField
+                  label="自定义基数"
+                  inline
+                  helpText={
+                    selectedCity
+                      ? `最低${selectedCity.socialInsurance.minBase}，最高${selectedCity.socialInsurance.maxBase}`
+                      : ""
+                  }
+                >
+                  <Input
+                    type="digit"
+                    value={socialInsuranceBase}
+                    onChange={setSocialInsuranceBase}
+                    prefix="￥"
+                  />
+                </FormField>
+              </View>
+            )}
+          </View>
 
-        <FormField label="公积金基数计算方式">
-          <RadioGroup
-            options={baseOptions}
-            value={housingFundBaseType}
-            onChange={(value) => {
-              setHousingFundBaseType(value);
-              updateHousingFundBase(value);
-            }}
-          />
-        </FormField>
+          <View className="bg-blue-50 p-2 rounded-lg">
+            <Text className="text-sm font-medium text-blue-800 mb-2">
+              公积金基数计算方式
+            </Text>
+            <View className="mb-2">
+              <FormField label="">
+                <RadioGroup
+                  options={baseOptions}
+                  value={housingFundBaseType}
+                  onChange={(value) => {
+                    setHousingFundBaseType(value);
+                    updateHousingFundBase(value);
+                  }}
+                />
+              </FormField>
+            </View>
 
-        {housingFundBaseType === "custom" && (
-          <FormField
-            label="自定义公积金基数"
-            inline
-            helpText={
-              selectedCity
-                ? `最低${selectedCity.housingFund.minBase}，最高${selectedCity.housingFund.maxBase}`
-                : ""
-            }
-          >
-            <Input
-              type="digit"
-              value={housingFundBase}
-              onChange={setHousingFundBase}
-              prefix="￥"
-            />
-          </FormField>
-        )}
+            {housingFundBaseType === "custom" && (
+              <View className="mt-2">
+                <FormField
+                  label="自定义基数"
+                  inline
+                  helpText={
+                    selectedCity
+                      ? `最低${selectedCity.housingFund.minBase}，最高${selectedCity.housingFund.maxBase}`
+                      : ""
+                  }
+                >
+                  <Input
+                    type="digit"
+                    value={housingFundBase}
+                    onChange={setHousingFundBase}
+                    prefix="￥"
+                  />
+                </FormField>
+              </View>
+            )}
 
-        <FormField label="公积金缴纳比例" inline helpText="范围：5 ~ 12">
-          <Input
-            type="digit"
-            value={housingFundRate}
-            onChange={handleHousingFundRateChange}
-            suffix="%"
-          />
-        </FormField>
+            <View className="mt-2">
+              <FormField label="缴纳比例" inline helpText="范围：5% ~ 12%">
+                <Input
+                  type="digit"
+                  value={housingFundRate}
+                  onChange={handleHousingFundRateChange}
+                  suffix="%"
+                />
+              </FormField>
+            </View>
+          </View>
+        </View>
       </Modal>
 
       {/* 专项附加扣除 - 弹窗 */}
@@ -388,17 +410,26 @@ const Index: React.FC = () => {
         onClose={() => setDeductionsModalOpen(false)}
       >
         <View className="max-h-[60vh] overflow-y-auto">
-          {specialDeductions.map((deduction) => (
-            <FormField key={deduction.id} label={deduction.name} inline>
-              <Input
-                type="digit"
-                placeholder={`最高可扣除${deduction.maxAmount}`}
-                value={deductions[deduction.id]}
-                onChange={(value) => handleDeductionChange(deduction.id, value)}
-                prefix="￥"
-              />
-            </FormField>
-          ))}
+          <View className="grid grid-cols-1 gap-2">
+            {specialDeductions.map((deduction) => (
+              <View
+                key={deduction.id}
+                className="bg-gray-50 p-2 pb-0 rounded-lg"
+              >
+                <FormField label={deduction.name} inline>
+                  <Input
+                    type="digit"
+                    placeholder={`最高${deduction.maxAmount}`}
+                    value={deductions[deduction.id]}
+                    onChange={(value) =>
+                      handleDeductionChange(deduction.id, value)
+                    }
+                    prefix="￥"
+                  />
+                </FormField>
+              </View>
+            ))}
+          </View>
         </View>
       </Modal>
 
@@ -409,33 +440,53 @@ const Index: React.FC = () => {
         isOpen={bonusModalOpen}
         onClose={() => setBonusModalOpen(false)}
       >
-        <FormField label="年终奖月数" inline helpText="设置为0表示没有年终奖">
-          <Input
-            type="digit"
-            value={bonusMonths}
-            onChange={setBonusMonths}
-            suffix="个月"
-          />
-        </FormField>
+        <View className="space-y-4">
+          <View className="bg-yellow-50 p-3 rounded-lg">
+            <Text className="text-sm font-medium text-yellow-800 mb-2">
+              基本设置
+            </Text>
+            <View className="mb-2">
+              <FormField
+                label="年终奖月数"
+                inline
+                helpText="设置为0表示没有年终奖"
+              >
+                <Input
+                  type="digit"
+                  value={bonusMonths}
+                  onChange={setBonusMonths}
+                  suffix="个月"
+                />
+              </FormField>
+            </View>
 
-        <FormField label="发放月份" inline>
-          <Selector
-            options={Array.from({ length: 12 }, (_, i) => ({
-              label: `${i + 1}月`,
-              value: String(i + 1),
-            }))}
-            value={bonusMonth}
-            onChange={setBonusMonth}
-          />
-        </FormField>
+            <FormField label="发放月份" inline>
+              <Selector
+                options={Array.from({ length: 12 }, (_, i) => ({
+                  label: `${i + 1}月`,
+                  value: String(i + 1),
+                }))}
+                value={bonusMonth}
+                onChange={setBonusMonth}
+              />
+            </FormField>
+          </View>
 
-        <FormField label="计税方式">
-          <RadioGroup
-            options={bonusCalcOptions}
-            value={bonusCalcType}
-            onChange={setBonusCalcType}
-          />
-        </FormField>
+          <View className="bg-yellow-50 p-3 rounded-lg">
+            <Text className="text-sm font-medium text-yellow-800 mb-2">
+              税务处理方式
+            </Text>
+            <FormField label="计税方式">
+              <View className="mt-1">
+                <RadioGroup
+                  options={bonusCalcOptions}
+                  value={bonusCalcType}
+                  onChange={setBonusCalcType}
+                />
+              </View>
+            </FormField>
+          </View>
+        </View>
       </Modal>
 
       {/* 底部固定按钮 */}
