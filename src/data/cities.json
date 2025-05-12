@@ -290,765 +290,1619 @@
       "upper_limit": 29961
     },
     "social_insurance": {
-      "lower_limit": 3300,
-      "upper_limit": 3300
+      "lower_limit": 4043,
+      "upper_limit": 22164
     }
   },
   {
     "code": "0592",
     "city": "厦门",
     "pinyin": "xiamen",
-    "province": "福建"
+    "province": "福建",
+    "housing_fund": {
+      "lower_limit": 2030,
+      "upper_limit": 30770
+    },
+    "social_insurance": {
+      "lower_limit": 4043,
+      "upper_limit": 22164
+    }
   },
   {
     "code": "0595",
     "city": "泉州",
     "pinyin": "quanzhou",
-    "province": "福建"
+    "province": "福建",
+    "housing_fund": {
+      "lower_limit": 1810,
+      "upper_limit": 23214
+    },
+    "social_insurance": {
+      "lower_limit": 4043,
+      "upper_limit": 22164
+    }
   },
   {
     "code": "0597",
     "city": "龙岩",
     "pinyin": "longyan",
-    "province": "福建"
+    "province": "福建",
+    "housing_fund": {
+      "lower_limit": 1960,
+      "upper_limit": 25922
+    },
+    "social_insurance": {
+      "lower_limit": 4043,
+      "upper_limit": 22164
+    }
   },
   {
     "code": "0593",
     "city": "宁德",
     "pinyin": "ningde",
-    "province": "福建"
+    "province": "福建",
+    "housing_fund": {
+      "lower_limit": 1660,
+      "upper_limit": 26511
+    },
+    "social_insurance": {
+      "lower_limit": 3433,
+      "upper_limit": 17166
+    }
   },
   {
     "code": "0599",
     "city": "南平",
     "pinyin": "nanping",
-    "province": "福建"
+    "province": "福建",
+    "housing_fund": {
+      "lower_limit": 1895,
+      "upper_limit": 22743
+    },
+    "social_insurance": {
+      "lower_limit": 4043,
+      "upper_limit": 22164
+    }
   },
   {
     "code": "0594",
     "city": "莆田",
-    "pinyin": "futian",
-    "province": "福建"
+    "pinyin": "putian",
+    "province": "福建",
+    "housing_fund": {
+      "lower_limit": 2045,
+      "upper_limit": 21846
+    },
+    "social_insurance": {
+      "lower_limit": 4043,
+      "upper_limit": 22164
+    }
   },
   {
     "code": "0598",
     "city": "三明",
     "pinyin": "sanming",
-    "province": "福建"
+    "province": "福建",
+    "housing_fund": {
+      "lower_limit": 1810,
+      "upper_limit": 26039
+    },
+    "social_insurance": {
+      "lower_limit": 4800,
+      "upper_limit": 24000
+    }
   },
   {
     "code": "0596",
     "city": "漳州",
     "pinyin": "zhangzhou",
-    "province": "福建"
+    "province": "福建",
+    "housing_fund": {
+      "lower_limit": 1810,
+      "upper_limit": 23214
+    },
+    "social_insurance": {
+      "lower_limit": 4212,
+      "upper_limit": 21060
+    }
   },
   {
     "code": "0931",
     "city": "兰州",
     "pinyin": "lanzhou",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "0943",
     "city": "白银",
     "pinyin": "baiyin",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "0932",
     "city": "定西",
     "pinyin": "dingxi",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "0935",
     "city": "金昌",
     "pinyin": "jinchang",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "0937",
     "city": "酒泉",
     "pinyin": "jiuquan",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "0933",
     "city": "平凉",
     "pinyin": "pingliang",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "0934",
     "city": "庆阳",
-    "pinyin": "anyang",
-    "province": "甘肃"
+    "pinyin": "qingyang",
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "1935",
     "city": "武威",
     "pinyin": "wuwei",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "0938",
     "city": "天水",
     "pinyin": "tianshui",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "0936",
     "city": "张掖",
     "pinyin": "zhangye",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "0941",
     "city": "甘南",
     "pinyin": "gannan",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "1937",
     "city": "嘉峪关",
     "pinyin": "jiayuguan",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "0930",
     "city": "临夏",
     "pinyin": "linxia",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "2935",
     "city": "陇南",
     "pinyin": "longnan",
-    "province": "甘肃"
+    "province": "甘肃",
+    "housing_fund": {
+      "lower_limit": 2020,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4600,
+      "upper_limit": 22900
+    }
   },
   {
     "code": "020",
     "city": "广州",
     "pinyin": "guangzhou",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 2500,
+      "upper_limit": 30137
+    },
+    "social_insurance": {
+      "lower_limit": 5500,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0755",
     "city": "深圳",
     "pinyin": "shenzhen",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 2520,
+      "upper_limit": 43659
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0756",
     "city": "珠海",
     "pinyin": "zhuhai",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 2080,
+      "upper_limit": 22731
+    },
+    "social_insurance": {
+      "lower_limit": 4767,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0769",
     "city": "东莞",
     "pinyin": "dongguan",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 2080,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4767,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0757",
     "city": "佛山",
     "pinyin": "fushan",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 2080,
+      "upper_limit": 30137
+    },
+    "social_insurance": {
+      "lower_limit": 4767,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0752",
     "city": "惠州",
     "pinyin": "huizhou",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 31284
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0750",
     "city": "江门",
     "pinyin": "jiangmen",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0760",
     "city": "中山",
     "pinyin": "zhongshan",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 2080,
+      "upper_limit": 27753.51
+    },
+    "social_insurance": {
+      "lower_limit": 4767,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0754",
     "city": "汕头",
     "pinyin": "shantou",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1750,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0759",
     "city": "湛江",
     "pinyin": "zhanjiang",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0768",
     "city": "潮州",
     "pinyin": "chaozhou",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1750,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0762",
     "city": "河源",
     "pinyin": "heyuan",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1750,
+      "upper_limit": 23397
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0663",
     "city": "揭阳",
     "pinyin": "jieyang",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1750,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0668",
     "city": "茂名",
     "pinyin": "maoming",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1750,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0753",
     "city": "梅州",
     "pinyin": "meizhou",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1750,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0763",
     "city": "清远",
     "pinyin": "qingyuan",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1750,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0751",
     "city": "韶关",
     "pinyin": "shaoguan",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1750,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0660",
     "city": "汕尾",
     "pinyin": "shanwei",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1620,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0662",
     "city": "阳江",
     "pinyin": "yangjiang",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1750,
+      "upper_limit": 25503
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0766",
     "city": "云浮",
     "pinyin": "yunfu",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1750,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0758",
     "city": "肇庆",
     "pinyin": "zhaoqing",
-    "province": "广东"
+    "province": "广东",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 24981
+    },
+    "social_insurance": {
+      "lower_limit": 4492,
+      "upper_limit": 27501
+    }
   },
   {
     "code": "0771",
     "city": "南宁",
     "pinyin": "nanning",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1810,
+      "upper_limit": 26895
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "0779",
     "city": "北海",
     "pinyin": "beihai",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1810,
+      "upper_limit": 23071
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "0770",
     "city": "防城港",
     "pinyin": "fangchenggang",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1810,
+      "upper_limit": 23071
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "0773",
     "city": "桂林",
     "pinyin": "guilin",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 2420,
+      "upper_limit": 23071
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "0772",
     "city": "柳州",
     "pinyin": "liuzhou",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1810,
+      "upper_limit": 23071
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "1771",
     "city": "崇左",
     "pinyin": "chongzuo",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1580,
+      "upper_limit": 20268
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "1772",
     "city": "来宾",
     "pinyin": "laibin",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1580,
+      "upper_limit": 20268
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "0774",
     "city": "梧州",
     "pinyin": "wuzhou",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1810,
+      "upper_limit": 23071
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "0778",
     "city": "河池",
     "pinyin": "hechi",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1840,
+      "upper_limit": 23874
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "0775",
     "city": "玉林",
     "pinyin": "yulin",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1580,
+      "upper_limit": 20268
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "1755",
     "city": "贵港",
     "pinyin": "guigang",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1840,
+      "upper_limit": 21594
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "1774",
     "city": "贺州",
     "pinyin": "hezhou",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1580,
+      "upper_limit": 20268
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "0777",
     "city": "钦州",
     "pinyin": "qinzhou",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1810,
+      "upper_limit": 23071
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "0776",
     "city": "百色",
     "pinyin": "baise",
-    "province": "广西"
+    "province": "广西",
+    "housing_fund": {
+      "lower_limit": 1580,
+      "upper_limit": 20268
+    },
+    "social_insurance": {
+      "lower_limit": 4053.6,
+      "upper_limit": 20268
+    }
   },
   {
     "code": "0851",
     "city": "贵阳",
     "pinyin": "guiyang",
-    "province": "贵州"
+    "province": "贵州",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 24966
+    },
+    "social_insurance": {
+      "lower_limit": 3579,
+      "upper_limit": 17895
+    }
   },
   {
     "code": "0853",
     "city": "安顺",
     "pinyin": "anshun",
-    "province": "贵州"
+    "province": "贵州",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 19662
+    },
+    "social_insurance": {
+      "lower_limit": 4115,
+      "upper_limit": 20573
+    }
   },
   {
     "code": "0852",
     "city": "遵义",
     "pinyin": "zunyi",
-    "province": "贵州"
+    "province": "贵州",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 23347
+    },
+    "social_insurance": {
+      "lower_limit": 3579,
+      "upper_limit": 22818.51
+    }
   },
   {
     "code": "0858",
     "city": "六盘水",
     "pinyin": "liupanshui",
-    "province": "贵州"
+    "province": "贵州",
+    "housing_fund": {
+      "lower_limit": 1760,
+      "upper_limit": 21354
+    },
+    "social_insurance": {
+      "lower_limit": 4115,
+      "upper_limit": 20573
+    }
   },
   {
     "code": "0857",
     "city": "毕节",
     "pinyin": "bijie",
-    "province": "贵州"
+    "province": "贵州",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 20038
+    },
+    "social_insurance": {
+      "lower_limit": 3579,
+      "upper_limit": 17895
+    }
   },
   {
     "code": "0855",
     "city": "黔东南",
     "pinyin": "qiandongnan",
-    "province": "贵州"
+    "province": "贵州",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 19530
+    },
+    "social_insurance": {
+      "lower_limit": 3579,
+      "upper_limit": 17895
+    }
   },
   {
     "code": "0859",
     "city": "黔西南",
     "pinyin": "qianxinan",
-    "province": "贵州"
+    "province": "贵州",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 20807
+    },
+    "social_insurance": {
+      "lower_limit": 3579,
+      "upper_limit": 17895
+    }
   },
   {
     "code": "0854",
     "city": "黔南",
     "pinyin": "qiannan",
-    "province": "贵州"
+    "province": "贵州",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 24966
+    },
+    "social_insurance": {
+      "lower_limit": 4363,
+      "upper_limit": 21815
+    }
   },
   {
     "code": "0856",
     "city": "铜仁",
     "pinyin": "tongren",
-    "province": "贵州"
+    "province": "贵州",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 19534
+    },
+    "social_insurance": {
+      "lower_limit": 3579,
+      "upper_limit": 17895
+    }
   },
   {
     "code": "0898",
     "city": "海口",
     "pinyin": "haikou",
-    "province": "海南"
+    "province": "海南",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 28155.69
+    },
+    "social_insurance": {
+      "lower_limit": 4878.6,
+      "upper_limit": 24393
+    }
   },
   {
     "code": "0899",
     "city": "三亚",
     "pinyin": "sanya",
-    "province": "海南"
-  },
-  {
-    "code": "0802",
-    "city": "白沙县",
-    "pinyin": "baotingxian",
-    "province": "海南"
-  },
-  {
-    "code": "0801",
-    "city": "保亭县",
-    "pinyin": "baotingxian",
-    "province": "海南"
-  },
-  {
-    "code": "0803",
-    "city": "昌江县",
-    "pinyin": "changjiangxian",
-    "province": "海南"
-  },
-  {
-    "code": "0804",
-    "city": "澄迈县",
-    "pinyin": "chengmaixian",
-    "province": "海南"
-  },
-  {
-    "code": "0806",
-    "city": "定安县",
-    "pinyin": "andingxian",
-    "province": "海南"
+    "province": "海南",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 24150
+    },
+    "social_insurance": {
+      "lower_limit": 4878.6,
+      "upper_limit": 24393
+    }
   },
   {
     "code": "0807",
     "city": "东方",
     "pinyin": "dongfang",
-    "province": "海南"
-  },
-  {
-    "code": "2802",
-    "city": "乐东县",
-    "pinyin": "ledongxian",
-    "province": "海南"
-  },
-  {
-    "code": "1896",
-    "city": "临高县",
-    "pinyin": "lingaoxian",
-    "province": "海南"
-  },
-  {
-    "code": "0809",
-    "city": "陵水县",
-    "pinyin": "lingshuixian",
-    "province": "海南"
+    "province": "海南",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 26335.47
+    },
+    "social_insurance": {
+      "lower_limit": 4878.6,
+      "upper_limit": 24393
+    }
   },
   {
     "code": "1894",
     "city": "琼海",
     "pinyin": "hainan",
-    "province": "海南"
-  },
-  {
-    "code": "1899",
-    "city": "琼中县",
-    "pinyin": "qiongzhongxian",
-    "province": "海南"
-  },
-  {
-    "code": "1892",
-    "city": "屯昌县",
-    "pinyin": "tunchangxian",
-    "province": "海南"
+    "province": "海南",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 23071
+    },
+    "social_insurance": {
+      "lower_limit": 4878.6,
+      "upper_limit": 24393
+    }
   },
   {
     "code": "1898",
     "city": "万宁",
     "pinyin": "wanning",
-    "province": "海南"
+    "province": "海南",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 20268
+    },
+    "social_insurance": {
+      "lower_limit": 4878.6,
+      "upper_limit": 24393
+    }
   },
   {
     "code": "1893",
     "city": "文昌",
     "pinyin": "wenchang",
-    "province": "海南"
-  },
-  {
-    "code": "1897",
-    "city": "五指山",
-    "pinyin": "wuzhishan",
-    "province": "海南"
+    "province": "海南",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 26665.8
+    },
+    "social_insurance": {
+      "lower_limit": 4878.6,
+      "upper_limit": 24393
+    }
   },
   {
     "code": "0805",
     "city": "儋州",
     "pinyin": "danzhou",
-    "province": "海南"
+    "province": "海南",
+    "housing_fund": {
+      "lower_limit": 1890,
+      "upper_limit": 35283
+    },
+    "social_insurance": {
+      "lower_limit": 4878.6,
+      "upper_limit": 24393
+    }
   },
   {
     "code": "0311",
     "city": "石家庄",
     "pinyin": "shijiazhuang",
-    "province": "河北"
+    "province": "河北",
+    "housing_fund": {
+      "lower_limit": 5134,
+      "upper_limit": 25670
+    },
+    "social_insurance": {
+      "lower_limit": 3920.55,
+      "upper_limit": 19602.75
+    }
   },
   {
     "code": "0312",
     "city": "保定",
     "pinyin": "baoding",
-    "province": "河北"
+    "province": "河北",
+    "housing_fund": {
+      "lower_limit": 1900,
+      "upper_limit": 25170
+    },
+    "social_insurance": {
+      "lower_limit": 3921,
+      "upper_limit": 19605
+    }
   },
   {
     "code": "0314",
     "city": "承德",
     "pinyin": "chengde",
-    "province": "河北"
+    "province": "河北",
+    "housing_fund": {
+      "lower_limit": 1590,
+      "upper_limit": 21668
+    },
+    "social_insurance": {
+      "lower_limit": 3263.30,
+      "upper_limit": 16316.50
+    }
   },
   {
     "code": "0310",
     "city": "邯郸",
     "pinyin": "handan",
-    "province": "河北"
+    "province": "河北",
+    "housing_fund": {
+      "lower_limit": 1790,
+      "upper_limit": 17139
+    },
+    "social_insurance": {
+      "lower_limit": 3921,
+      "upper_limit": 19605
+    }
   },
   {
     "code": "0315",
     "city": "唐山",
     "pinyin": "tangshan",
-    "province": "河北"
+    "province": "河北",
+    "housing_fund": {
+      "lower_limit": 2200,
+      "upper_limit": 25170
+    },
+    "social_insurance": {
+      "lower_limit": 3920.55,
+      "upper_limit": 19602.75
+    }
   },
   {
     "code": "0335",
     "city": "秦皇岛",
     "pinyin": "qinhuangdao",
-    "province": "河北"
+    "province": "河北",
+    "housing_fund": {
+      "lower_limit": 2000,
+      "upper_limit": 25170
+    },
+    "social_insurance": {
+      "lower_limit": 3921,
+      "upper_limit": 19605
+    }
   },
   {
     "code": "0317",
     "city": "沧州",
     "pinyin": "cangzhou",
-    "province": "河北"
+    "province": "河北",
+    "housing_fund": {
+      "lower_limit": 1900,
+      "upper_limit": 25170
+    },
+    "social_insurance": {
+      "lower_limit": 4011,
+      "upper_limit": 20055
+    }
   },
   {
     "code": "0318",
     "city": "衡水",
     "pinyin": "hengshui",
-    "province": "河北"
+    "province": "河北",
+    "housing_fund": {
+      "lower_limit": 2160,
+      "upper_limit": 30918
+    },
+    "social_insurance": {
+      "lower_limit": 3921,
+      "upper_limit": 19605
+    }
   },
   {
     "code": "0316",
     "city": "廊坊",
     "pinyin": "langfang",
-    "province": "河北"
+    "province": "河北",
+    "housing_fund": {
+      "lower_limit": 1900,
+      "upper_limit": 27108
+    },
+    "social_insurance": {
+      "lower_limit": 3921,
+      "upper_limit": 19605
+    }
   },
   {
     "code": "0319",
     "city": "邢台",
     "pinyin": "xingtai",
-    "province": "河北"
+    "province": "河北",
+    "housing_fund": {
+      "lower_limit": 1900,
+      "upper_limit": 25170
+    },
+    "social_insurance": {
+      "lower_limit": 3726.6,
+      "upper_limit": 18633
+    }
   },
   {
     "code": "0313",
     "city": "张家口",
     "pinyin": "zhangjiakou",
-    "province": "河北"
+    "province": "河北",
+    "housing_fund": {
+      "lower_limit": 2420,
+      "upper_limit": 35283
+    },
+    "social_insurance": {
+      "lower_limit": 3921,
+      "upper_limit": 19605
+    }
   },
   {
     "code": "0371",
     "city": "郑州",
     "pinyin": "zhengzhou",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 26406
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0379",
     "city": "洛阳",
     "pinyin": "luoyang",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 18780 // 注：根据省级标准推测，实际以当地公布为准
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0378",
     "city": "开封",
     "pinyin": "kaifeng",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 35283
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0374",
     "city": "许昌",
     "pinyin": "xuchang",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 20310
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0372",
     "city": "安阳",
     "pinyin": "anyang",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 35283
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0375",
     "city": "平顶山",
     "pinyin": "pingdingshan",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 1800,
+      "upper_limit": 19101
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0392",
     "city": "鹤壁",
     "pinyin": "hebi",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 35283
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0391",
     "city": "焦作",
     "pinyin": "jiaozuo",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 18018
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "1391",
     "city": "济源",
     "pinyin": "jiyuan",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2200,
+      "upper_limit": 21606
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0395",
     "city": "漯河",
     "pinyin": "luohe",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 35283
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0377",
     "city": "南阳",
     "pinyin": "nanyang",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 18780
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0393",
     "city": "濮阳",
     "pinyin": "puyang",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 18780
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0398",
     "city": "三门峡",
     "pinyin": "sanmenxia",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 18780
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0370",
     "city": "商丘",
     "pinyin": "shangqiu",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 18780
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0373",
     "city": "新乡",
     "pinyin": "xinxiang",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 18780
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0376",
     "city": "信阳",
     "pinyin": "xinyang",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 2100,
+      "upper_limit": 18780
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0396",
     "city": "驻马店",
     "pinyin": "zhumadian",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 1800,
+      "upper_limit": 17346
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0394",
     "city": "周口",
     "pinyin": "zhoukou",
-    "province": "河南"
+    "province": "河南",
+    "housing_fund": {
+      "lower_limit": 1800,
+      "upper_limit": 16488
+    },
+    "social_insurance": {
+      "lower_limit": 3756,
+      "upper_limit": 18780
+    }
   },
   {
     "code": "0451",
     "city": "哈尔滨",
     "pinyin": "haerbin",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 2080,
+      "upper_limit": 26462
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0459",
     "city": "大庆",
     "pinyin": "daqing",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 2080,
+      "upper_limit": 29986
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0452",
     "city": "齐齐哈尔",
     "pinyin": "qiqihaer",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 19370
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0454",
     "city": "佳木斯",
     "pinyin": "jiamusi",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 19002
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0457",
     "city": "大兴安岭",
     "pinyin": "daxinganling",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 19356
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0456",
     "city": "黑河",
     "pinyin": "heihe",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 19916
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0468",
     "city": "鹤岗",
     "pinyin": "hegang",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 19875
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0467",
     "city": "鸡西",
     "pinyin": "jixi",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 19140
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0453",
     "city": "牡丹江",
     "pinyin": "mudanjiang",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 19355.75
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0464",
     "city": "七台河",
-    "pinyin": "xitaihe",
-    "province": "黑龙江"
+    "pinyin": "qitaihe",
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 19838
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0455",
     "city": "绥化",
     "pinyin": "suihua",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 16322
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0469",
     "city": "双鸭山",
     "pinyin": "shuangyashan",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 19916
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "0458",
     "city": "伊春",
     "pinyin": "yichun",
-    "province": "黑龙江"
+    "province": "黑龙江",
+    "housing_fund": {
+      "lower_limit": 1850,
+      "upper_limit": 19838
+    },
+    "social_insurance": {
+      "lower_limit": 4542,
+      "upper_limit": 13626
+    }
   },
   {
     "code": "027",

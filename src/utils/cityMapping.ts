@@ -51,6 +51,8 @@ export const getCityIdByCode = (cityCode: string): string | null => {
     '浙江': 'hangzhou',
   };
 
+  console.log(Object.keys(provinceCapitals).join(','));
+
   // 从选择的城市代码中查找对应的省份
   const selectedCity = provinces.find(city => city.code === cityCode);
   if (selectedCity && selectedCity.province && provinceCapitals[selectedCity.province]) {
@@ -71,3 +73,10 @@ export const getCityByCode = (cityCode: string) => {
   }
   return null;
 };
+//  帮我检索如下省份社保缴纳范围，北京,上海,天津,重庆,安徽,福建,甘肃,广东,广西,贵州,海南,河北,河南,黑龙江,湖北,湖南,吉林,江苏,江西,辽宁,内蒙古,宁夏,青海,山东,山西,陕西,四川,西藏,新疆,云南,浙江，并 以如下json 格式返回
+// const provinceSocialInsurance = {
+//   "北京": {
+//     "minBase": 6520,
+//     "maxBase": 33891
+//   }
+// };
