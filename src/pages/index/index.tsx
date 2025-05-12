@@ -322,17 +322,20 @@ const Index: React.FC = () => {
         </FormField>
 
         {socialInsuranceBaseType === "custom" && (
-          <FormField label="自定义社保基数">
+          <FormField
+            label="自定义社保基数"
+            inline
+            helpText={
+              selectedCity
+                ? `最低${selectedCity.socialInsurance.minBase}，最高${selectedCity.socialInsurance.maxBase}`
+                : ""
+            }
+          >
             <Input
               type="digit"
               value={socialInsuranceBase}
               onChange={setSocialInsuranceBase}
               prefix="￥"
-              helpText={
-                selectedCity
-                  ? `最低${selectedCity.socialInsurance.minBase}，最高${selectedCity.socialInsurance.maxBase}`
-                  : ""
-              }
             />
           </FormField>
         )}
@@ -349,28 +352,30 @@ const Index: React.FC = () => {
         </FormField>
 
         {housingFundBaseType === "custom" && (
-          <FormField label="自定义公积金基数">
+          <FormField
+            label="自定义公积金基数"
+            inline
+            helpText={
+              selectedCity
+                ? `最低${selectedCity.housingFund.minBase}，最高${selectedCity.housingFund.maxBase}`
+                : ""
+            }
+          >
             <Input
               type="digit"
               value={housingFundBase}
               onChange={setHousingFundBase}
               prefix="￥"
-              helpText={
-                selectedCity
-                  ? `最低${selectedCity.housingFund.minBase}，最高${selectedCity.housingFund.maxBase}`
-                  : ""
-              }
             />
           </FormField>
         )}
 
-        <FormField label="公积金缴纳比例">
+        <FormField label="公积金缴纳比例" inline helpText="范围：5 ~ 12">
           <Input
             type="digit"
             value={housingFundRate}
             onChange={handleHousingFundRateChange}
             suffix="%"
-            helpText="范围：5 ~ 12"
           />
         </FormField>
       </Modal>
@@ -384,13 +389,10 @@ const Index: React.FC = () => {
       >
         <View className="max-h-[60vh] overflow-y-auto">
           {specialDeductions.map((deduction) => (
-            <FormField
-              key={deduction.id}
-              label={deduction.name}
-              helpText={`最高可扣除${deduction.maxAmount}元/月`}
-            >
+            <FormField key={deduction.id} label={deduction.name} inline>
               <Input
                 type="digit"
+                placeholder={`最高可扣除${deduction.maxAmount}`}
                 value={deductions[deduction.id]}
                 onChange={(value) => handleDeductionChange(deduction.id, value)}
                 prefix="￥"
@@ -407,17 +409,16 @@ const Index: React.FC = () => {
         isOpen={bonusModalOpen}
         onClose={() => setBonusModalOpen(false)}
       >
-        <FormField label="年终奖月数">
+        <FormField label="年终奖月数" inline helpText="设置为0表示没有年终奖">
           <Input
             type="digit"
             value={bonusMonths}
             onChange={setBonusMonths}
             suffix="个月"
-            helpText="设置为0表示没有年终奖"
           />
         </FormField>
 
-        <FormField label="发放月份">
+        <FormField label="发放月份" inline>
           <Selector
             options={Array.from({ length: 12 }, (_, i) => ({
               label: `${i + 1}月`,
