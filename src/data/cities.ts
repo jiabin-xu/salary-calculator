@@ -1,6 +1,8 @@
 export interface CityData {
   id: string;
   name: string;
+  code?: string;
+  province?: string;
   socialInsurance: {
     minBase: number;
     maxBase: number;
@@ -18,6 +20,8 @@ const cities: CityData[] = [
   {
     id: 'beijing',
     name: '北京',
+    code: '010',
+    province: '北京',
     socialInsurance: {
       minBase: 6520,
       maxBase: 32604
@@ -33,6 +37,8 @@ const cities: CityData[] = [
   {
     id: 'shanghai',
     name: '上海',
+    code: '021',
+    province: '上海',
     socialInsurance: {
       minBase: 6000,
       maxBase: 30300
@@ -48,6 +54,8 @@ const cities: CityData[] = [
   {
     id: 'guangzhou',
     name: '广州',
+    code: '020',
+    province: '广东',
     socialInsurance: {
       minBase: 2300,
       maxBase: 31140
@@ -63,6 +71,8 @@ const cities: CityData[] = [
   {
     id: 'shenzhen',
     name: '深圳',
+    code: '0755',
+    province: '广东',
     socialInsurance: {
       minBase: 2200,
       maxBase: 35295
@@ -78,6 +88,8 @@ const cities: CityData[] = [
   {
     id: 'hangzhou',
     name: '杭州',
+    code: '0571',
+    province: '浙江',
     socialInsurance: {
       minBase: 3321,
       maxBase: 26712

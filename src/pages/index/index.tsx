@@ -8,6 +8,7 @@ import RadioGroup from "../../components/RadioGroup";
 import Selector from "../../components/Selector";
 import MenuItem from "../../components/MenuItem";
 import Modal from "../../components/Modal";
+import ProvinceCitySelector from "../../components/ProvinceCitySelector";
 import {
   HomeIcon,
   WorkIcon,
@@ -15,9 +16,9 @@ import {
   GiftIcon,
   CalcIcon,
 } from "../../components/icons";
-import cities, { CityData } from "../../data/cities";
-import { specialDeductions, SpecialDeduction } from "../../data/taxRates";
+import { specialDeductions } from "../../data/taxRates";
 import { SalaryParams } from "../../utils/calculator";
+import { getCityByCode } from "../../utils/cityMapping";
 
 const baseOptions = [
   { label: "最低基数", value: "min" },
@@ -31,9 +32,9 @@ const bonusCalcOptions = [
 ];
 
 const Index: React.FC = () => {
-  // 选择的城市
-  const [selectedCity, setSelectedCity] = useState<CityData | null>(null);
-
+  // 选择的城市代码
+  const [selectedCityCode, setSelectedCityCode] = useState<string>("");
+  const selectedCity = getCityByCode(selectedCityCode);
   // 月薪
   const [monthlySalary, setMonthlySalary] = useState<string>("10000");
 
@@ -76,7 +77,7 @@ const Index: React.FC = () => {
   const [bonusModalOpen, setBonusModalOpen] = useState(false);
   const [insuranceModalOpen, setInsuranceModalOpen] = useState(false);
 
-  // 当选择的城市变化时，更新社保和公积金基数
+  // 当选择的城市代码变化时，更新社保和公积金基数
   useEffect(() => {
     if (selectedCity) {
       // 根据选择类型计算社保基数
@@ -84,6 +85,8 @@ const Index: React.FC = () => {
 
       // 根据选择类型计算公积金基数
       updateHousingFundBase(housingFundBaseType);
+
+      // 获取城市对象
 
       // 设置公积金比例为城市默认比例
       setHousingFundRate(String(selectedCity.housingFund.defaultRate));
@@ -239,17 +242,10 @@ const Index: React.FC = () => {
         icon={<HomeIcon />}
       >
         <FormField label="城市" required>
-          <Selector
-            options={cities.map((city) => ({
-              label: city.name,
-              value: city.id,
-            }))}
-            value={selectedCity?.id || ""}
-            onChange={(value) => {
-              const city = cities.find((c) => c.id === value);
-              setSelectedCity(city || null);
-            }}
-            placeholder="请选择城市"
+          <ProvinceCitySelector
+            value={selectedCityCode}
+            onChange={setSelectedCityCode}
+            placeholder="请选择工作城市"
           />
         </FormField>
 
