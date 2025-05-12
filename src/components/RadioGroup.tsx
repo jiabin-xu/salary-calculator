@@ -23,7 +23,7 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
         <View
           key={option.value}
           className={`
-            mr-3 mb-2 px-4 py-2 rounded-full text-sm border
+            mr-2 mb-2 px-2 py-2 rounded-full text-sm border
             ${
               option.value === value
                 ? "bg-blue-50 border-blue-400 text-blue-600"

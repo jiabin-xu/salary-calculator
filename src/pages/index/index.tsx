@@ -52,8 +52,8 @@ const Index: React.FC = () => {
   // 公积金基数
   const [housingFundBase, setHousingFundBase] = useState<string>("0");
 
-  // 公积金缴纳比例
-  const [housingFundRate, setHousingFundRate] = useState<string>("0.12");
+  // 公积金缴纳比例 (改为整数5-12)
+  const [housingFundRate, setHousingFundRate] = useState<string>("12");
 
   // 专项附加扣除
   const [deductions, setDeductions] = useState<Record<string, string>>(
@@ -89,7 +89,9 @@ const Index: React.FC = () => {
       // 获取城市对象
 
       // 设置公积金比例为城市默认比例
-      setHousingFundRate(String(selectedCity.housingFund.defaultRate));
+      setHousingFundRate(
+        String(Math.round(selectedCity.housingFund.defaultRate * 100))
+      );
     }
   }, [
     selectedCity,
@@ -150,6 +152,20 @@ const Index: React.FC = () => {
     }
   };
 
+  // 处理公积金比例变更，保证在5-12范围内
+  const handleHousingFundRateChange = (value: string) => {
+    let rate = parseInt(value) || 0;
+
+    // 限制范围在5-12之间
+    if (rate < 5) {
+      rate = 5;
+    } else if (rate > 12) {
+      rate = 12;
+    }
+
+    setHousingFundRate(String(rate));
+  };
+
   // 专项附加扣除变更
   const handleDeductionChange = (id: string, value: string) => {
     setDeductions((prev) => ({
@@ -174,7 +190,7 @@ const Index: React.FC = () => {
       cityId: selectedCity.id,
       socialInsuranceBase: Number(socialInsuranceBase),
       housingFundBase: Number(housingFundBase),
-      housingFundRate: Number(housingFundRate),
+      housingFundRate: Number(housingFundRate) / 100,
       specialDeductions: Object.entries(deductions).reduce(
         (acc, [key, value]) => {
           acc[key] = Number(value);
@@ -213,9 +229,7 @@ const Index: React.FC = () => {
         : socialInsuranceBaseType === "min"
         ? "最低基数"
         : "按工资"
-    }，公积金：${
-      housingFundRate ? Number(housingFundRate) * 100 + "%" : "未设置"
-    }`;
+    }，公积金：${housingFundRate ? Number(housingFundRate) + "%" : "未设置"}`;
   };
 
   // 获取年终奖摘要信息
@@ -241,7 +255,7 @@ const Index: React.FC = () => {
         className="mx-4 mb-4 rounded-lg shadow-sm"
         icon={<HomeIcon />}
       >
-        <FormField label="城市" required>
+        <FormField label="城市" required inline>
           <ProvinceCitySelector
             value={selectedCityCode}
             onChange={setSelectedCityCode}
@@ -249,7 +263,7 @@ const Index: React.FC = () => {
           />
         </FormField>
 
-        <FormField label="税前月薪" required>
+        <FormField label="税前月薪" required inline>
           <Input
             type="digit"
             value={monthlySalary}
@@ -354,15 +368,9 @@ const Index: React.FC = () => {
           <Input
             type="digit"
             value={housingFundRate}
-            onChange={setHousingFundRate}
+            onChange={handleHousingFundRateChange}
             suffix="%"
-            helpText={
-              selectedCity
-                ? `推荐范围：${selectedCity.housingFund.minRate * 100}% ~ ${
-                    selectedCity.housingFund.maxRate * 100
-                  }%`
-                : ""
-            }
+            helpText="范围：5 ~ 12"
           />
         </FormField>
       </Modal>
