@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { View, Button, Text } from "@tarojs/components";
+import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import BasePanel from "../../components/BasePanel";
-import FormField from "../../components/FormField";
-import Input from "../../components/Input";
-import RadioGroup from "../../components/RadioGroup";
-import Selector from "../../components/Selector";
-import MenuItem from "../../components/MenuItem";
-import Modal from "../../components/Modal";
-import ProvinceCitySelector from "../../components/ProvinceCitySelector";
-import {
-  HomeIcon,
-  WorkIcon,
-  SettingsIcon,
-  GiftIcon,
-  CalcIcon,
-} from "../../components/icons";
 import { specialDeductions } from "../../data/taxRates";
 import { SalaryParams } from "../../utils/calculator";
-import { getCityByCode } from "../../utils/cityMapping";
+import { getCityByCode, City } from "../../utils/cityMapping";
+
+// 导入拆分后的组件
+import PageHeader from "../../components/salary/PageHeader";
+import BasicInfoPanel from "../../components/salary/BasicInfoPanel";
+import MenuItems from "../../components/salary/MenuItems";
+import InsuranceModal from "../../components/salary/InsuranceModal";
+import DeductionsModal from "../../components/salary/DeductionsModal";
+import BonusModal from "../../components/salary/BonusModal";
+import CalculateButton from "../../components/salary/CalculateButton";
 
 const baseOptions = [
   { label: "最低基数", value: "min" },
@@ -85,8 +79,6 @@ const Index: React.FC = () => {
 
       // 根据选择类型计算公积金基数
       updateHousingFundBase(housingFundBaseType);
-
-      // 获取城市对象
 
       // 设置公积金比例为城市默认比例
       setHousingFundRate(
@@ -187,7 +179,7 @@ const Index: React.FC = () => {
     // 构建薪资参数
     const params: SalaryParams = {
       monthlySalary: Number(monthlySalary),
-      cityId: selectedCity.id,
+      cityId: selectedCity.id || selectedCity.code,
       socialInsuranceBase: Number(socialInsuranceBase),
       housingFundBase: Number(housingFundBase),
       housingFundRate: Number(housingFundRate) / 100,
@@ -242,265 +234,77 @@ const Index: React.FC = () => {
   return (
     <View className="bg-gray-50 min-h-screen pb-20">
       {/* 页面标题 */}
-      <View className="bg-blue-600 p-4 text-white mb-4">
-        <Text className="text-xl font-bold">薪资计算器</Text>
-        <Text className="text-sm opacity-80 mt-1 block">
-          精确计算各城市税后工资与社保公积金
-        </Text>
-      </View>
+      <PageHeader
+        title="薪资计算器"
+        subtitle="精确计算各城市税后工资与社保公积金"
+      />
 
-      {/* 基本信息 - 简化版 */}
-      <BasePanel
-        title="基本信息"
-        className="mx-4 mb-4 rounded-lg shadow-sm"
-        icon={<HomeIcon />}
-      >
-        <FormField label="城市" required inline>
-          <ProvinceCitySelector
-            value={selectedCityCode}
-            onChange={setSelectedCityCode}
-            placeholder="请选择工作城市"
-          />
-        </FormField>
+      {/* 基本信息面板 */}
+      <BasicInfoPanel
+        selectedCityCode={selectedCityCode}
+        setSelectedCityCode={setSelectedCityCode}
+        monthlySalary={monthlySalary}
+        setMonthlySalary={setMonthlySalary}
+      />
 
-        <FormField label="税前月薪" required inline>
-          <Input
-            type="digit"
-            value={monthlySalary}
-            onChange={setMonthlySalary}
-            prefix="￥"
-          />
-        </FormField>
-      </BasePanel>
+      {/* 菜单项 */}
+      <MenuItems
+        insuranceSummary={getInsuranceSummary()}
+        deductionsSummary={
+          totalDeductions > 0
+            ? `已设置 ${totalDeductions} 元/月`
+            : "暂未设置专项附加扣除"
+        }
+        bonusSummary={getBonusSummary()}
+        onInsuranceClick={() => setInsuranceModalOpen(true)}
+        onDeductionsClick={() => setDeductionsModalOpen(true)}
+        onBonusClick={() => setBonusModalOpen(true)}
+      />
 
-      {/* 社保公积金设置 - 菜单项 */}
-      <View className="mx-4">
-        <MenuItem
-          title="社保公积金设置"
-          subtitle={getInsuranceSummary()}
-          icon={<WorkIcon />}
-          onClick={() => setInsuranceModalOpen(true)}
-        />
-
-        {/* 专项附加扣除 - 菜单项 */}
-        <MenuItem
-          title="专项附加扣除"
-          subtitle={
-            totalDeductions > 0
-              ? `已设置 ${totalDeductions} 元/月`
-              : "暂未设置专项附加扣除"
-          }
-          icon={<SettingsIcon />}
-          onClick={() => setDeductionsModalOpen(true)}
-        />
-
-        {/* 年终奖设置 - 菜单项 */}
-        <MenuItem
-          title="年终奖设置"
-          subtitle={getBonusSummary()}
-          icon={<GiftIcon />}
-          onClick={() => setBonusModalOpen(true)}
-        />
-      </View>
-
-      {/* 社保公积金设置 - 弹窗 */}
-      <Modal
-        title="社保公积金设置"
-        description="设置社保公积金缴纳基数和比例"
+      {/* 社保公积金设置弹窗 */}
+      <InsuranceModal
         isOpen={insuranceModalOpen}
         onClose={() => setInsuranceModalOpen(false)}
-      >
-        <View className="space-y-4">
-          <View className="bg-blue-50 p-2 rounded-lg">
-            <Text className="text-sm font-medium text-blue-800 mb-2">
-              社保基数计算方式
-            </Text>
-            <View className="mb-2">
-              <FormField label="">
-                <RadioGroup
-                  options={baseOptions}
-                  value={socialInsuranceBaseType}
-                  onChange={(value) => {
-                    setSocialInsuranceBaseType(value);
-                    updateSocialInsuranceBase(value);
-                  }}
-                />
-              </FormField>
-            </View>
+        selectedCity={selectedCity}
+        socialInsuranceBaseType={socialInsuranceBaseType}
+        setSocialInsuranceBaseType={setSocialInsuranceBaseType}
+        socialInsuranceBase={socialInsuranceBase}
+        setSocialInsuranceBase={setSocialInsuranceBase}
+        housingFundBaseType={housingFundBaseType}
+        setHousingFundBaseType={setHousingFundBaseType}
+        housingFundBase={housingFundBase}
+        setHousingFundBase={setHousingFundBase}
+        housingFundRate={housingFundRate}
+        onHousingFundRateChange={handleHousingFundRateChange}
+        updateSocialInsuranceBase={updateSocialInsuranceBase}
+        updateHousingFundBase={updateHousingFundBase}
+        baseOptions={baseOptions}
+      />
 
-            {socialInsuranceBaseType === "custom" && (
-              <View className="mt-2">
-                <FormField
-                  label="自定义基数"
-                  inline
-                  helpText={
-                    selectedCity
-                      ? `最低${selectedCity.socialInsurance.minBase}，最高${selectedCity.socialInsurance.maxBase}`
-                      : ""
-                  }
-                >
-                  <Input
-                    type="digit"
-                    value={socialInsuranceBase}
-                    onChange={setSocialInsuranceBase}
-                    prefix="￥"
-                  />
-                </FormField>
-              </View>
-            )}
-          </View>
-
-          <View className="bg-blue-50 p-2 rounded-lg">
-            <Text className="text-sm font-medium text-blue-800 mb-2">
-              公积金基数计算方式
-            </Text>
-            <View className="mb-2">
-              <FormField label="">
-                <RadioGroup
-                  options={baseOptions}
-                  value={housingFundBaseType}
-                  onChange={(value) => {
-                    setHousingFundBaseType(value);
-                    updateHousingFundBase(value);
-                  }}
-                />
-              </FormField>
-            </View>
-
-            {housingFundBaseType === "custom" && (
-              <View className="mt-2">
-                <FormField
-                  label="自定义基数"
-                  inline
-                  helpText={
-                    selectedCity
-                      ? `最低${selectedCity.housingFund.minBase}，最高${selectedCity.housingFund.maxBase}`
-                      : ""
-                  }
-                >
-                  <Input
-                    type="digit"
-                    value={housingFundBase}
-                    onChange={setHousingFundBase}
-                    prefix="￥"
-                  />
-                </FormField>
-              </View>
-            )}
-
-            <View className="mt-2">
-              <FormField label="缴纳比例" inline helpText="范围：5% ~ 12%">
-                <Input
-                  type="digit"
-                  value={housingFundRate}
-                  onChange={handleHousingFundRateChange}
-                  suffix="%"
-                />
-              </FormField>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
-      {/* 专项附加扣除 - 弹窗 */}
-      <Modal
-        title="专项附加扣除"
-        description="填写每月可以抵扣的专项附加扣除金额"
+      {/* 专项附加扣除弹窗 */}
+      <DeductionsModal
         isOpen={deductionsModalOpen}
         onClose={() => setDeductionsModalOpen(false)}
-      >
-        <View className="max-h-[60vh] overflow-y-auto">
-          <View className="grid grid-cols-1 gap-2">
-            {specialDeductions.map((deduction) => (
-              <View
-                key={deduction.id}
-                className="bg-gray-50 p-2 pb-0 rounded-lg"
-              >
-                <FormField label={deduction.name} inline>
-                  <Input
-                    type="digit"
-                    placeholder={`最高${deduction.maxAmount}`}
-                    value={deductions[deduction.id]}
-                    onChange={(value) =>
-                      handleDeductionChange(deduction.id, value)
-                    }
-                    prefix="￥"
-                  />
-                </FormField>
-              </View>
-            ))}
-          </View>
-        </View>
-      </Modal>
+        deductions={deductions}
+        specialDeductions={specialDeductions}
+        onDeductionChange={handleDeductionChange}
+      />
 
-      {/* 年终奖设置 - 弹窗 */}
-      <Modal
-        title="年终奖设置"
-        description="设置年终奖发放月份和计税方式"
+      {/* 年终奖设置弹窗 */}
+      <BonusModal
         isOpen={bonusModalOpen}
         onClose={() => setBonusModalOpen(false)}
-      >
-        <View className="space-y-4">
-          <View className="bg-yellow-50 p-3 rounded-lg">
-            <Text className="text-sm font-medium text-yellow-800 mb-2">
-              基本设置
-            </Text>
-            <View className="mb-2">
-              <FormField
-                label="年终奖月数"
-                inline
-                helpText="设置为0表示没有年终奖"
-              >
-                <Input
-                  type="digit"
-                  value={bonusMonths}
-                  onChange={setBonusMonths}
-                  suffix="个月"
-                />
-              </FormField>
-            </View>
+        bonusMonths={bonusMonths}
+        setBonusMonths={setBonusMonths}
+        bonusMonth={bonusMonth}
+        setBonusMonth={setBonusMonth}
+        bonusCalcType={bonusCalcType}
+        setBonusCalcType={setBonusCalcType}
+        bonusCalcOptions={bonusCalcOptions}
+      />
 
-            <FormField label="发放月份" inline>
-              <Selector
-                options={Array.from({ length: 12 }, (_, i) => ({
-                  label: `${i + 1}月`,
-                  value: String(i + 1),
-                }))}
-                value={bonusMonth}
-                onChange={setBonusMonth}
-              />
-            </FormField>
-          </View>
-
-          <View className="bg-yellow-50 p-3 rounded-lg">
-            <Text className="text-sm font-medium text-yellow-800 mb-2">
-              税务处理方式
-            </Text>
-            <FormField label="计税方式">
-              <View className="mt-1">
-                <RadioGroup
-                  options={bonusCalcOptions}
-                  value={bonusCalcType}
-                  onChange={setBonusCalcType}
-                />
-              </View>
-            </FormField>
-          </View>
-        </View>
-      </Modal>
-
-      {/* 底部固定按钮 */}
-      <View className="fixed left-0 right-0 bottom-0 p-4 bg-white border-t border-gray-200 shadow-lg">
-        <Button
-          className="bg-blue-600 text-white rounded-lg font-medium h-12 flex items-center justify-center w-full"
-          onClick={handleCalculate}
-        >
-          <View className="mr-2">
-            <CalcIcon />
-          </View>
-          计算薪资预估
-        </Button>
-      </View>
+      {/* 计算按钮 */}
+      <CalculateButton onClick={handleCalculate} />
     </View>
   );
 };
