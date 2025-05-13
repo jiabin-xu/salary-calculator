@@ -4,6 +4,7 @@ import Taro from "@tarojs/taro";
 import { specialDeductions } from "../../data/taxRates";
 import { SalaryParams } from "../../utils/calculator";
 import { getCityByCode } from "../../utils/cityMapping";
+import { useBonusState } from "../../hooks/useBonusState";
 
 // 导入拆分后的组件
 import PageHeader from "../../components/salary/PageHeader";
@@ -18,11 +19,6 @@ const baseOptions = [
   { label: "最低基数", value: "min" },
   { label: "按照工资", value: "salary" },
   { label: "自定义", value: "custom" },
-];
-
-const bonusCalcOptions = [
-  { label: "单独计税", value: "separate" },
-  { label: "并入年收入", value: "combined" },
 ];
 
 const Index: React.FC = () => {
@@ -57,15 +53,12 @@ const Index: React.FC = () => {
     }, {} as Record<string, string>)
   );
 
-  // 年终奖月数
-  const [bonusMonths, setBonusMonths] = useState<string>("1");
+  // 使用useReducer管理年终奖相关状态
+  const { bonusMonths, bonusMonth, bonusCalcType, getBonusSummary } =
+    useBonusState();
 
-  // 年终奖发放月份
-  const [bonusMonth, setBonusMonth] = useState<string>("12");
-
-  // 年终奖计税方式
-  const [bonusCalcType, setBonusCalcType] = useState<string>("separate");
-
+  // 使用bonusSummary hook获取摘要信息
+  const bonusSummary = getBonusSummary();
   // 弹窗状态
   const [deductionsModalOpen, setDeductionsModalOpen] = useState(false);
   const [bonusModalOpen, setBonusModalOpen] = useState(false);
@@ -219,13 +212,6 @@ const Index: React.FC = () => {
     }，公积金：${housingFundRate ? Number(housingFundRate) + "%" : "未设置"}`;
   };
 
-  // 获取年终奖摘要信息
-  const getBonusSummary = () => {
-    const months = Number(bonusMonths);
-    if (months <= 0) return "无年终奖";
-    return `${months}个月，${bonusMonth}月发放`;
-  };
-
   return (
     <View className="bg-gray-50 min-h-screen pb-20">
       {/* 页面标题 */}
@@ -250,7 +236,7 @@ const Index: React.FC = () => {
             ? `已设置 ${totalDeductions} 元/月`
             : "暂未设置专项附加扣除"
         }
-        bonusSummary={getBonusSummary()}
+        bonusSummary={bonusSummary}
         onInsuranceClick={() => setInsuranceModalOpen(true)}
         onDeductionsClick={() => setDeductionsModalOpen(true)}
         onBonusClick={() => setBonusModalOpen(true)}
@@ -289,13 +275,6 @@ const Index: React.FC = () => {
       <BonusModal
         isOpen={bonusModalOpen}
         onClose={() => setBonusModalOpen(false)}
-        bonusMonths={bonusMonths}
-        setBonusMonths={setBonusMonths}
-        bonusMonth={bonusMonth}
-        setBonusMonth={setBonusMonth}
-        bonusCalcType={bonusCalcType}
-        setBonusCalcType={setBonusCalcType}
-        bonusCalcOptions={bonusCalcOptions}
       />
 
       {/* 计算按钮 */}

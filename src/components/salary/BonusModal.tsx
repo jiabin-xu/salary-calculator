@@ -5,30 +5,28 @@ import FormField from "../FormField";
 import Input from "../Input";
 import Selector from "../Selector";
 import RadioGroup from "../RadioGroup";
+import { useBonusState } from "../../hooks/useBonusState";
 
 interface BonusModalProps {
   isOpen: boolean;
   onClose: () => void;
-  bonusMonths: string;
-  setBonusMonths: (value: string) => void;
-  bonusMonth: string;
-  setBonusMonth: (value: string) => void;
-  bonusCalcType: string;
-  setBonusCalcType: (value: string) => void;
-  bonusCalcOptions: Array<{ label: string; value: string }>;
 }
 
-const BonusModal: React.FC<BonusModalProps> = ({
-  isOpen,
-  onClose,
-  bonusMonths,
-  setBonusMonths,
-  bonusMonth,
-  setBonusMonth,
-  bonusCalcType,
-  setBonusCalcType,
-  bonusCalcOptions,
-}) => {
+const bonusCalcOptions: Array<{ label: string; value: string }> = [
+  { label: "单独计税", value: "separate" },
+  { label: "并入年收入", value: "combined" },
+];
+
+const BonusModal: React.FC<BonusModalProps> = ({ isOpen, onClose }) => {
+  const {
+    bonusMonths,
+    bonusMonth,
+    bonusCalcType,
+    setBonusMonths,
+    setBonusMonth,
+    setBonusCalcType,
+  } = useBonusState();
+
   return (
     <Modal
       title="年终奖设置"
