@@ -26,7 +26,7 @@ export const socialInsuranceRates = {
   medical: { personal: 0.02, company: 0.08 },       // 医疗保险
   unemployment: { personal: 0.005, company: 0.005 }, // 失业保险
   injury: { personal: 0, company: 0.002 },           // 工伤保险
-  maternity: { personal: 0, company: 0.01 }          // 生育保险
+  maternity: { personal: 0, company: 0 }          // 生育保险
 };
 
 // 专项附加扣除项目

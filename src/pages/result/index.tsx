@@ -7,14 +7,12 @@ import {
   SalaryParams,
   SalaryResult,
 } from "../../utils/calculator";
-import cities from "../../data/cities";
 import { socialInsuranceRates } from "../../data/taxRates";
 
 const ResultPage: React.FC = () => {
   const router = useRouter();
   const [params, setParams] = useState<SalaryParams | null>(null);
   const [result, setResult] = useState<SalaryResult | null>(null);
-  const [selectedCity, setSelectedCity] = useState("");
 
   useEffect(() => {
     try {
@@ -27,12 +25,6 @@ const ResultPage: React.FC = () => {
         // 计算结果
         const calculatedResult = calculateYearlySalary(parsedParams);
         setResult(calculatedResult);
-
-        // 获取城市名称
-        const city = cities.find((c) => c.id === parsedParams.cityId);
-        if (city) {
-          setSelectedCity(city.name);
-        }
       }
     } catch (err) {
       console.error("解析参数错误:", err);

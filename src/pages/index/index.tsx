@@ -3,7 +3,7 @@ import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { specialDeductions } from "../../data/taxRates";
 import { SalaryParams } from "../../utils/calculator";
-import { getCityByCode, City } from "../../utils/cityMapping";
+import { getCityByCode } from "../../utils/cityMapping";
 
 // 导入拆分后的组件
 import PageHeader from "../../components/salary/PageHeader";
@@ -58,7 +58,7 @@ const Index: React.FC = () => {
   );
 
   // 年终奖月数
-  const [bonusMonths, setBonusMonths] = useState<string>("3");
+  const [bonusMonths, setBonusMonths] = useState<string>("1");
 
   // 年终奖发放月份
   const [bonusMonth, setBonusMonth] = useState<string>("12");
@@ -79,11 +79,6 @@ const Index: React.FC = () => {
 
       // 根据选择类型计算公积金基数
       updateHousingFundBase(housingFundBaseType);
-
-      // 设置公积金比例为城市默认比例
-      setHousingFundRate(
-        String(Math.round(selectedCity.housingFund.defaultRate * 100))
-      );
     }
   }, [
     selectedCity,

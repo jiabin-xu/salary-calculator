@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Picker } from "@tarojs/components";
-import provinces from "../data/provinces.json";
+import provinces from "../data/cities.json";
 
 // 定义省市数据接口
 export interface ProvinceData {
