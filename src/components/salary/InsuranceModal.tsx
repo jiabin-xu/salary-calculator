@@ -51,7 +51,7 @@ const InsuranceModal: React.FC<InsuranceModalProps> = ({
       onClose={onClose}
     >
       <View className="space-y-4">
-        <View className="bg-blue-50 p-2 rounded-lg">
+        <View className="   px-2 rounded-lg">
           <Text className="text-sm font-medium text-blue-800 mb-2">
             社保基数计算方式
           </Text>
@@ -90,7 +90,7 @@ const InsuranceModal: React.FC<InsuranceModalProps> = ({
           )}
         </View>
 
-        <View className="bg-blue-50 p-2 rounded-lg">
+        <View className="  px-2 rounded-lg">
           <Text className="text-sm font-medium text-blue-800 mb-2">
             公积金基数计算方式
           </Text>
@@ -129,7 +129,7 @@ const InsuranceModal: React.FC<InsuranceModalProps> = ({
           )}
 
           <View className="mt-2">
-            <FormField label="缴纳比例" inline helpText="范围：5% ~ 12%">
+            <FormField label="公积金缴纳比例" inline helpText="范围：5% ~ 12%">
               <Input
                 type="digit"
                 value={housingFundRate}

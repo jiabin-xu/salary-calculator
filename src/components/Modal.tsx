@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({
       {/* 弹窗内容 */}
       <View className="relative bg-white rounded-lg w-11/12 max-w-md max-h-[80vh] overflow-y-auto z-10">
         {/* 标题栏 */}
-        <View className="p-4 border-b border-gray-100">
+        <View className="p-4 pb-0 border-b border-gray-100">
           <Text className="text-lg font-medium">{title}</Text>
           {description && (
             <Text className="text-xs text-gray-500 mt-1 block">

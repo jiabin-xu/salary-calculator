@@ -49,8 +49,8 @@ const ResultPage: React.FC = () => {
   };
 
   // 格式化百分比
-  const formatPercent = (rate: number) => {
-    return `${(rate * 100).toFixed(0)}%`;
+  const formatPercent = (rate: number, decimalPlaces = 0) => {
+    return `${(rate * 100).toFixed(decimalPlaces)}%`;
   };
 
   // 返回首页
@@ -231,7 +231,11 @@ const ResultPage: React.FC = () => {
                     {formatMoney(result.socialInsurance.personal.unemployment)}
                   </Text>
                   <Text className="text-xs text-gray-500 ml-1">
-                    ({formatPercent(socialInsuranceRates.unemployment.personal)}
+                    (
+                    {formatPercent(
+                      socialInsuranceRates.unemployment.personal,
+                      1
+                    )}
                     )
                   </Text>
                 </View>
@@ -240,7 +244,12 @@ const ResultPage: React.FC = () => {
                     {formatMoney(result.socialInsurance.company.unemployment)}
                   </Text>
                   <Text className="text-xs text-gray-500 ml-1">
-                    ({formatPercent(socialInsuranceRates.unemployment.company)})
+                    (
+                    {formatPercent(
+                      socialInsuranceRates.unemployment.company,
+                      1
+                    )}
+                    )
                   </Text>
                 </View>
               </View>
@@ -267,7 +276,7 @@ const ResultPage: React.FC = () => {
                     {formatMoney(result.socialInsurance.company.injury)}
                   </Text>
                   <Text className="text-xs text-gray-500 ml-1">
-                    ({formatPercent(socialInsuranceRates.injury.company)})
+                    ({formatPercent(socialInsuranceRates.injury.company, 1)})
                   </Text>
                 </View>
               </View>

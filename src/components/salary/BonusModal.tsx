@@ -37,7 +37,7 @@ const BonusModal: React.FC<BonusModalProps> = ({
       onClose={onClose}
     >
       <View className="space-y-4">
-        <View className="bg-yellow-50 p-3 rounded-lg">
+        <View className="px-2 rounded-lg">
           <Text className="text-sm font-medium text-yellow-800 mb-2">
             基本设置
           </Text>
@@ -68,11 +68,11 @@ const BonusModal: React.FC<BonusModalProps> = ({
           </FormField>
         </View>
 
-        <View className="bg-yellow-50 p-3 rounded-lg">
+        <View className=" px-2 rounded-lg">
           <Text className="text-sm font-medium text-yellow-800 mb-2">
             税务处理方式
           </Text>
-          <FormField label="计税方式">
+          <FormField label="">
             <View className="mt-1">
               <RadioGroup
                 options={bonusCalcOptions}

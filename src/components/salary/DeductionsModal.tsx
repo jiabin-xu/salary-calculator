@@ -35,7 +35,7 @@ const DeductionsModal: React.FC<DeductionsModalProps> = ({
       <View className="max-h-[60vh] overflow-y-auto">
         <View className="grid grid-cols-1 gap-2">
           {specialDeductions.map((deduction) => (
-            <View key={deduction.id} className="bg-gray-50 p-2 pb-0 rounded-lg">
+            <View key={deduction.id} className="  px-2 rounded-lg">
               <FormField label={deduction.name} inline>
                 <Input
                   type="digit"

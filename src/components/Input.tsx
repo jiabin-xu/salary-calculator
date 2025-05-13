@@ -24,7 +24,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <View>
-      <View className="flex items-center border border-gray-300 rounded-md px-3 py-2 bg-white">
+      <View className="flex items-center border border-gray-300 rounded-md px-3 py-2 bg-gray-50">
         {prefix && <Text className="text-gray-500 mr-2">{prefix}</Text>}
         <TaroInput
           className="flex-1 text-gray-800"
