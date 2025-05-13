@@ -119,7 +119,7 @@ const ProvinceCitySelector: React.FC<ProvinceCitySelectorProps> = ({
   // 获取显示文字
   const getDisplayText = () => {
     if (selectedProvince && selectedCity) {
-      return `${selectedProvince} - ${selectedCity}`;
+      return selectedCity;
     }
     return placeholder;
   };
@@ -133,7 +133,7 @@ const ProvinceCitySelector: React.FC<ProvinceCitySelectorProps> = ({
       disabled={disabled}
       value={multiValue}
     >
-      <View className="flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 bg-white">
+      <View className="flex justify-between items-center border border-gray-300 rounded-md px-3 py-2 bg-gray-50">
         <Text
           className={`${
             selectedProvince && selectedCity ? "text-gray-800" : "text-gray-400"

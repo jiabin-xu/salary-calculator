@@ -17,7 +17,7 @@ import CalculateButton from "../../components/salary/CalculateButton";
 
 const Index: React.FC = () => {
   // 选择的城市代码
-  const [selectedCityCode, setSelectedCityCode] = useState<string>("");
+  const [selectedCityCode, setSelectedCityCode] = useState<string>("020");
   const selectedCity = getCityByCode(selectedCityCode);
 
   // 月薪

@@ -176,10 +176,96 @@ const ResultPage: React.FC = () => {
         )}
       </View>
 
+      {/* 月度收入详情 */}
+      <BasePanel title="月度收入详情" className="mb-4">
+        <View className="overflow-x-auto">
+          <View className="w-full rounded-md">
+            <View className="grid grid-cols-4 bg-gray-50 py-3">
+              <Text className="text-center text-xs font-medium text-gray-600">
+                月份
+              </Text>
+              <Text className="text-center text-xs font-medium text-gray-600">
+                税前工资
+              </Text>
+              <Text className="text-center text-xs font-medium text-gray-600">
+                个税
+              </Text>
+              <Text className="text-center text-xs font-medium text-gray-600">
+                税后收入
+              </Text>
+            </View>
+
+            {result.monthlyDetail.map((month, index) => {
+              // 是否有年终奖
+              const hasBonus = Boolean(month.bonus && month.bonus > 0);
+              // 计算年终奖额（如有）
+              const bonusAmount = month.bonus || 0;
+              // 计算年终奖税额（如有）
+              const bonusTaxAmount = month.bonusTax || 0;
+
+              return (
+                <React.Fragment key={`month-${month.month}`}>
+                  {/* 常规月薪 */}
+                  <View
+                    className={`grid grid-cols-4 py-3 ${
+                      index % 2 === 1 ? "bg-gray-50" : ""
+                    } ${
+                      index !== result.monthlyDetail.length - 1 || hasBonus
+                        ? "border-b border-gray-100"
+                        : ""
+                    }`}
+                  >
+                    <Text className="text-center text-xs text-gray-800">
+                      {month.month}月
+                    </Text>
+                    <Text className="text-center text-xs text-gray-800">
+                      {formatMoney(month.preTaxSalary)}
+                    </Text>
+                    <Text className="text-center text-xs text-red-500">
+                      {formatMoney(month.tax)}
+                    </Text>
+                    <Text className="text-center text-xs font-medium text-green-600">
+                      {formatMoney(
+                        month.afterTaxSalary -
+                          (hasBonus ? bonusAmount - bonusTaxAmount : 0)
+                      )}
+                    </Text>
+                  </View>
+
+                  {/* 年终奖（如果有）*/}
+                  {hasBonus && (
+                    <View
+                      className={`grid grid-cols-4 py-3 bg-blue-50 ${
+                        index !== result.monthlyDetail.length - 1
+                          ? "border-b border-gray-100"
+                          : ""
+                      }`}
+                    >
+                      <Text className="text-center text-xs text-blue-700 font-medium">
+                        年终奖
+                      </Text>
+                      <Text className="text-center text-xs text-blue-700">
+                        {formatMoney(bonusAmount)}
+                      </Text>
+                      <Text className="text-center text-xs text-red-500">
+                        {formatMoney(bonusTaxAmount)}
+                      </Text>
+                      <Text className="text-center text-xs font-medium text-green-600">
+                        {formatMoney(bonusAmount - bonusTaxAmount)}
+                      </Text>
+                    </View>
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </View>
+        </View>
+      </BasePanel>
+
       {/* 五险一金缴纳详情 */}
       <BasePanel title="五险一金详情" className="mb-4">
         <View className="rounded-md">
-          <View className="bg-gray-50 p-3 flex">
+          <View className="bg-gray-50 py-3 flex">
             <Text className="w-1/4 text-xs font-medium text-gray-600">
               项目
             </Text>
@@ -198,7 +284,7 @@ const ResultPage: React.FC = () => {
           </View>
 
           {/* 养老保险 */}
-          <View className="border-t border-gray-100 p-3">
+          <View className="border-t border-gray-100 py-3">
             <View className="flex items-center">
               <View className="w-1/4">
                 <Text className="text-xs font-medium text-gray-700">
@@ -227,7 +313,7 @@ const ResultPage: React.FC = () => {
           </View>
 
           {/* 医疗保险 */}
-          <View className="border-t border-gray-100 p-3 bg-gray-50">
+          <View className="border-t border-gray-100 py-3 bg-gray-50">
             <View className="flex items-center">
               <View className="w-1/4">
                 <Text className="text-xs font-medium text-gray-700">
@@ -256,7 +342,7 @@ const ResultPage: React.FC = () => {
           </View>
 
           {/* 失业保险 */}
-          <View className="border-t border-gray-100 p-3">
+          <View className="border-t border-gray-100 py-3">
             <View className="flex items-center">
               <View className="w-1/4">
                 <Text className="text-xs font-medium text-gray-700">
@@ -295,7 +381,7 @@ const ResultPage: React.FC = () => {
           </View>
 
           {/* 工伤保险 */}
-          <View className="border-t border-gray-100 p-3 bg-gray-50">
+          <View className="border-t border-gray-100 py-3 bg-gray-50">
             <View className="flex items-center">
               <View className="w-1/4">
                 <Text className="text-xs font-medium text-gray-700">
@@ -322,7 +408,7 @@ const ResultPage: React.FC = () => {
           </View>
 
           {/* 生育保险 */}
-          <View className="border-t border-gray-100 p-3">
+          <View className="border-t border-gray-100 py-3">
             <View className="flex items-center">
               <View className="w-1/4">
                 <Text className="text-xs font-medium text-gray-700">
@@ -349,7 +435,7 @@ const ResultPage: React.FC = () => {
           </View>
 
           {/* 公积金 */}
-          <View className="border-t border-gray-100 p-3 bg-gray-50">
+          <View className="border-t border-gray-100 py-3 bg-gray-50">
             <View className="flex items-center">
               <View className="w-1/4">
                 <Text className="text-xs font-medium text-gray-700">
@@ -378,10 +464,10 @@ const ResultPage: React.FC = () => {
           </View>
 
           {/* 合计 */}
-          <View className="border-t border-gray-100 p-3 bg-blue-50">
+          <View className="border-t border-gray-100 py-3 bg-blue-50">
             <View className="flex items-center">
               <View className="w-1/4">
-                <Text className="text-xs font-medium text-blue-700">合计</Text>
+                <Text className="text-xs  font-medium text-blue-700">合计</Text>
               </View>
               <View className="w-3/4 flex">
                 <View className="w-1/2 flex justify-center items-center">
@@ -406,73 +492,8 @@ const ResultPage: React.FC = () => {
         </View>
       </BasePanel>
 
-      {/* 月度收入详情 */}
-      <BasePanel title="月度收入详情" className="mb-4">
-        <View className="overflow-x-auto">
-          <View className="w-full rounded-md">
-            <View className="grid grid-cols-4 bg-gray-50 p-3">
-              <Text className="text-center text-xs font-medium text-gray-600">
-                月份
-              </Text>
-              <Text className="text-center text-xs font-medium text-gray-600">
-                税前工资
-              </Text>
-              <Text className="text-center text-xs font-medium text-gray-600">
-                个税
-              </Text>
-              <Text className="text-center text-xs font-medium text-gray-600">
-                税后收入
-              </Text>
-            </View>
-
-            {result.monthlyDetail.map((month, index) => {
-              // 计算显示的税前工资（如有年终奖则包含）
-              const displayPreTaxSalary = month.bonus
-                ? month.preTaxSalary + month.bonus
-                : month.preTaxSalary;
-
-              // 计算显示的个税（如有年终奖税则包含）
-              const displayTax = month.bonusTax
-                ? month.tax + month.bonusTax
-                : month.tax;
-
-              return (
-                <View
-                  key={month.month}
-                  className={`grid grid-cols-4 p-3 ${
-                    index % 2 === 1 ? "bg-gray-50" : ""
-                  } ${
-                    index !== result.monthlyDetail.length - 1
-                      ? "border-b border-gray-100"
-                      : ""
-                  }`}
-                >
-                  <Text className="text-center text-xs text-gray-800">
-                    {month.month}月
-                    {month.bonus ? (
-                      <Text className="text-xs text-blue-500 ml-1">
-                        (含年终奖)
-                      </Text>
-                    ) : null}
-                  </Text>
-                  <Text className="text-center text-xs text-gray-800">
-                    ¥{formatMoney(displayPreTaxSalary)}
-                  </Text>
-                  <Text className="text-center text-xs text-red-500">
-                    ¥{formatMoney(displayTax)}
-                  </Text>
-                  <Text className="text-center text-xs font-medium text-green-600">
-                    ¥{formatMoney(month.afterTaxSalary)}
-                  </Text>
-                </View>
-              );
-            })}
-          </View>
-        </View>
-      </BasePanel>
-
       {/* 底部返回按钮 */}
-      <View className="fixed left-0 right-0 bottom-0 p-4 bg-white border-t border-gray-200 shadow-sm">
+      <View className="fixed left-0 right-0 bottom-0 p-4 pb-safe bg-white border-t border-gray-200 shadow-sm">
         <Button
           className="bg-blue-500 text-white rounded-lg h-10"
           onClick={handleBack}

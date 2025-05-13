@@ -1,5 +1,4 @@
 import React from "react";
-import { View } from "@tarojs/components";
 import BasePanel from "../BasePanel";
 import FormField from "../FormField";
 import Input from "../Input";

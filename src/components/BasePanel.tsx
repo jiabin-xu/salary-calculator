@@ -18,7 +18,7 @@ const BasePanel: React.FC<BasePanelProps> = ({
 }) => {
   return (
     <View className={`bg-white rounded-lg shadow-sm mb-4 ${className}`}>
-      <View className="px-4 py-3 border-b border-gray-100">
+      <View className="px-4 py-3  ">
         <View className="flex items-center">
           {icon && <View className="mr-2 text-blue-600">{icon}</View>}
           <Text className="text-base font-medium text-gray-800">{title}</Text>
