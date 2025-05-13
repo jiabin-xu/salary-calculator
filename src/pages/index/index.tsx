@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import { specialDeductions } from "../../data/taxRates";
 import { SalaryParams } from "../../utils/calculator";
 import { getCityByCode } from "../../utils/cityMapping";
 import { useBonusState } from "../../hooks/useBonusState";
 import { useInsuranceState } from "../../hooks/useInsuranceState";
+import { useDeductionState } from "../../hooks/useDeductionState";
 
 // 导入拆分后的组件
 import PageHeader from "../../components/salary/PageHeader";
@@ -26,23 +26,34 @@ const Index: React.FC = () => {
 
   // 使用useInsuranceState管理社保公积金相关状态
   const {
+    socialInsuranceBaseType,
     socialInsuranceBase,
+    housingFundBaseType,
     housingFundBase,
     housingFundRate,
+    setSocialInsuranceBaseType,
+    setSocialInsuranceBase,
+    setHousingFundBaseType,
+    setHousingFundBase,
+    setHousingFundRate,
+    updateSocialInsuranceBase,
+    updateHousingFundBase,
     getInsuranceSummary,
   } = useInsuranceState(selectedCity, monthlySalary);
 
-  // 专项附加扣除
-  const [deductions, setDeductions] = useState<Record<string, string>>(
-    specialDeductions.reduce((acc, deduction) => {
-      acc[deduction.id] = "0";
-      return acc;
-    }, {} as Record<string, string>)
-  );
+  // 使用useDeductionState管理专项附加扣除状态
+  const { deductions, setDeduction, getDeductionSummary } = useDeductionState();
 
   // 使用useReducer管理年终奖相关状态
-  const { bonusMonths, bonusMonth, bonusCalcType, getBonusSummary } =
-    useBonusState();
+  const {
+    bonusMonths,
+    bonusMonth,
+    bonusCalcType,
+    setBonusMonths,
+    setBonusMonth,
+    setBonusCalcType,
+    getBonusSummary,
+  } = useBonusState();
 
   const bonusSummary = getBonusSummary();
 
@@ -90,20 +101,6 @@ const Index: React.FC = () => {
     });
   };
 
-  // 计算总专项附加扣除金额
-  const totalDeductions = Object.values(deductions).reduce(
-    (sum, value) => sum + Number(value),
-    0
-  );
-
-  // 专项附加扣除变更
-  const handleDeductionChange = (id: string, value: string) => {
-    setDeductions((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
-  };
-
   return (
     <View className="bg-gray-50 min-h-screen pb-20">
       {/* 页面标题 */}
@@ -123,11 +120,7 @@ const Index: React.FC = () => {
       {/* 菜单项 */}
       <MenuItems
         insuranceSummary={getInsuranceSummary()}
-        deductionsSummary={
-          totalDeductions > 0
-            ? `已设置 ${totalDeductions} 元/月`
-            : "暂未设置专项附加扣除"
-        }
+        deductionsSummary={getDeductionSummary()}
         bonusSummary={bonusSummary}
         onInsuranceClick={() => setInsuranceModalOpen(true)}
         onDeductionsClick={() => setDeductionsModalOpen(true)}
@@ -140,6 +133,18 @@ const Index: React.FC = () => {
         onClose={() => setInsuranceModalOpen(false)}
         selectedCity={selectedCity}
         monthlySalary={monthlySalary}
+        socialInsuranceBaseType={socialInsuranceBaseType}
+        socialInsuranceBase={socialInsuranceBase}
+        housingFundBaseType={housingFundBaseType}
+        housingFundBase={housingFundBase}
+        housingFundRate={housingFundRate}
+        setSocialInsuranceBaseType={setSocialInsuranceBaseType}
+        setSocialInsuranceBase={setSocialInsuranceBase}
+        setHousingFundBaseType={setHousingFundBaseType}
+        setHousingFundBase={setHousingFundBase}
+        setHousingFundRate={setHousingFundRate}
+        updateSocialInsuranceBase={updateSocialInsuranceBase}
+        updateHousingFundBase={updateHousingFundBase}
       />
 
       {/* 专项附加扣除弹窗 */}
@@ -147,13 +152,19 @@ const Index: React.FC = () => {
         isOpen={deductionsModalOpen}
         onClose={() => setDeductionsModalOpen(false)}
         deductions={deductions}
-        onDeductionChange={handleDeductionChange}
+        setDeduction={setDeduction}
       />
 
       {/* 年终奖设置弹窗 */}
       <BonusModal
         isOpen={bonusModalOpen}
         onClose={() => setBonusModalOpen(false)}
+        bonusMonths={bonusMonths}
+        bonusMonth={bonusMonth}
+        bonusCalcType={bonusCalcType}
+        setBonusMonths={setBonusMonths}
+        setBonusMonth={setBonusMonth}
+        setBonusCalcType={setBonusCalcType}
       />
 
       {/* 计算按钮 */}

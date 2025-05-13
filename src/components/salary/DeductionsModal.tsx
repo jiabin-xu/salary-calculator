@@ -9,14 +9,14 @@ interface DeductionsModalProps {
   isOpen: boolean;
   onClose: () => void;
   deductions: Record<string, string>;
-  onDeductionChange: (id: string, value: string) => void;
+  setDeduction: (id: string, value: string) => void;
 }
 
 const DeductionsModal: React.FC<DeductionsModalProps> = ({
   isOpen,
   onClose,
   deductions,
-  onDeductionChange,
+  setDeduction,
 }) => {
   return (
     <Modal
@@ -34,7 +34,7 @@ const DeductionsModal: React.FC<DeductionsModalProps> = ({
                   type="digit"
                   placeholder={`最高${deduction.maxAmount}`}
                   value={deductions[deduction.id]}
-                  onChange={(value) => onDeductionChange(deduction.id, value)}
+                  onChange={(value) => setDeduction(deduction.id, value)}
                   prefix="￥"
                 />
               </FormField>

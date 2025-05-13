@@ -32,6 +32,7 @@ const initialInsuranceState: InsuranceState = {
 
 // Reducer函数
 function insuranceReducer(state: InsuranceState, action: InsuranceAction): InsuranceState {
+  console.log('action', action);
   switch (action.type) {
     case 'SET_SOCIAL_INSURANCE_BASE_TYPE':
       return { ...state, socialInsuranceBaseType: action.payload };
@@ -42,11 +43,11 @@ function insuranceReducer(state: InsuranceState, action: InsuranceAction): Insur
     case 'SET_HOUSING_FUND_BASE':
       return { ...state, housingFundBase: action.payload };
     case 'SET_HOUSING_FUND_RATE': {
-      let rate = parseInt(action.payload) || 0;
-      // 限制范围在5-12之间
-      if (rate < 5) rate = 5;
-      else if (rate > 12) rate = 12;
-      return { ...state, housingFundRate: String(rate) };
+      // let rate = parseInt(action.payload) || 0;
+      // // 限制范围在5-12之间
+      // if (rate < 5) rate = 5;
+      // else if (rate > 12) rate = 12;
+      return { ...state, housingFundRate: action.payload };
     }
     case 'UPDATE_SOCIAL_INSURANCE_BASE': {
       const { type, city, salary } = action.payload;
@@ -162,13 +163,18 @@ export function useInsuranceState(selectedCity: City | null, monthlySalary: stri
   // 获取社保公积金摘要信息
   const getInsuranceSummary = () => {
     if (!selectedCity) return "请先选择城市";
-
-    return `社保：${state.socialInsuranceBaseType === "custom"
+    console.log('state', state);
+    return `社保:${state.socialInsuranceBaseType === "custom"
       ? "自定义"
       : state.socialInsuranceBaseType === "min"
         ? "最低基数"
         : "按工资"
-      }，公积金：${state.housingFundRate ? Number(state.housingFundRate) + "%" : "未设置"}`;
+      }, 公积金:${state.housingFundBaseType === "custom"
+        ? "自定义"
+        : state.housingFundBaseType === "min"
+          ? "最低基数"
+          : "按工资"
+      } ${state.housingFundRate ? Number(state.housingFundRate) + "%" : "未设置"}`;
   };
 
   return {

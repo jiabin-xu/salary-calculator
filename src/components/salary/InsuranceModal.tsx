@@ -5,13 +5,24 @@ import FormField from "../FormField";
 import Input from "../Input";
 import RadioGroup from "../RadioGroup";
 import { City } from "../../utils/cityMapping";
-import { useInsuranceState } from "../../hooks/useInsuranceState";
 
 interface InsuranceModalProps {
   isOpen: boolean;
   onClose: () => void;
   selectedCity: City | null;
   monthlySalary: string;
+  socialInsuranceBaseType: string;
+  socialInsuranceBase: string;
+  housingFundBaseType: string;
+  housingFundBase: string;
+  housingFundRate: string;
+  setSocialInsuranceBaseType: (value: string) => void;
+  setSocialInsuranceBase: (value: string) => void;
+  setHousingFundBaseType: (value: string) => void;
+  setHousingFundBase: (value: string) => void;
+  setHousingFundRate: (value: string) => void;
+  updateSocialInsuranceBase: (type: string) => void;
+  updateHousingFundBase: (type: string) => void;
 }
 
 // 基数选择选项
@@ -26,22 +37,19 @@ const InsuranceModal: React.FC<InsuranceModalProps> = ({
   onClose,
   selectedCity,
   monthlySalary,
+  socialInsuranceBaseType,
+  socialInsuranceBase,
+  housingFundBaseType,
+  housingFundBase,
+  housingFundRate,
+  setSocialInsuranceBaseType,
+  setSocialInsuranceBase,
+  setHousingFundBaseType,
+  setHousingFundBase,
+  setHousingFundRate,
+  updateSocialInsuranceBase,
+  updateHousingFundBase,
 }) => {
-  const {
-    socialInsuranceBaseType,
-    socialInsuranceBase,
-    housingFundBaseType,
-    housingFundBase,
-    housingFundRate,
-    setSocialInsuranceBaseType,
-    setSocialInsuranceBase,
-    setHousingFundBaseType,
-    setHousingFundBase,
-    setHousingFundRate,
-    updateSocialInsuranceBase,
-    updateHousingFundBase,
-  } = useInsuranceState(selectedCity, monthlySalary);
-
   return (
     <Modal
       title="社保公积金设置"

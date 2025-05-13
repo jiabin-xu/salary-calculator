@@ -7,7 +7,7 @@ export interface ProvinceData {
   code: string;
   city: string;
   pinyin: string;
-  province: string;
+  province?: string;
 }
 
 // 定义选择器属性
@@ -31,6 +31,8 @@ const getProvinceList = () => {
       if (cities) {
         cities.push(item);
       }
+    } else {
+      provinceMap.set(item.city, [item]);
     }
   });
 
