@@ -5,44 +5,43 @@ import FormField from "../FormField";
 import Input from "../Input";
 import RadioGroup from "../RadioGroup";
 import { City } from "../../utils/cityMapping";
+import { useInsuranceState } from "../../hooks/useInsuranceState";
 
 interface InsuranceModalProps {
   isOpen: boolean;
   onClose: () => void;
   selectedCity: City | null;
-  socialInsuranceBaseType: string;
-  setSocialInsuranceBaseType: (value: string) => void;
-  socialInsuranceBase: string;
-  setSocialInsuranceBase: (value: string) => void;
-  housingFundBaseType: string;
-  setHousingFundBaseType: (value: string) => void;
-  housingFundBase: string;
-  setHousingFundBase: (value: string) => void;
-  housingFundRate: string;
-  onHousingFundRateChange: (value: string) => void;
-  updateSocialInsuranceBase: (type: string) => void;
-  updateHousingFundBase: (type: string) => void;
-  baseOptions: Array<{ label: string; value: string }>;
+  monthlySalary: string;
 }
+
+// 基数选择选项
+const baseOptions = [
+  { label: "最低基数", value: "min" },
+  { label: "按照工资", value: "salary" },
+  { label: "自定义", value: "custom" },
+];
 
 const InsuranceModal: React.FC<InsuranceModalProps> = ({
   isOpen,
   onClose,
   selectedCity,
-  socialInsuranceBaseType,
-  setSocialInsuranceBaseType,
-  socialInsuranceBase,
-  setSocialInsuranceBase,
-  housingFundBaseType,
-  setHousingFundBaseType,
-  housingFundBase,
-  setHousingFundBase,
-  housingFundRate,
-  onHousingFundRateChange,
-  updateSocialInsuranceBase,
-  updateHousingFundBase,
-  baseOptions,
+  monthlySalary,
 }) => {
+  const {
+    socialInsuranceBaseType,
+    socialInsuranceBase,
+    housingFundBaseType,
+    housingFundBase,
+    housingFundRate,
+    setSocialInsuranceBaseType,
+    setSocialInsuranceBase,
+    setHousingFundBaseType,
+    setHousingFundBase,
+    setHousingFundRate,
+    updateSocialInsuranceBase,
+    updateHousingFundBase,
+  } = useInsuranceState(selectedCity, monthlySalary);
+
   return (
     <Modal
       title="社保公积金设置"
@@ -133,7 +132,7 @@ const InsuranceModal: React.FC<InsuranceModalProps> = ({
               <Input
                 type="digit"
                 value={housingFundRate}
-                onChange={onHousingFundRateChange}
+                onChange={setHousingFundRate}
                 suffix="%"
               />
             </FormField>

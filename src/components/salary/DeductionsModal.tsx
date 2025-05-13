@@ -3,18 +3,12 @@ import { View } from "@tarojs/components";
 import Modal from "../Modal";
 import FormField from "../FormField";
 import Input from "../Input";
-
-interface DeductionItem {
-  id: string;
-  name: string;
-  maxAmount: number;
-}
+import { specialDeductions } from "@/data/taxRates";
 
 interface DeductionsModalProps {
   isOpen: boolean;
   onClose: () => void;
   deductions: Record<string, string>;
-  specialDeductions: DeductionItem[];
   onDeductionChange: (id: string, value: string) => void;
 }
 
@@ -22,7 +16,6 @@ const DeductionsModal: React.FC<DeductionsModalProps> = ({
   isOpen,
   onClose,
   deductions,
-  specialDeductions,
   onDeductionChange,
 }) => {
   return (
