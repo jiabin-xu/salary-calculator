@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import { SalaryParams } from "../../utils/calculator";
 import { getCityByCode } from "../../utils/cityMapping";
 import { useBonusState } from "../../hooks/useBonusState";
 import { useInsuranceState } from "../../hooks/useInsuranceState";
@@ -72,32 +71,39 @@ const Index: React.FC = () => {
       return;
     }
 
-    // 构建薪资参数
-    const params: SalaryParams = {
-      monthlySalary: Number(monthlySalary),
-      cityId: selectedCity.id || selectedCity.code,
-      socialInsuranceBase: Number(socialInsuranceBase),
-      housingFundBase: Number(housingFundBase),
-      housingFundRate: Number(housingFundRate) / 100,
-      specialDeductions: Object.entries(deductions).reduce(
-        (acc, [key, value]) => {
-          acc[key] = Number(value);
-          return acc;
-        },
-        {} as Record<string, number>
-      ),
-      bonus: {
-        months: Number(bonusMonths),
-        payMonth: Number(bonusMonth),
-        calculationType: bonusCalcType === "separate" ? "separate" : "combined",
-      },
-    };
+    // 将参数扁平化为查询字符串
+    const queryParams = new URLSearchParams();
+
+    // 基本信息
+    queryParams.append("salary", monthlySalary);
+    queryParams.append("cityId", selectedCity.id || selectedCity.code);
+
+    // 社保公积金
+    queryParams.append("socialBase", socialInsuranceBase);
+    queryParams.append("housingBase", housingFundBase);
+    queryParams.append("housingRate", housingFundRate);
+
+    // 年终奖
+    queryParams.append("bonusMonths", bonusMonths);
+    queryParams.append("bonusMonth", bonusMonth);
+    queryParams.append("bonusType", bonusCalcType);
+    queryParams.append(
+      "totalDeductions",
+      Object.values(deductions)
+        .reduce((sum, value) => sum + Number(value), 0)
+        .toString()
+    );
+
+    // 添加专项附加扣除 - 只添加有值的项
+    // Object.entries(deductions).forEach(([key, value]) => {
+    //   if (Number(value) > 0) {
+    //     queryParams.append(`ded_${key}`, value);
+    //   }
+    // });
 
     // 将参数传递到结果页面
     Taro.navigateTo({
-      url:
-        "/pages/result/index?params=" +
-        encodeURIComponent(JSON.stringify(params)),
+      url: `/pages/result/index?${queryParams.toString()}`,
     });
   };
 
@@ -174,3 +180,5 @@ const Index: React.FC = () => {
 };
 
 export default Index;
+
+// http://10.254.74.245:10086/#/pages/result/index?salary=10000&cityId=021&socialBase=10000&housingBase=2690&housingRate=12&bonusMonths=3&bonusMonth=12&bonusType=separate&ded_children_education=1000

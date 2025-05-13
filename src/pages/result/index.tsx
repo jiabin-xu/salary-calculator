@@ -13,19 +13,51 @@ const ResultPage: React.FC = () => {
   const router = useRouter();
   const [params, setParams] = useState<SalaryParams | null>(null);
   const [result, setResult] = useState<SalaryResult | null>(null);
+  const [specialDeductionsTotal, setSpecialDeductionsTotal] =
+    useState<number>(0);
 
   useEffect(() => {
     try {
-      // 从URL参数中获取计算参数
-      const paramsStr = decodeURIComponent(router.params.params || "");
-      if (paramsStr) {
-        const parsedParams = JSON.parse(paramsStr) as SalaryParams;
-        setParams(parsedParams);
+      // 从URL参数中获取扁平化的参数
+      const {
+        salary,
+        cityId,
+        socialBase,
+        housingBase,
+        housingRate,
+        bonusMonths,
+        bonusMonth,
+        bonusType,
+        totalDeductions,
+      } = router.params;
 
-        // 计算结果
-        const calculatedResult = calculateYearlySalary(parsedParams);
-        setResult(calculatedResult);
+      if (!salary || !cityId) {
+        throw new Error("必要参数缺失");
       }
+
+      // 如果没有扣除项，totalDeductions已经为0，不需要特殊处理
+
+      // 构建SalaryParams对象
+      const parsedParams: SalaryParams = {
+        monthlySalary: Number(salary),
+        cityId: cityId as string,
+        socialInsuranceBase: Number(socialBase),
+        housingFundBase: Number(housingBase),
+        housingFundRate: Number(housingRate) / 100,
+        totalDeductions: Number(totalDeductions || 0),
+        bonus: {
+          months: Number(bonusMonths || 0),
+          payMonth: Number(bonusMonth || 1),
+          calculationType: bonusType === "separate" ? "separate" : "combined",
+        },
+      };
+
+      setParams(parsedParams);
+
+      setSpecialDeductionsTotal(parsedParams.totalDeductions);
+      // 计算结果
+      const calculatedResult = calculateYearlySalary(parsedParams);
+      setResult(calculatedResult);
     } catch (err) {
       console.error("解析参数错误:", err);
       Taro.showToast({
@@ -128,6 +160,20 @@ const ResultPage: React.FC = () => {
             </Text>
           </View>
         </View>
+
+        {specialDeductionsTotal > 0 && (
+          <View className="mt-4 rounded-lg bg-amber-50 p-3 text-center">
+            <Text className="block text-sm font-medium text-gray-600">
+              专项附加扣除总计
+            </Text>
+            <Text className="mt-1 block text-base font-medium text-amber-600">
+              每月 {formatMoney(specialDeductionsTotal, 0)} 元
+            </Text>
+            <Text className="mt-1 block text-xs text-gray-500">
+              年度总计 {formatMoney(specialDeductionsTotal * 12, 0)} 元
+            </Text>
+          </View>
+        )}
       </View>
 
       {/* 五险一金缴纳详情 */}

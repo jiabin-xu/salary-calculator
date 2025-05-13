@@ -6,7 +6,7 @@ export interface SalaryParams {
   socialInsuranceBase: number;  // 社保基数
   housingFundBase: number;     // 公积金基数
   housingFundRate: number;     // 公积金比例
-  specialDeductions: Record<string, number>; // 专项附加扣除
+  totalDeductions: number; // 专项附加扣除总额
   bonus: {                     // 年终奖
     months: number;            // 几个月工资
     payMonth: number;          // 发放月份 (1-12)
@@ -158,11 +158,10 @@ export function calculateYearlySalary(params: SalaryParams): SalaryResult {
     socialInsuranceBase,
     housingFundBase,
     housingFundRate,
-    specialDeductions,
+    totalDeductions,
     bonus
   } = params;
 
-  const specialDeductionsTotal = Object.values(specialDeductions).reduce((sum, value) => sum + value, 0);
 
   // 计算社保和公积金
   const socialInsurance = calculateSocialInsurance(socialInsuranceBase);
@@ -180,7 +179,7 @@ export function calculateYearlySalary(params: SalaryParams): SalaryResult {
         monthlySalary,
         socialInsurance.personal.total,
         housingFund.personal,
-        specialDeductionsTotal,
+        totalDeductions,
         cumulativeTaxableIncome,
         cumulativeTax
       );
