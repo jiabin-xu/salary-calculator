@@ -43,7 +43,7 @@ const Modal: React.FC<ModalProps> = ({
 
         {/* 关闭按钮 */}
         <View
-          className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full"
+          className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center bg-gray-100 rounded-full"
           onClick={onClose}
         >
           <Text className="text-gray-500 text-sm">×</Text>
