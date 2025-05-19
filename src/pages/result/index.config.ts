@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '薪资计算器',
+  navigationBarTitleText: '税后收入',
   enableShareAppMessage: true,
   enableShareTimeline: true
 })

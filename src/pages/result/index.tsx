@@ -8,9 +8,11 @@ import {
   SalaryResult,
 } from "../../utils/calculator";
 import { socialInsuranceRates } from "../../data/taxRates";
+import { useShare } from "@/utils/shareHooks";
 
 const ResultPage: React.FC = () => {
   const router = useRouter();
+  useShare();
   const [params, setParams] = useState<SalaryParams | null>(null);
   const [result, setResult] = useState<SalaryResult | null>(null);
   const [specialDeductionsTotal, setSpecialDeductionsTotal] =
@@ -495,10 +497,10 @@ const ResultPage: React.FC = () => {
       {/* 底部返回按钮 */}
       <View className="fixed left-0 right-0 bottom-0 p-4 pb-safe bg-white border-t border-gray-200 shadow-sm">
         <Button
-          className="bg-blue-500 text-white rounded-lg h-10"
-          onClick={handleBack}
+          className="bg-green-500 text-white rounded-lg h-10"
+          openType="share"
         >
-          返回修改
+          分享给亲友
         </Button>
       </View>
     </View>

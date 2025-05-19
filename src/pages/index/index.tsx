@@ -14,6 +14,7 @@ import InsuranceModal from "../../components/salary/InsuranceModal";
 import DeductionsModal from "../../components/salary/DeductionsModal";
 import BonusModal from "../../components/salary/BonusModal";
 import CalculateButton from "../../components/salary/CalculateButton";
+import { useShare } from "@/utils/shareHooks";
 
 const Index: React.FC = () => {
   // 选择的城市代码
@@ -22,6 +23,7 @@ const Index: React.FC = () => {
 
   // 月薪
   const [monthlySalary, setMonthlySalary] = useState<string>("10000");
+  useShare();
 
   // 使用useInsuranceState管理社保公积金相关状态
   const {
