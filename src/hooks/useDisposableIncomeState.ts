@@ -291,13 +291,11 @@ export const useDisposableIncomeState = () => {
   };
 
   // 检查是否有工资收入
-  const hasSalaryIncome = () => {
-    return (
-      incomeItems.some(
-        (item) => item.type === "salary" && Number(item.amount) > 0
-      ) || monthlySalaries.length > 0
-    );
-  };
+  const hasSalaryIncome = incomeItems.some(
+    (item) => item.type === "salary" && Number(item.amount) > 0
+  ) || monthlySalaries.length > 0
+
+
 
   // 设置工资收入
   const setSalaryIncome = (amount: string, description: string = "") => {

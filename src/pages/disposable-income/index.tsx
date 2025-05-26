@@ -66,8 +66,7 @@ const DisposableIncome: React.FC = () => {
   // const { incomeUp, expenseUp, disposableUp } = getTrends();
 
   // UI状态
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [formType, setFormType] = useState<"income" | "expense">("income");
+  const [formType, setFormType] = useState<"income" | "expense" | null>(null);
   const [filterType, setFilterType] = useState<"all" | "income" | "expense">(
     "all"
   );
@@ -81,26 +80,6 @@ const DisposableIncome: React.FC = () => {
     [summary.totalIncome, summary.totalExpense]
   );
 
-  // 检查是否已有工资收入
-  const hasSalary = useMemo(() => hasSalaryIncome(), [hasSalaryIncome]);
-
-  // 打开添加收入表单
-  const openAddIncomeForm = useCallback(() => {
-    setFormType("income");
-    setShowAddForm(true);
-  }, []);
-
-  // 打开添加支出表单
-  const openAddExpenseForm = useCallback(() => {
-    setFormType("expense");
-    setShowAddForm(true);
-  }, []);
-
-  // 关闭添加表单
-  const closeAddForm = useCallback(() => {
-    setShowAddForm(false);
-  }, []);
-
   // 添加新收入
   const handleAddIncome = useCallback(() => {
     try {
@@ -112,11 +91,11 @@ const DisposableIncome: React.FC = () => {
         description: "",
         isFixed: true,
       });
-      closeAddForm();
+      setFormType(null);
     } catch (error) {
       Taro.showToast({ title: error.message, icon: "none" });
     }
-  }, [addIncome, newIncome, setNewIncome, closeAddForm]);
+  }, [addIncome, newIncome, setNewIncome]);
 
   // 添加新支出
   const handleAddExpense = useCallback(() => {
@@ -129,11 +108,11 @@ const DisposableIncome: React.FC = () => {
         description: "",
         isFixed: true,
       });
-      closeAddForm();
+      setFormType(null);
     } catch (error) {
       Taro.showToast({ title: error.message, icon: "none" });
     }
-  }, [addExpense, newExpense, setNewExpense, closeAddForm]);
+  }, [addExpense, newExpense, setNewExpense]);
 
   // 导航到工资计算器页面
   const navigateToSalaryCalculator = useCallback(() => {
@@ -150,86 +129,8 @@ const DisposableIncome: React.FC = () => {
     []
   );
 
-  // 渲染单个收支项目
-  const renderItem = (item: IncomeItem | ExpenseItem, isIncome: boolean) => {
-    const amount = Number(item.amount);
-    const getLabel = isIncome ? getIncomeTypeLabel : getExpenseTypeLabel;
-    const handleDelete = isIncome ? deleteIncome : deleteExpense;
-
-    return (
-      <View
-        key={item.id}
-        className="flex items-center justify-between p-4 bg-white rounded-lg mb-3 shadow-sm"
-      >
-        <View className="flex items-center">
-          <View
-            className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${
-              isIncome
-                ? item.isFixed
-                  ? "bg-green-100"
-                  : "bg-emerald-100"
-                : item.isFixed
-                ? "bg-red-100"
-                : "bg-orange-100"
-            }`}
-          >
-            <Text
-              className={`text-lg ${
-                isIncome
-                  ? item.isFixed
-                    ? "text-green-600"
-                    : "text-emerald-600"
-                  : item.isFixed
-                  ? "text-red-600"
-                  : "text-orange-600"
-              }`}
-            >
-              {isIncome ? "+" : "-"}
-            </Text>
-          </View>
-          <View>
-            <Text className="text-gray-800 font-medium">
-              {getLabel(item.type)}
-              <Text className="text-xs ml-2 text-gray-500">
-                {item.isFixed ? "(固定)" : "(临时)"}
-              </Text>
-            </Text>
-            {item.description && (
-              <Text className="text-gray-500 text-xs block mt-1">
-                {item.description}
-              </Text>
-            )}
-          </View>
-        </View>
-        <View className="flex items-center">
-          <Text
-            className={`font-medium mr-4 ${
-              isIncome
-                ? item.isFixed
-                  ? "text-green-600"
-                  : "text-emerald-600"
-                : item.isFixed
-                ? "text-red-600"
-                : "text-orange-600"
-            }`}
-          >
-            {isIncome ? "+" : "-"}¥{amount.toFixed(0)}
-          </Text>
-          <View
-            className="bg-gray-100 p-2 rounded-full"
-            onClick={() => handleDelete(item.id)}
-          >
-            <View className="w-4 h-4 flex items-center justify-center">
-              <Text className="text-gray-500 text-xs">✕</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  };
-
   // 如果没有工资收入，显示引导页
-  if (!hasSalary) {
+  if (!hasSalaryIncome) {
     return <SalarySelectionGuide onSelectSalary={navigateToSalaryCalculator} />;
   }
 
@@ -267,12 +168,12 @@ const DisposableIncome: React.FC = () => {
 
       {/* 底部添加按钮 */}
       <BottomActionButtons
-        onAddIncome={openAddIncomeForm}
-        onAddExpense={openAddExpenseForm}
+        onAddIncome={() => setFormType("income")}
+        onAddExpense={() => setFormType("expense")}
       />
 
       {/* 添加收支表单弹窗 */}
-      {showAddForm && (
+      {formType && (
         <IncomeExpenseForm
           formType={formType}
           newIncome={newIncome}
@@ -280,7 +181,7 @@ const DisposableIncome: React.FC = () => {
           setNewIncome={setNewIncome}
           setNewExpense={setNewExpense}
           onAdd={formType === "income" ? handleAddIncome : handleAddExpense}
-          onClose={closeAddForm}
+          onClose={() => setFormType(null)}
         />
       )}
     </View>

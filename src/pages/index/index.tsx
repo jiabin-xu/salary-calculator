@@ -96,39 +96,6 @@ const Index: React.FC = () => {
       },
     };
 
-    // 计算12个月的工资结果
-    const calculatedResult = calculateYearlySalary(salaryParams);
-
-    // 将12个月的工资存储到localStorage中
-    try {
-      // 格式化工资数据，只保留月份和税后工资
-      const monthlySalaries = calculatedResult.monthlyDetail.map((detail) => ({
-        month: detail.month,
-        salary: detail.afterTaxSalary,
-        preTaxSalary: detail.preTaxSalary,
-        withBonus: Boolean(detail.bonus),
-        bonusAmount: detail.bonus || 0,
-        bonusAfterTax: detail.bonus ? detail.bonus - (detail.bonusTax || 0) : 0,
-      }));
-
-      // 存储到localStorage
-      Taro.setStorageSync("monthlySalaries", JSON.stringify(monthlySalaries));
-
-      // 存储年度总结果
-      Taro.setStorageSync(
-        "yearlySalaryResult",
-        JSON.stringify({
-          totalPreTax: calculatedResult.yearlyTotal.preTaxSalary,
-          totalAfterTax: calculatedResult.yearlyTotal.afterTaxSalary,
-          totalTax: calculatedResult.yearlyTotal.tax,
-          socialInsurance: calculatedResult.yearlyTotal.socialInsurance,
-          housingFund: calculatedResult.yearlyTotal.housingFund,
-        })
-      );
-    } catch (e) {
-      console.error("存储工资数据失败", e);
-    }
-
     // 将参数扁平化为查询字符串
     const queryParams = new URLSearchParams();
 
@@ -154,16 +121,30 @@ const Index: React.FC = () => {
 
     // 如果是从可支配收入页面来的，需要触发事件并返回
     if (isFromDisposableIncome) {
-      // 触发事件，传递年度工资总额
-      Taro.eventCenter.trigger("salary_calculated", {
-        afterTax: calculatedResult.yearlyTotal.afterTaxSalary,
-        beforeTax: calculatedResult.yearlyTotal.preTaxSalary,
-        monthlySalaries: calculatedResult.monthlyDetail.map((detail) => ({
-          month: detail.month,
-          salary: detail.afterTaxSalary,
-        })),
-      });
+      // 计算12个月的工资结果
+      const calculatedResult = calculateYearlySalary(salaryParams);
 
+      // 将12个月的工资存储到localStorage中
+      try {
+        // 格式化工资数据，只保留月份和税后工资
+        const monthlySalaries = calculatedResult.monthlyDetail.map(
+          (detail) => ({
+            month: detail.month,
+            salary: detail.afterTaxSalary,
+            preTaxSalary: detail.preTaxSalary,
+            withBonus: Boolean(detail.bonus),
+            bonusAmount: detail.bonus || 0,
+            bonusAfterTax: detail.bonus
+              ? detail.bonus - (detail.bonusTax || 0)
+              : 0,
+          })
+        );
+
+        // 存储到localStorage
+        Taro.setStorageSync("monthlySalaries", JSON.stringify(monthlySalaries));
+      } catch (e) {
+        console.error("存储工资数据失败", e);
+      }
       Taro.navigateTo({
         url: "/pages/disposable-income/index",
       });
