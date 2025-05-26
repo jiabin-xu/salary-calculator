@@ -78,8 +78,6 @@ export const useDisposableIncomeState = () => {
   // 支出项目
   const [expenseItems, setExpenseItems] = useState<ExpenseItem[]>([]);
 
-  // 工资收入数据
-  const [monthlySalaries, setMonthlySalaries] = useState<MonthlySalary[]>([]);
 
   // 新收入项目表单状态
   const [newIncome, setNewIncome] = useState<IncomeItem>({
@@ -128,11 +126,6 @@ export const useDisposableIncomeState = () => {
         setExpenseItems(JSON.parse(storedExpenses));
       }
 
-      // 读取月度工资数据
-      const storedSalaries = Taro.getStorageSync("monthlySalaries");
-      if (storedSalaries) {
-        setMonthlySalaries(JSON.parse(storedSalaries));
-      }
     } catch (error) {
       console.error("初始化数据失败", error);
     }
@@ -293,9 +286,7 @@ export const useDisposableIncomeState = () => {
   // 检查是否有工资收入
   const hasSalaryIncome = incomeItems.some(
     (item) => item.type === "salary" && Number(item.amount) > 0
-  ) || monthlySalaries.length > 0
-
-
+  )
 
   // 设置工资收入
   const setSalaryIncome = (amount: string, description: string = "") => {
@@ -326,66 +317,33 @@ export const useDisposableIncomeState = () => {
     }
   };
 
-  // 获取当前月份的工资收入
-  const getCurrentMonthSalary = () => {
-    const currentMonth = new Date().getMonth() + 1; // 获取当前月份 (1-12)
 
-    // 在月度工资数据中查找当前月份
-    const monthData = monthlySalaries.find(item => item.month === currentMonth);
 
-    if (monthData) {
+
+
+
+  // 根据月度工资数据更新收入
+  const updateMonthlyIncome = (salaries: MonthlySalary[]) => {
+    // 先找出并删除所有工资类型的收入
+    const nonSalaryIncomes = incomeItems.filter(item => item.type !== "salary");
+
+    // 为每个月创建工资收入项
+    const salaryIncomes = salaries.map(monthData => {
+      const description = `${monthData.month}月工资${monthData.withBonus ? " (含奖金)" : ""}`;
+      // 总金额 = 工资 + 奖金（如果有）
+      const totalAmount = monthData.salary + (monthData.withBonus ? monthData.bonusAfterTax : 0);
+
       return {
-        salary: monthData.salary,
-        preTaxSalary: monthData.preTaxSalary,
-        withBonus: monthData.withBonus,
-        bonusAmount: monthData.bonusAmount,
-        bonusAfterTax: monthData.bonusAfterTax
+        id: generateId(),
+        type: "salary",
+        amount: totalAmount.toString(),
+        description,
+        isFixed: true,
       };
-    }
+    });
 
-    // 如果没有找到当前月份的数据，返回默认值
-    return {
-      salary: 0,
-      preTaxSalary: 0,
-      withBonus: false,
-      bonusAmount: 0,
-      bonusAfterTax: 0
-    };
-  };
-
-  // 获取指定月份的工资收入
-  const getMonthSalary = (month: number) => {
-    if (month < 1 || month > 12) {
-      return {
-        salary: 0,
-        preTaxSalary: 0,
-        withBonus: false,
-        bonusAmount: 0,
-        bonusAfterTax: 0
-      };
-    }
-
-    // 在月度工资数据中查找指定月份
-    const monthData = monthlySalaries.find(item => item.month === month);
-
-    if (monthData) {
-      return {
-        salary: monthData.salary,
-        preTaxSalary: monthData.preTaxSalary,
-        withBonus: monthData.withBonus,
-        bonusAmount: monthData.bonusAmount,
-        bonusAfterTax: monthData.bonusAfterTax
-      };
-    }
-
-    // 如果没有找到指定月份的数据，返回默认值
-    return {
-      salary: 0,
-      preTaxSalary: 0,
-      withBonus: false,
-      bonusAmount: 0,
-      bonusAfterTax: 0
-    };
+    // 更新收入列表
+    setIncomeItems([...nonSalaryIncomes, ...salaryIncomes]);
   };
 
   // 导出所有状态和方法
@@ -393,7 +351,6 @@ export const useDisposableIncomeState = () => {
     // 状态
     incomeItems,
     expenseItems,
-    monthlySalaries,
     newIncome,
     newExpense,
     summary,
@@ -412,13 +369,12 @@ export const useDisposableIncomeState = () => {
     updateIncome,
     updateExpense,
     setSalaryIncome,
+    updateMonthlyIncome,
     hasSalaryIncome,
 
     // 工具方法
     getIncomeTypeLabel,
     getExpenseTypeLabel,
-    getCurrentMonthSalary,
-    getMonthSalary
   };
 };
 

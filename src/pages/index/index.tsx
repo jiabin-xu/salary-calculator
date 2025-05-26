@@ -142,6 +142,8 @@ const Index: React.FC = () => {
 
         // 存储到localStorage
         Taro.setStorageSync("monthlySalaries", JSON.stringify(monthlySalaries));
+
+        // 返回可支配收入页面，由该页面的useEffect处理更新收入项目
       } catch (e) {
         console.error("存储工资数据失败", e);
       }

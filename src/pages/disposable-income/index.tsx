@@ -1,27 +1,16 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react";
-import { View, Text, ScrollView, Image, Switch } from "@tarojs/components";
+import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import PageHeader from "../../components/salary/PageHeader";
-import BasePanel from "../../components/BasePanel";
-import Input from "../../components/Input";
-import FormField from "../../components/FormField";
 import { useShare } from "@/utils/shareHooks";
 import useDisposableIncomeState, {
-  INCOME_TYPES,
-  EXPENSE_TYPES,
-  IncomeItem,
-  ExpenseItem,
+  MonthlySalary,
 } from "../../hooks/useDisposableIncomeState";
-import FinancialChart from "../../components/FinancialChart";
-import TrendChart from "../../components/TrendChart";
-import useTrendData from "../../hooks/useTrendData";
 import useMonthlyData from "../../hooks/useMonthlyData";
 
 // 导入组件
 import SalarySelectionGuide from "../../components/disposable-income/SalarySelectionGuide";
 import FinancialSummaryHeader from "../../components/disposable-income/FinancialSummaryHeader";
 import YearlyForecastCard from "../../components/disposable-income/YearlyForecastCard";
-import MonthlyIncomeCard from "../../components/disposable-income/MonthlyIncomeCard";
 import { FinancialStatsSummary } from "../../components/disposable-income/FinancialStatsCard";
 import FinancialItemsList from "../../components/disposable-income/FinancialItemsList";
 import BottomActionButtons from "../../components/disposable-income/BottomActionButtons";
@@ -47,23 +36,11 @@ const DisposableIncome: React.FC = () => {
     getIncomeTypeLabel,
     getExpenseTypeLabel,
     hasSalaryIncome,
-    getMonthSalary,
+    updateMonthlyIncome,
   } = useDisposableIncomeState();
 
   // 使用月度数据Hook
   const { getCurrentMonth, calculateYearlyData } = useMonthlyData();
-
-  // 使用趋势数据 Hook
-  // const { getRecentMonths, getAverages, getTrends } = useTrendData();
-
-  // 获取最近6个月的数据
-  // const recentMonthsData = getRecentMonths(6);
-
-  // 获取平均数据
-  // const { avgIncome, avgExpense, avgDisposable } = getAverages();
-
-  // 获取趋势
-  // const { incomeUp, expenseUp, disposableUp } = getTrends();
 
   // UI状态
   const [formType, setFormType] = useState<"income" | "expense" | null>(null);
@@ -79,6 +56,20 @@ const DisposableIncome: React.FC = () => {
     () => calculateYearlyData(summary.totalIncome, summary.totalExpense),
     [summary.totalIncome, summary.totalExpense]
   );
+
+  // 在页面加载时，从 localStorage 读取月度工资数据并更新收入
+  useEffect(() => {
+    try {
+      const storedSalaries = Taro.getStorageSync("monthlySalaries");
+      if (storedSalaries) {
+        const salariesData = JSON.parse(storedSalaries) as MonthlySalary[];
+        // 使用月度工资数据更新收入项目
+        updateMonthlyIncome(salariesData);
+      }
+    } catch (error) {
+      console.error("读取或更新月度工资数据失败", error);
+    }
+  }, []);
 
   // 添加新收入
   const handleAddIncome = useCallback(() => {
@@ -144,12 +135,6 @@ const DisposableIncome: React.FC = () => {
 
       {/* 年度预测卡片 */}
       <YearlyForecastCard yearlyData={yearlyData} />
-
-      {/* 月度工资卡片 */}
-      <MonthlyIncomeCard
-        monthName={currentMonth.name}
-        monthlySalary={getMonthSalary(currentMonth.number)}
-      />
 
       {/* 固定与临时收支统计 */}
       <FinancialStatsSummary summary={summary} />
