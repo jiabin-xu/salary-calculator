@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Switch } from "@tarojs/components";
+import { View, Text, Switch, Picker } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import FormField from "../FormField";
 import Input from "../Input";
@@ -37,6 +37,7 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
             amount: "",
             description: "",
             isFixed: true,
+            month: new Date().getMonth() + 1, // 默认为当前月份
           }
       : (selectedItem as ExpenseItem) ||
           newExpense || {
@@ -45,13 +46,25 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
             amount: "",
             description: "",
             isFixed: true,
+            month: new Date().getMonth() + 1, // 默认为当前月份
           }
   );
+
+  // 月份选项
+  const monthOptions = Array.from({ length: 12 }, (_, i) => ({
+    label: `${i + 1}月`,
+    value: i + 1,
+  }));
 
   // 当选中的项目改变时，更新表单数据
   useEffect(() => {
     if (selectedItem) {
-      setFormData(selectedItem);
+      // 如果selectedItem没有month属性，添加当前月份
+      const updatedItem = {
+        ...selectedItem,
+        month: selectedItem.month || new Date().getMonth() + 1,
+      };
+      setFormData(updatedItem);
     }
   }, [selectedItem]);
 
@@ -64,6 +77,17 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
   const handleSubmit = () => {
     onSubmit(formData);
   };
+
+  // 处理月份选择
+  const handleMonthChange = (e) => {
+    const monthIndex = e.detail.value;
+    updateFormData({ month: monthOptions[monthIndex].value });
+  };
+
+  // 找到当前月份在选项中的索引
+  const currentMonthIndex = monthOptions.findIndex(
+    (option) => option.value === formData.month
+  );
 
   return (
     <View className="fixed inset-0 bg-black/50 flex items-end z-50">
@@ -113,6 +137,23 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
                 placeholder="请输入金额"
                 onChange={(value) => updateFormData({ amount: value })}
               />
+            </FormField>
+
+            <FormField label="月份">
+              <Picker
+                mode="selector"
+                range={monthOptions}
+                rangeKey="label"
+                onChange={handleMonthChange}
+                value={currentMonthIndex >= 0 ? currentMonthIndex : 0}
+              >
+                <View className="flex items-center justify-between p-2 bg-gray-100 rounded-md">
+                  <Text className="text-gray-700">
+                    {formData.month ? `${formData.month}月` : "请选择月份"}
+                  </Text>
+                  <Text className="text-gray-500">▼</Text>
+                </View>
+              </Picker>
             </FormField>
 
             <FormField label="描述">
@@ -174,6 +215,23 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
                 placeholder="请输入金额"
                 onChange={(value) => updateFormData({ amount: value })}
               />
+            </FormField>
+
+            <FormField label="月份">
+              <Picker
+                mode="selector"
+                range={monthOptions}
+                rangeKey="label"
+                onChange={handleMonthChange}
+                value={currentMonthIndex >= 0 ? currentMonthIndex : 0}
+              >
+                <View className="flex items-center justify-between p-2 bg-gray-100 rounded-md">
+                  <Text className="text-gray-700">
+                    {formData.month ? `${formData.month}月` : "请选择月份"}
+                  </Text>
+                  <Text className="text-gray-500">▼</Text>
+                </View>
+              </Picker>
             </FormField>
 
             <FormField label="描述">

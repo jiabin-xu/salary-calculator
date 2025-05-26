@@ -35,6 +35,7 @@ const DisposableIncome: React.FC = () => {
     getExpenseTypeLabel,
     hasSalaryIncome,
     updateMonthlyIncome,
+    calculateSummary,
   } = useDisposableIncomeState();
 
   // 使用月度数据Hook
@@ -48,9 +49,19 @@ const DisposableIncome: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<
     IncomeItem | ExpenseItem | null
   >(null);
+  const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
 
   // 当前月份
   const currentMonth = getCurrentMonth;
+
+  // 更新月份筛选，同时重新计算汇总数据
+  const handleMonthChange = useCallback(
+    (month: number | null) => {
+      setSelectedMonth(month);
+      calculateSummary(month);
+    },
+    [calculateSummary]
+  );
 
   // 计算年度数据
   const yearlyData = useMemo(
@@ -76,28 +87,46 @@ const DisposableIncome: React.FC = () => {
   const handleSubmitData = useCallback(
     (data: IncomeItem | ExpenseItem) => {
       try {
+        // 确保数据有月份字段
+        const dataWithMonth = {
+          ...data,
+          month: data.month || currentMonth.number,
+        };
+
         // 检查是否为编辑现有项目
-        if (data.id) {
+        if (dataWithMonth.id) {
           if (formType === "income") {
-            updateIncome(data.id, data as IncomeItem);
+            updateIncome(dataWithMonth.id, dataWithMonth as IncomeItem);
           } else {
-            updateExpense(data.id, data as ExpenseItem);
+            updateExpense(dataWithMonth.id, dataWithMonth as ExpenseItem);
           }
         } else {
           // 添加新项目
           if (formType === "income") {
-            addIncome(data as IncomeItem);
+            addIncome(dataWithMonth as IncomeItem);
           } else {
-            addExpense(data as ExpenseItem);
+            addExpense(dataWithMonth as ExpenseItem);
           }
         }
         // 重置表单状态
         handleCloseForm();
+
+        // 更新汇总数据
+        calculateSummary(selectedMonth);
       } catch (error) {
         Taro.showToast({ title: error.message, icon: "none" });
       }
     },
-    [formType, addIncome, addExpense, updateIncome, updateExpense]
+    [
+      formType,
+      addIncome,
+      addExpense,
+      updateIncome,
+      updateExpense,
+      currentMonth,
+      calculateSummary,
+      selectedMonth,
+    ]
   );
 
   // 处理编辑收入
@@ -143,7 +172,7 @@ const DisposableIncome: React.FC = () => {
       {/* 顶部财务摘要 */}
       <FinancialSummaryHeader
         summary={summary}
-        currentMonth={currentMonth.name}
+        currentMonth={selectedMonth ? `${selectedMonth}月` : currentMonth.name}
         yearlyData={yearlyData}
       />
 
@@ -159,6 +188,8 @@ const DisposableIncome: React.FC = () => {
         onEditIncome={handleEditIncome}
         onEditExpense={handleEditExpense}
         onFilterChange={handleFilterChange}
+        onMonthChange={handleMonthChange}
+        selectedMonth={selectedMonth}
       />
 
       {/* 底部添加按钮 */}

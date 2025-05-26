@@ -8,6 +8,7 @@ export interface IncomeItem {
   amount: string;
   description: string;
   isFixed: boolean; // 是否为固定收入
+  month?: number; // 月份信息
 }
 
 // 支出类型定义
@@ -17,6 +18,7 @@ export interface ExpenseItem {
   amount: string;
   description: string;
   isFixed: boolean; // 是否为固定支出
+  month?: number; // 月份信息
 }
 
 // 收入类型选项
@@ -66,6 +68,7 @@ export interface FinancialSummary {
   temporaryIncome: number;
   fixedExpense: number;
   temporaryExpense: number;
+  selectedMonth?: number | null;
 }
 
 // 生成唯一ID
@@ -77,8 +80,6 @@ export const useDisposableIncomeState = () => {
 
   // 支出项目
   const [expenseItems, setExpenseItems] = useState<ExpenseItem[]>([]);
-
-
 
   // 汇总数据
   const [summary, setSummary] = useState<FinancialSummary>({
@@ -137,24 +138,33 @@ export const useDisposableIncomeState = () => {
   }, [expenseItems]);
 
   // 计算汇总数据
-  const calculateSummary = () => {
+  const calculateSummary = (selectedMonth?: number | null) => {
+    // 根据月份筛选收入和支出
+    const filteredIncomes = selectedMonth
+      ? incomeItems.filter(item => item.month === selectedMonth)
+      : incomeItems;
+
+    const filteredExpenses = selectedMonth
+      ? expenseItems.filter(item => item.month === selectedMonth)
+      : expenseItems;
+
     // 计算固定收入
-    const fixedIncome = incomeItems
+    const fixedIncome = filteredIncomes
       .filter((item) => item.isFixed)
       .reduce((sum, item) => sum + Number(item.amount), 0);
 
     // 计算临时收入
-    const temporaryIncome = incomeItems
+    const temporaryIncome = filteredIncomes
       .filter((item) => !item.isFixed)
       .reduce((sum, item) => sum + Number(item.amount), 0);
 
     // 计算固定支出
-    const fixedExpense = expenseItems
+    const fixedExpense = filteredExpenses
       .filter((item) => item.isFixed)
       .reduce((sum, item) => sum + Number(item.amount), 0);
 
     // 计算临时支出
-    const temporaryExpense = expenseItems
+    const temporaryExpense = filteredExpenses
       .filter((item) => !item.isFixed)
       .reduce((sum, item) => sum + Number(item.amount), 0);
 
@@ -184,7 +194,8 @@ export const useDisposableIncomeState = () => {
       fixedIncome,
       temporaryIncome,
       fixedExpense,
-      temporaryExpense
+      temporaryExpense,
+      selectedMonth
     };
 
     setSummary(newSummary);
@@ -205,6 +216,7 @@ export const useDisposableIncomeState = () => {
     const newItem = {
       ...income,
       id: income.id || generateId(),
+      month: income.isFixed ? (income.month || new Date().getMonth() + 1) : undefined
     };
 
     setIncomeItems(prevItems => [...prevItems, newItem]);
@@ -220,6 +232,7 @@ export const useDisposableIncomeState = () => {
     const newItem = {
       ...expense,
       id: expense.id || generateId(),
+      month: expense.isFixed ? (expense.month || new Date().getMonth() + 1) : undefined
     };
 
     setExpenseItems(prevItems => [...prevItems, newItem]);
@@ -239,18 +252,42 @@ export const useDisposableIncomeState = () => {
   // 更新收入项
   const updateIncome = (id: string, updatedIncome: Partial<IncomeItem>) => {
     setIncomeItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id ? { ...item, ...updatedIncome } : item
-      )
+      prevItems.map(item => {
+        if (item.id === id) {
+          const updated = { ...item, ...updatedIncome };
+          // 如果是固定收入但没有月份，则添加当前月份
+          if (updated.isFixed && !updated.month) {
+            updated.month = new Date().getMonth() + 1;
+          }
+          // 如果不是固定收入，则移除月份
+          if (!updated.isFixed) {
+            updated.month = undefined;
+          }
+          return updated;
+        }
+        return item;
+      })
     );
   };
 
   // 更新支出项
   const updateExpense = (id: string, updatedExpense: Partial<ExpenseItem>) => {
     setExpenseItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id ? { ...item, ...updatedExpense } : item
-      )
+      prevItems.map(item => {
+        if (item.id === id) {
+          const updated = { ...item, ...updatedExpense };
+          // 如果是固定支出但没有月份，则添加当前月份
+          if (updated.isFixed && !updated.month) {
+            updated.month = new Date().getMonth() + 1;
+          }
+          // 如果不是固定支出，则移除月份
+          if (!updated.isFixed) {
+            updated.month = undefined;
+          }
+          return updated;
+        }
+        return item;
+      })
     );
   };
 
@@ -271,8 +308,6 @@ export const useDisposableIncomeState = () => {
     (item) => item.type === "salary" && Number(item.amount) > 0
   )
 
-
-
   // 根据月度工资数据更新收入
   const updateMonthlyIncome = (salaries: MonthlySalary[]) => {
     // 先找出并删除所有工资类型的收入
@@ -290,6 +325,7 @@ export const useDisposableIncomeState = () => {
         amount: totalAmount.toString(),
         description,
         isFixed: true,
+        month: monthData.month
       };
     });
 
@@ -308,7 +344,6 @@ export const useDisposableIncomeState = () => {
     setIncomeItems,
     setExpenseItems,
 
-
     // 操作方法
     addIncome,
     addExpense,
@@ -318,6 +353,7 @@ export const useDisposableIncomeState = () => {
     updateExpense,
     updateMonthlyIncome,
     hasSalaryIncome,
+    calculateSummary,
 
     // 工具方法
     getIncomeTypeLabel,

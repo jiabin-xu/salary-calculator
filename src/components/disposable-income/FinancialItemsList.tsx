@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, ScrollView } from "@tarojs/components";
+import React, { useState } from "react";
+import { View, Text, ScrollView, Picker } from "@tarojs/components";
 import { IncomeItem, ExpenseItem } from "../../hooks/useDisposableIncomeState";
 import FinancialListItem from "./FinancialListItem";
 
@@ -14,6 +14,8 @@ interface FinancialItemsListProps {
   onEditIncome?: (item: IncomeItem) => void;
   onEditExpense?: (item: ExpenseItem) => void;
   onFilterChange: (type: "all" | "income" | "expense") => void;
+  onMonthChange?: (month: number | null) => void;
+  selectedMonth: number | null;
 }
 
 const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
@@ -27,37 +29,83 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
   onEditIncome,
   onEditExpense,
   onFilterChange,
+  onMonthChange,
+  selectedMonth,
 }) => {
+  // 月份选项
+  const monthOptions = [
+    { label: "全部月份", value: null },
+    ...Array.from({ length: 12 }, (_, i) => ({
+      label: `${i + 1}月`,
+      value: i + 1,
+    })),
+  ];
+
+  // 根据月份筛选收入项目
+  const filteredIncomeItems = selectedMonth
+    ? incomeItems.filter((item) => item.month === selectedMonth)
+    : incomeItems;
+
+  // 根据月份筛选支出项目
+  const filteredExpenseItems = selectedMonth
+    ? expenseItems.filter((item) => item.month === selectedMonth)
+    : expenseItems;
+
+  // 处理月份选择
+  const handleMonthChange = (e) => {
+    const monthIndex = e.detail.value;
+    const newMonth = monthOptions[monthIndex].value;
+    if (onMonthChange) {
+      onMonthChange(newMonth);
+    }
+  };
+
+  // 找到当前选择的月份在选项中的索引
+  const currentMonthIndex = selectedMonth
+    ? monthOptions.findIndex((option) => option.value === selectedMonth)
+    : 0;
+
+  // 月份相关图标/季节样式
+  const getMonthIcon = (month: number | null) => {
+    if (month === null) return "📅"; // 日历图标表示全部月份
+
+    // 根据季节返回不同图标
+    if (month >= 3 && month <= 5) return "🌸"; // 春季
+    if (month >= 6 && month <= 8) return "☀️"; // 夏季
+    if (month >= 9 && month <= 11) return "🍂"; // 秋季
+    return "❄️"; // 冬季
+  };
+
   return (
     <View className="mt-4 mx-4">
       <View className="flex justify-between items-center mb-3">
         <Text className="text-gray-800 font-medium">收支明细</Text>
-        <View className="flex">
+        <View className="flex items-center bg-gray-100 rounded-full p-1">
           <Text
-            className={`text-xs px-3 py-1 rounded-full mr-2 ${
+            className={`text-xs px-3 py-1.5 rounded-full mr-1 ${
               filterType === "all"
                 ? "bg-gray-800 text-white"
-                : "bg-gray-200 text-gray-600"
+                : "bg-transparent text-gray-600"
             }`}
             onClick={() => onFilterChange("all")}
           >
             全部
           </Text>
           <Text
-            className={`text-xs px-3 py-1 rounded-full mr-2 ${
+            className={`text-xs px-3 py-1.5 rounded-full mr-1 ${
               filterType === "income"
                 ? "bg-green-600 text-white"
-                : "bg-gray-200 text-gray-600"
+                : "bg-transparent text-gray-600"
             }`}
             onClick={() => onFilterChange("income")}
           >
             收入
           </Text>
           <Text
-            className={`text-xs px-3 py-1 rounded-full ${
+            className={`text-xs px-3 py-1.5 rounded-full ${
               filterType === "expense"
                 ? "bg-red-600 text-white"
-                : "bg-gray-200 text-gray-600"
+                : "bg-transparent text-gray-600"
             }`}
             onClick={() => onFilterChange("expense")}
           >
@@ -66,10 +114,34 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
         </View>
       </View>
 
+      <View className="mb-4">
+        <Picker
+          mode="selector"
+          range={monthOptions}
+          rangeKey="label"
+          onChange={handleMonthChange}
+          value={currentMonthIndex}
+        >
+          <View className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+            <View className="flex items-center">
+              <Text className="mr-2 text-lg">
+                {getMonthIcon(monthOptions[currentMonthIndex].value)}
+              </Text>
+              <Text className="text-gray-700 font-medium">
+                {monthOptions[currentMonthIndex].label}
+              </Text>
+            </View>
+            <Text className="text-gray-500">
+              <Text className="transform rotate-90 inline-block">➤</Text>
+            </Text>
+          </View>
+        </Picker>
+      </View>
+
       <ScrollView scrollY className="max-h-96">
         {/* 收入项目 */}
         {(filterType === "all" || filterType === "income") &&
-          incomeItems.map((item) => (
+          filteredIncomeItems.map((item) => (
             <FinancialListItem
               key={item.id}
               item={item}
@@ -82,7 +154,7 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
 
         {/* 支出项目 */}
         {(filterType === "all" || filterType === "expense") &&
-          expenseItems.map((item) => (
+          filteredExpenseItems.map((item) => (
             <FinancialListItem
               key={item.id}
               item={item}
@@ -95,15 +167,27 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
 
         {/* 无数据提示 */}
         {((filterType === "all" &&
-          incomeItems.length === 0 &&
-          expenseItems.length === 0) ||
-          (filterType === "income" && incomeItems.length === 0) ||
-          (filterType === "expense" && expenseItems.length === 0)) && (
+          filteredIncomeItems.length === 0 &&
+          filteredExpenseItems.length === 0) ||
+          (filterType === "income" && filteredIncomeItems.length === 0) ||
+          (filterType === "expense" && filteredExpenseItems.length === 0)) && (
           <View className="flex flex-col items-center justify-center py-10">
-            <View className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-3">
-              <Text className="text-gray-400 text-2xl">📊</Text>
+            <View className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-3">
+              <Text className="text-gray-400 text-2xl">
+                {selectedMonth ? getMonthIcon(selectedMonth) : "📊"}
+              </Text>
             </View>
-            <Text className="text-gray-400 text-sm">暂无收支记录</Text>
+            <Text className="text-gray-400 text-sm">
+              {selectedMonth
+                ? `${selectedMonth}月暂无${
+                    filterType === "income"
+                      ? "收入"
+                      : filterType === "expense"
+                      ? "支出"
+                      : "收支"
+                  }记录`
+                : "暂无收支记录"}
+            </Text>
           </View>
         )}
       </ScrollView>
