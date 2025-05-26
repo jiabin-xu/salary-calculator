@@ -1,7 +1,8 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/result/index'
+    'pages/result/index',
+    'pages/disposable-income/index'
   ],
   window: {
     backgroundTextStyle: 'light',

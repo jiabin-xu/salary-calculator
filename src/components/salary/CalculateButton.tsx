@@ -4,9 +4,13 @@ import { CalcIcon } from "../icons";
 
 interface CalculateButtonProps {
   onClick: () => void;
+  text?: string;
 }
 
-const CalculateButton: React.FC<CalculateButtonProps> = ({ onClick }) => {
+const CalculateButton: React.FC<CalculateButtonProps> = ({
+  onClick,
+  text = "计算薪资预估",
+}) => {
   return (
     <View className="fixed left-0 right-0 bottom-0 p-4 pb-safe bg-white border-t border-gray-200 shadow-lg">
       <Button
@@ -16,7 +20,7 @@ const CalculateButton: React.FC<CalculateButtonProps> = ({ onClick }) => {
         <View className="mr-2">
           <CalcIcon />
         </View>
-        计算薪资预估
+        {text}
       </Button>
     </View>
   );

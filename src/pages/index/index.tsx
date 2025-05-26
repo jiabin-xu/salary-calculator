@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { View } from "@tarojs/components";
-import Taro from "@tarojs/taro";
+import Taro, { useRouter } from "@tarojs/taro";
 import { getCityByCode } from "../../utils/cityMapping";
 import { useBonusState } from "../../hooks/useBonusState";
 import { useInsuranceState } from "../../hooks/useInsuranceState";
 import { useDeductionState } from "../../hooks/useDeductionState";
+import { calculateYearlySalary } from "../../utils/calculator";
 
 // 导入拆分后的组件
 import PageHeader from "../../components/salary/PageHeader";
@@ -23,6 +24,10 @@ const Index: React.FC = () => {
 
   // 月薪
   const [monthlySalary, setMonthlySalary] = useState<string>("10000");
+  const { from } = useRouter().params;
+
+  const isFromDisposableIncome = from === "disposableIncome";
+
   useShare();
 
   // 使用useInsuranceState管理社保公积金相关状态
@@ -73,6 +78,57 @@ const Index: React.FC = () => {
       return;
     }
 
+    // 构建SalaryParams对象
+    const salaryParams = {
+      monthlySalary: Number(monthlySalary),
+      cityId: selectedCity.id || selectedCity.code,
+      socialInsuranceBase: Number(socialInsuranceBase),
+      housingFundBase: Number(housingFundBase),
+      housingFundRate: Number(housingFundRate) / 100,
+      totalDeductions: Object.values(deductions).reduce(
+        (sum, value) => sum + Number(value),
+        0
+      ),
+      bonus: {
+        months: Number(bonusMonths),
+        payMonth: Number(bonusMonth),
+        calculationType: bonusCalcType as "separate" | "combined",
+      },
+    };
+
+    // 计算12个月的工资结果
+    const calculatedResult = calculateYearlySalary(salaryParams);
+
+    // 将12个月的工资存储到localStorage中
+    try {
+      // 格式化工资数据，只保留月份和税后工资
+      const monthlySalaries = calculatedResult.monthlyDetail.map((detail) => ({
+        month: detail.month,
+        salary: detail.afterTaxSalary,
+        preTaxSalary: detail.preTaxSalary,
+        withBonus: Boolean(detail.bonus),
+        bonusAmount: detail.bonus || 0,
+        bonusAfterTax: detail.bonus ? detail.bonus - (detail.bonusTax || 0) : 0,
+      }));
+
+      // 存储到localStorage
+      Taro.setStorageSync("monthlySalaries", JSON.stringify(monthlySalaries));
+
+      // 存储年度总结果
+      Taro.setStorageSync(
+        "yearlySalaryResult",
+        JSON.stringify({
+          totalPreTax: calculatedResult.yearlyTotal.preTaxSalary,
+          totalAfterTax: calculatedResult.yearlyTotal.afterTaxSalary,
+          totalTax: calculatedResult.yearlyTotal.tax,
+          socialInsurance: calculatedResult.yearlyTotal.socialInsurance,
+          housingFund: calculatedResult.yearlyTotal.housingFund,
+        })
+      );
+    } catch (e) {
+      console.error("存储工资数据失败", e);
+    }
+
     // 将参数扁平化为查询字符串
     const queryParams = new URLSearchParams();
 
@@ -96,16 +152,33 @@ const Index: React.FC = () => {
         .toString()
     );
 
-    // 添加专项附加扣除 - 只添加有值的项
-    // Object.entries(deductions).forEach(([key, value]) => {
-    //   if (Number(value) > 0) {
-    //     queryParams.append(`ded_${key}`, value);
-    //   }
-    // });
+    // 如果是从可支配收入页面来的，需要触发事件并返回
+    if (isFromDisposableIncome) {
+      // 触发事件，传递年度工资总额
+      Taro.eventCenter.trigger("salary_calculated", {
+        afterTax: calculatedResult.yearlyTotal.afterTaxSalary,
+        beforeTax: calculatedResult.yearlyTotal.preTaxSalary,
+        monthlySalaries: calculatedResult.monthlyDetail.map((detail) => ({
+          month: detail.month,
+          salary: detail.afterTaxSalary,
+        })),
+      });
 
-    // 将参数传递到结果页面
+      Taro.navigateTo({
+        url: "/pages/disposable-income/index",
+      });
+    } else {
+      // 将参数传递到结果页面
+      Taro.navigateTo({
+        url: `/pages/result/index?${queryParams.toString()}`,
+      });
+    }
+  };
+
+  // 导航到可支配收入计算器
+  const handleNavigateToDisposableIncome = () => {
     Taro.navigateTo({
-      url: `/pages/result/index?${queryParams.toString()}`,
+      url: "/pages/disposable-income/index",
     });
   };
 
@@ -134,6 +207,25 @@ const Index: React.FC = () => {
         onDeductionsClick={() => setDeductionsModalOpen(true)}
         onBonusClick={() => setBonusModalOpen(true)}
       />
+
+      {/* 可支配收入计算器入口 */}
+      <View
+        className="bg-white shadow-sm rounded-lg p-4 mx-4 mt-4 flex items-center justify-between"
+        onClick={handleNavigateToDisposableIncome}
+      >
+        <View className="flex items-center">
+          <View className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center mr-3">
+            <View className="text-white text-lg font-bold">¥</View>
+          </View>
+          <View>
+            <View className="text-gray-800 font-medium">可支配收入计算器</View>
+            <View className="text-gray-500 text-xs">
+              管理收入支出，计算可支配资金
+            </View>
+          </View>
+        </View>
+        <View className="text-blue-500">查看 &gt;</View>
+      </View>
 
       {/* 社保公积金设置弹窗 */}
       <InsuranceModal
@@ -176,7 +268,10 @@ const Index: React.FC = () => {
       />
 
       {/* 计算按钮 */}
-      <CalculateButton onClick={handleCalculate} />
+      <CalculateButton
+        onClick={handleCalculate}
+        text={isFromDisposableIncome ? "添加收入" : undefined}
+      />
     </View>
   );
 };
