@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Switch } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import FormField from "../FormField";
@@ -12,11 +12,10 @@ import {
 
 interface IncomeExpenseFormProps {
   formType: "income" | "expense";
-  newIncome: IncomeItem;
-  newExpense: ExpenseItem;
-  setNewIncome: (income: IncomeItem) => void;
-  setNewExpense: (expense: ExpenseItem) => void;
-  onAdd: () => void;
+  newIncome?: IncomeItem;
+  newExpense?: ExpenseItem;
+  selectedItem?: IncomeItem | ExpenseItem;
+  onSubmit: (data: IncomeItem | ExpenseItem) => void;
   onClose: () => void;
 }
 
@@ -24,17 +23,60 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
   formType,
   newIncome,
   newExpense,
-  setNewIncome,
-  setNewExpense,
-  onAdd,
+  selectedItem,
+  onSubmit,
   onClose,
 }) => {
+  // 本地状态，用于跟踪表单中的数据变化
+  const [formData, setFormData] = useState<IncomeItem | ExpenseItem>(
+    formType === "income"
+      ? (selectedItem as IncomeItem) ||
+          newIncome || {
+            id: "",
+            type: "salary",
+            amount: "",
+            description: "",
+            isFixed: true,
+          }
+      : (selectedItem as ExpenseItem) ||
+          newExpense || {
+            id: "",
+            type: "rent",
+            amount: "",
+            description: "",
+            isFixed: true,
+          }
+  );
+
+  // 当选中的项目改变时，更新表单数据
+  useEffect(() => {
+    if (selectedItem) {
+      setFormData(selectedItem);
+    }
+  }, [selectedItem]);
+
+  // 更新表单数据
+  const updateFormData = (data: Partial<IncomeItem | ExpenseItem>) => {
+    setFormData((prev) => ({ ...prev, ...data }));
+  };
+
+  // 提交表单
+  const handleSubmit = () => {
+    onSubmit(formData);
+  };
+
   return (
     <View className="fixed inset-0 bg-black/50 flex items-end z-50">
       <View className="bg-white w-full rounded-t-2xl p-5 animate-slide-up">
         <View className="flex justify-between items-center mb-4">
           <Text className="text-gray-800 font-medium text-lg">
-            {formType === "income" ? "添加收入" : "添加支出"}
+            {selectedItem
+              ? formType === "income"
+                ? "编辑收入"
+                : "编辑支出"
+              : formType === "income"
+              ? "添加收入"
+              : "添加支出"}
           </Text>
           <View
             className="w-8 h-8 flex items-center justify-center"
@@ -52,13 +94,11 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
                   <View
                     key={type.value}
                     className={`text-center p-2 rounded-md text-sm ${
-                      newIncome.type === type.value
+                      formData.type === type.value
                         ? "bg-blue-100 text-blue-700"
                         : "bg-gray-100 text-gray-700"
                     }`}
-                    onClick={() =>
-                      setNewIncome({ ...newIncome, type: type.value })
-                    }
+                    onClick={() => updateFormData({ type: type.value })}
                   >
                     {type.label}
                   </View>
@@ -69,35 +109,29 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
             <FormField label="金额">
               <Input
                 type="digit"
-                value={newIncome.amount}
+                value={formData.amount}
                 placeholder="请输入金额"
-                onChange={(value) =>
-                  setNewIncome({ ...newIncome, amount: value })
-                }
+                onChange={(value) => updateFormData({ amount: value })}
               />
             </FormField>
 
             <FormField label="描述">
               <Input
                 type="text"
-                value={newIncome.description}
+                value={formData.description}
                 placeholder="可选，如发放日期等"
-                onChange={(value) =>
-                  setNewIncome({ ...newIncome, description: value })
-                }
+                onChange={(value) => updateFormData({ description: value })}
               />
             </FormField>
 
             <FormField label="是否固定收入">
               <View className="flex items-center justify-between p-2 bg-gray-100 rounded-md">
                 <Text className="text-gray-700 text-sm">
-                  {newIncome.isFixed ? "固定收入" : "临时收入"}
+                  {formData.isFixed ? "固定收入" : "临时收入"}
                 </Text>
                 <Switch
-                  checked={newIncome.isFixed}
-                  onChange={(e) =>
-                    setNewIncome({ ...newIncome, isFixed: e.detail.value })
-                  }
+                  checked={formData.isFixed}
+                  onChange={(e) => updateFormData({ isFixed: e.detail.value })}
                   color="#10B981"
                 />
               </View>
@@ -108,9 +142,9 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
 
             <View
               className="bg-green-500 text-white text-center p-3 rounded-lg mt-6"
-              onClick={onAdd}
+              onClick={handleSubmit}
             >
-              确认添加
+              {selectedItem ? "保存修改" : "确认添加"}
             </View>
           </View>
         ) : (
@@ -121,13 +155,11 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
                   <View
                     key={type.value}
                     className={`text-center p-2 rounded-md text-sm ${
-                      newExpense.type === type.value
+                      formData.type === type.value
                         ? "bg-blue-100 text-blue-700"
                         : "bg-gray-100 text-gray-700"
                     }`}
-                    onClick={() =>
-                      setNewExpense({ ...newExpense, type: type.value })
-                    }
+                    onClick={() => updateFormData({ type: type.value })}
                   >
                     {type.label}
                   </View>
@@ -138,35 +170,30 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
             <FormField label="金额">
               <Input
                 type="digit"
-                value={newExpense.amount}
+                value={formData.amount}
                 placeholder="请输入金额"
-                onChange={(value) =>
-                  setNewExpense({ ...newExpense, amount: value })
-                }
+                onChange={(value) => updateFormData({ amount: value })}
               />
             </FormField>
 
             <FormField label="描述">
               <Input
                 type="text"
-                value={newExpense.description}
+                value={formData.description}
                 placeholder="可选，如扣款日期等"
-                onChange={(value) =>
-                  setNewExpense({ ...newExpense, description: value })
-                }
+                onChange={(value) => updateFormData({ description: value })}
               />
             </FormField>
 
             <FormField label="是否固定支出">
               <View className="flex items-center justify-between p-2 bg-gray-100 rounded-md">
                 <Text className="text-gray-700 text-sm">
-                  {newExpense.isFixed ? "固定支出" : "临时支出"}
+                  {formData.isFixed ? "固定支出" : "临时支出"}
                 </Text>
                 <Switch
-                  checked={newExpense.isFixed}
+                  checked={formData.isFixed}
                   onChange={(e) =>
-                    setNewExpense({
-                      ...newExpense,
+                    updateFormData({
                       isFixed: e.detail.value,
                     })
                   }
@@ -180,9 +207,9 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
 
             <View
               className="bg-red-500 text-white text-center p-3 rounded-lg mt-6"
-              onClick={onAdd}
+              onClick={handleSubmit}
             >
-              确认添加
+              {selectedItem ? "保存修改" : "确认添加"}
             </View>
           </View>
         )}

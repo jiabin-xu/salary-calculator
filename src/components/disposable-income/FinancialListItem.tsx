@@ -7,6 +7,7 @@ interface FinancialListItemProps {
   isIncome: boolean;
   getLabel: (type: string) => string;
   onDelete: (id: string) => void;
+  onEdit?: (item: IncomeItem | ExpenseItem) => void;
 }
 
 const FinancialListItem: React.FC<FinancialListItemProps> = ({
@@ -14,11 +15,22 @@ const FinancialListItem: React.FC<FinancialListItemProps> = ({
   isIncome,
   getLabel,
   onDelete,
+  onEdit,
 }) => {
   const amount = Number(item.amount);
 
+  // 处理长按事件，触发编辑功能
+  const handleLongPress = () => {
+    if (onEdit) {
+      onEdit(item);
+    }
+  };
+
   return (
-    <View className="flex items-center justify-between p-4 bg-white rounded-lg mb-3 shadow-sm">
+    <View
+      className="flex items-center justify-between p-4 bg-white rounded-lg mb-3 shadow-sm"
+      onLongPress={handleLongPress}
+    >
       <View className="flex items-center">
         <View
           className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${
@@ -73,12 +85,22 @@ const FinancialListItem: React.FC<FinancialListItemProps> = ({
         >
           {isIncome ? "+" : "-"}¥{amount.toFixed(0)}
         </Text>
-        <View
-          className="bg-gray-100 p-2 rounded-full"
-          onClick={() => onDelete(item.id)}
-        >
-          <View className="w-4 h-4 flex items-center justify-center">
-            <Text className="text-gray-500 text-xs">✕</Text>
+        <View className="flex">
+          <View
+            className="bg-gray-100 p-2 rounded-full mr-2"
+            onClick={() => onEdit && onEdit(item)}
+          >
+            <View className="w-4 h-4 flex items-center justify-center">
+              <Text className="text-gray-500 text-xs">✎</Text>
+            </View>
+          </View>
+          <View
+            className="bg-gray-100 p-2 rounded-full"
+            onClick={() => onDelete(item.id)}
+          >
+            <View className="w-4 h-4 flex items-center justify-center">
+              <Text className="text-gray-500 text-xs">✕</Text>
+            </View>
           </View>
         </View>
       </View>

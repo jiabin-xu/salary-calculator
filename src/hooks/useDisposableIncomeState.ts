@@ -79,23 +79,6 @@ export const useDisposableIncomeState = () => {
   const [expenseItems, setExpenseItems] = useState<ExpenseItem[]>([]);
 
 
-  // 新收入项目表单状态
-  const [newIncome, setNewIncome] = useState<IncomeItem>({
-    id: "",
-    type: "salary",
-    amount: "",
-    description: "",
-    isFixed: true
-  });
-
-  // 新支出项目表单状态
-  const [newExpense, setNewExpense] = useState<ExpenseItem>({
-    id: "",
-    type: "rent",
-    amount: "",
-    description: "",
-    isFixed: true
-  });
 
   // 汇总数据
   const [summary, setSummary] = useState<FinancialSummary>({
@@ -288,38 +271,6 @@ export const useDisposableIncomeState = () => {
     (item) => item.type === "salary" && Number(item.amount) > 0
   )
 
-  // 设置工资收入
-  const setSalaryIncome = (amount: string, description: string = "") => {
-    // 检查是否已有工资收入
-    const existingSalaryIndex = incomeItems.findIndex(
-      (item) => item.type === "salary" && item.isFixed
-    );
-
-    if (existingSalaryIndex >= 0) {
-      // 更新现有工资收入
-      const updatedItems = [...incomeItems];
-      updatedItems[existingSalaryIndex] = {
-        ...updatedItems[existingSalaryIndex],
-        amount,
-        description,
-      };
-      setIncomeItems(updatedItems);
-    } else {
-      // 添加新工资收入
-      const newSalary: IncomeItem = {
-        id: generateId(),
-        type: "salary",
-        amount,
-        description,
-        isFixed: true,
-      };
-      setIncomeItems([...incomeItems, newSalary]);
-    }
-  };
-
-
-
-
 
 
   // 根据月度工资数据更新收入
@@ -351,15 +302,12 @@ export const useDisposableIncomeState = () => {
     // 状态
     incomeItems,
     expenseItems,
-    newIncome,
-    newExpense,
     summary,
 
     // 设置方法
     setIncomeItems,
     setExpenseItems,
-    setNewIncome,
-    setNewExpense,
+
 
     // 操作方法
     addIncome,
@@ -368,7 +316,6 @@ export const useDisposableIncomeState = () => {
     deleteExpense,
     updateIncome,
     updateExpense,
-    setSalaryIncome,
     updateMonthlyIncome,
     hasSalaryIncome,
 

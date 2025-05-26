@@ -4,6 +4,8 @@ import Taro from "@tarojs/taro";
 import { useShare } from "@/utils/shareHooks";
 import useDisposableIncomeState, {
   MonthlySalary,
+  IncomeItem,
+  ExpenseItem,
 } from "../../hooks/useDisposableIncomeState";
 import useMonthlyData from "../../hooks/useMonthlyData";
 
@@ -24,13 +26,11 @@ const DisposableIncome: React.FC = () => {
   const {
     incomeItems,
     expenseItems,
-    newIncome,
-    newExpense,
     summary,
-    setNewIncome,
-    setNewExpense,
     addIncome,
     addExpense,
+    updateIncome,
+    updateExpense,
     deleteIncome,
     deleteExpense,
     getIncomeTypeLabel,
@@ -47,6 +47,9 @@ const DisposableIncome: React.FC = () => {
   const [filterType, setFilterType] = useState<"all" | "income" | "expense">(
     "all"
   );
+  const [selectedItem, setSelectedItem] = useState<
+    IncomeItem | ExpenseItem | null
+  >(null);
 
   // 当前月份
   const currentMonth = getCurrentMonth;
@@ -71,39 +74,51 @@ const DisposableIncome: React.FC = () => {
     }
   }, []);
 
-  // 添加新收入
-  const handleAddIncome = useCallback(() => {
-    try {
-      addIncome(newIncome);
-      setNewIncome({
-        id: "",
-        type: "salary",
-        amount: "",
-        description: "",
-        isFixed: true,
-      });
-      setFormType(null);
-    } catch (error) {
-      Taro.showToast({ title: error.message, icon: "none" });
-    }
-  }, [addIncome, newIncome, setNewIncome]);
+  // 处理提交数据
+  const handleSubmitData = useCallback(
+    (data: IncomeItem | ExpenseItem) => {
+      try {
+        // 检查是否为编辑现有项目
+        if (data.id) {
+          if (formType === "income") {
+            updateIncome(data.id, data as IncomeItem);
+          } else {
+            updateExpense(data.id, data as ExpenseItem);
+          }
+        } else {
+          // 添加新项目
+          if (formType === "income") {
+            addIncome(data as IncomeItem);
+          } else {
+            addExpense(data as ExpenseItem);
+          }
+        }
+        // 重置表单状态
+        handleCloseForm();
+      } catch (error) {
+        Taro.showToast({ title: error.message, icon: "none" });
+      }
+    },
+    [formType, addIncome, addExpense, updateIncome, updateExpense]
+  );
 
-  // 添加新支出
-  const handleAddExpense = useCallback(() => {
-    try {
-      addExpense(newExpense);
-      setNewExpense({
-        id: "",
-        type: "rent",
-        amount: "",
-        description: "",
-        isFixed: true,
-      });
-      setFormType(null);
-    } catch (error) {
-      Taro.showToast({ title: error.message, icon: "none" });
-    }
-  }, [addExpense, newExpense, setNewExpense]);
+  // 处理编辑收入
+  const handleEditIncome = useCallback((item: IncomeItem) => {
+    setFormType("income");
+    setSelectedItem(item);
+  }, []);
+
+  // 处理编辑支出
+  const handleEditExpense = useCallback((item: ExpenseItem) => {
+    setFormType("expense");
+    setSelectedItem(item);
+  }, []);
+
+  // 处理关闭表单
+  const handleCloseForm = useCallback(() => {
+    setFormType(null);
+    setSelectedItem(null);
+  }, []);
 
   // 导航到工资计算器页面
   const navigateToSalaryCalculator = useCallback(() => {
@@ -148,25 +163,30 @@ const DisposableIncome: React.FC = () => {
         getExpenseTypeLabel={getExpenseTypeLabel}
         deleteIncome={deleteIncome}
         deleteExpense={deleteExpense}
+        onEditIncome={handleEditIncome}
+        onEditExpense={handleEditExpense}
         onFilterChange={handleFilterChange}
       />
 
       {/* 底部添加按钮 */}
       <BottomActionButtons
-        onAddIncome={() => setFormType("income")}
-        onAddExpense={() => setFormType("expense")}
+        onAddIncome={() => {
+          setSelectedItem(null);
+          setFormType("income");
+        }}
+        onAddExpense={() => {
+          setSelectedItem(null);
+          setFormType("expense");
+        }}
       />
 
-      {/* 添加收支表单弹窗 */}
+      {/* 添加/编辑收支表单弹窗 */}
       {formType && (
         <IncomeExpenseForm
           formType={formType}
-          newIncome={newIncome}
-          newExpense={newExpense}
-          setNewIncome={setNewIncome}
-          setNewExpense={setNewExpense}
-          onAdd={formType === "income" ? handleAddIncome : handleAddExpense}
-          onClose={() => setFormType(null)}
+          selectedItem={selectedItem || undefined}
+          onSubmit={handleSubmitData}
+          onClose={handleCloseForm}
         />
       )}
     </View>

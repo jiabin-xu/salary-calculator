@@ -11,6 +11,8 @@ interface FinancialItemsListProps {
   getExpenseTypeLabel: (type: string) => string;
   deleteIncome: (id: string) => void;
   deleteExpense: (id: string) => void;
+  onEditIncome?: (item: IncomeItem) => void;
+  onEditExpense?: (item: ExpenseItem) => void;
   onFilterChange: (type: "all" | "income" | "expense") => void;
 }
 
@@ -22,6 +24,8 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
   getExpenseTypeLabel,
   deleteIncome,
   deleteExpense,
+  onEditIncome,
+  onEditExpense,
   onFilterChange,
 }) => {
   return (
@@ -72,6 +76,7 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
               isIncome={true}
               getLabel={getIncomeTypeLabel}
               onDelete={deleteIncome}
+              onEdit={onEditIncome}
             />
           ))}
 
@@ -84,6 +89,7 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
               isIncome={false}
               getLabel={getExpenseTypeLabel}
               onDelete={deleteExpense}
+              onEdit={onEditExpense}
             />
           ))}
 
