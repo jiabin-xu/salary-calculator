@@ -12,7 +12,7 @@ const CalculateButton: React.FC<CalculateButtonProps> = ({
   text = "计算薪资预估",
 }) => {
   return (
-    <View className="fixed left-0 right-0 bottom-0 p-4 pb-safe bg-white border-t border-gray-200 shadow-lg">
+    <View className="fixed left-0 right-0 bottom-8 p-4 pb-safe  border-t border-gray-200 shadow-lg">
       <Button
         className="bg-blue-600 text-white rounded-lg font-medium h-12 flex items-center justify-center w-full"
         onClick={onClick}

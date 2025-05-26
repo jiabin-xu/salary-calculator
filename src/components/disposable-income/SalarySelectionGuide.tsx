@@ -1,13 +1,11 @@
 import React from "react";
 import { View, Text, Image } from "@tarojs/components";
 
-interface SalarySelectionGuideProps {
-  onSelectSalary: () => void;
+interface FamilyFinanceGuideProps {
+  onStart: () => void;
 }
 
-const SalarySelectionGuide: React.FC<SalarySelectionGuideProps> = ({
-  onSelectSalary,
-}) => {
+const FamilyFinanceGuide: React.FC<FamilyFinanceGuideProps> = ({ onStart }) => {
   return (
     <View className="flex flex-col items-center justify-center h-screen bg-blue-50 px-6">
       <Image
@@ -15,22 +13,22 @@ const SalarySelectionGuide: React.FC<SalarySelectionGuideProps> = ({
         className="w-48 h-48 rounded-full object-cover mb-8"
       />
       <Text className="text-2xl font-bold text-blue-800 mb-3">
-        开始您的财务规划
+        家庭财务规划工具
       </Text>
       <Text className="text-gray-600 text-center mb-8">
-        要开始使用可支配收入计算器，我们需要先了解您的工资收入情况。
+        帮助您全面了解家庭收支状况，合理规划家庭财务，实现家庭财富稳健增长。
       </Text>
       <View
         className="bg-blue-600 text-white text-center p-4 rounded-lg w-full"
-        onClick={onSelectSalary}
+        onClick={onStart}
       >
-        选择工资收入
+        开始使用
       </View>
       <Text className="text-xs text-gray-500 mt-4">
-        您可以从薪资计算器中导入您的税后工资数据
+        您可以分别添加家庭成员的各项收入，包括工资、投资和其他收入来源
       </Text>
     </View>
   );
 };
 
-export default SalarySelectionGuide;
+export default FamilyFinanceGuide;

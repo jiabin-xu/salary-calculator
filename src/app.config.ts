@@ -9,5 +9,25 @@ export default defineAppConfig({
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: '薪资计算器',
     navigationBarTextStyle: 'black'
+  },
+  tabBar: {
+    color: '#999',
+    selectedColor: '#1296db',
+    backgroundColor: '#fff',
+    borderStyle: 'black',
+    list: [
+      {
+        pagePath: 'pages/index/index',
+        text: '税后工资',
+        iconPath: 'assets/icons/calculator.png',
+        selectedIconPath: 'assets/icons/calculator-active.png'
+      },
+      {
+        pagePath: 'pages/disposable-income/index',
+        text: '可支配收入',
+        iconPath: 'assets/icons/income.png',
+        selectedIconPath: 'assets/icons/income-active.png'
+      }
+    ]
   }
 })

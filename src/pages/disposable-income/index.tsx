@@ -10,7 +10,7 @@ import useDisposableIncomeState, {
 import useMonthlyData from "../../hooks/useMonthlyData";
 
 // 导入组件
-import SalarySelectionGuide from "../../components/disposable-income/SalarySelectionGuide";
+import FamilyFinanceGuide from "../../components/disposable-income/SalarySelectionGuide";
 import FinancialSummaryHeader from "../../components/disposable-income/FinancialSummaryHeader";
 import FinancialItemsList from "../../components/disposable-income/FinancialItemsList";
 import BottomActionButtons from "../../components/disposable-income/BottomActionButtons";
@@ -19,6 +19,9 @@ import IncomeExpenseForm from "../../components/disposable-income/IncomeExpenseF
 const DisposableIncome: React.FC = () => {
   // 启用分享功能
   useShare();
+
+  // 添加状态，控制是否显示指引页面
+  const [isFirstVisit, setIsFirstVisit] = useState<boolean>(true);
 
   // 使用自定义 Hook 管理状态
   const {
@@ -68,6 +71,20 @@ const DisposableIncome: React.FC = () => {
     () => calculateYearlyData(summary.totalIncome, summary.totalExpense),
     [summary.totalIncome, summary.totalExpense]
   );
+
+  // 在页面加载时，检查是否首次访问
+  useEffect(() => {
+    try {
+      const hasVisitedBefore = Taro.getStorageSync(
+        "hasVisitedDisposableIncome"
+      );
+      if (hasVisitedBefore) {
+        setIsFirstVisit(false);
+      }
+    } catch (error) {
+      console.error("读取访问记录失败", error);
+    }
+  }, []);
 
   // 在页面加载时，从 localStorage 读取月度工资数据并更新收入
   useEffect(() => {
@@ -147,11 +164,15 @@ const DisposableIncome: React.FC = () => {
     setSelectedItem(null);
   }, []);
 
-  // 导航到工资计算器页面
-  const navigateToSalaryCalculator = useCallback(() => {
-    Taro.navigateTo({
-      url: "/pages/index/index?from=disposableIncome",
-    });
+  // 导航到工资计算器页面并记录已访问
+  const onStart = useCallback(() => {
+    // 设置已访问标记
+    try {
+      Taro.setStorageSync("hasVisitedDisposableIncome", "true");
+      setIsFirstVisit(false);
+    } catch (error) {
+      console.error("保存访问记录失败", error);
+    }
   }, []);
 
   // 更改筛选类型
@@ -162,9 +183,9 @@ const DisposableIncome: React.FC = () => {
     []
   );
 
-  // 如果没有工资收入，显示引导页
-  if (!hasSalaryIncome) {
-    return <SalarySelectionGuide onSelectSalary={navigateToSalaryCalculator} />;
+  // 首次访问并且没有工资收入，显示引导页
+  if (isFirstVisit && !hasSalaryIncome) {
+    return <FamilyFinanceGuide onStart={onStart} />;
   }
 
   return (

@@ -158,15 +158,8 @@ const Index: React.FC = () => {
     }
   };
 
-  // 导航到可支配收入计算器
-  const handleNavigateToDisposableIncome = () => {
-    Taro.navigateTo({
-      url: "/pages/disposable-income/index",
-    });
-  };
-
   return (
-    <View className="bg-gray-50 min-h-screen pb-20">
+    <View className="bg-gray-50 min-h-screen  ">
       {/* 页面标题 */}
       <PageHeader
         title="薪资计算器"
@@ -190,25 +183,6 @@ const Index: React.FC = () => {
         onDeductionsClick={() => setDeductionsModalOpen(true)}
         onBonusClick={() => setBonusModalOpen(true)}
       />
-
-      {/* 可支配收入计算器入口 */}
-      <View
-        className="bg-white shadow-sm rounded-lg p-4 mx-4 mt-4 flex items-center justify-between"
-        onClick={handleNavigateToDisposableIncome}
-      >
-        <View className="flex items-center">
-          <View className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center mr-3">
-            <View className="text-white text-lg font-bold">¥</View>
-          </View>
-          <View>
-            <View className="text-gray-800 font-medium">可支配收入计算器</View>
-            <View className="text-gray-500 text-xs">
-              管理收入支出，计算可支配资金
-            </View>
-          </View>
-        </View>
-        <View className="text-blue-500">查看 &gt;</View>
-      </View>
 
       {/* 社保公积金设置弹窗 */}
       <InsuranceModal
