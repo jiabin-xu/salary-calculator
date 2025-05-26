@@ -2,12 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, Text } from "@tarojs/components";
 import FormField from "../FormField";
 import Input from "../Input";
-import {
-  IncomeItem,
-  ExpenseItem,
-  INCOME_TYPES,
-  EXPENSE_TYPES,
-} from "../../hooks/useDisposableIncomeState";
+import { IncomeItem, ExpenseItem } from "../../hooks/useDisposableIncomeState";
+import { INCOME_TYPES, EXPENSE_TYPES } from "../../utils/financialTypeUtils";
 
 interface IncomeExpenseFormProps {
   formType: "income" | "expense";
@@ -66,7 +62,7 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
 
   return (
     <View className="fixed inset-0 bg-black/50 flex items-end z-50">
-      <View className="bg-white w-full rounded-t-2xl p-5 animate-slide-up">
+      <View className="bg-white w-full rounded-t-2xl p-5 pb-12 animate-slide-up">
         <View className="flex justify-between items-center mb-4">
           <Text className="text-gray-800 font-medium text-lg">
             {selectedItem
@@ -118,7 +114,7 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
               <Input
                 type="text"
                 value={formData.description}
-                placeholder="可选，如发放日期等"
+                placeholder="如爸爸的工资等"
                 onChange={(value) => updateFormData({ description: value })}
               />
             </FormField>

@@ -202,8 +202,6 @@ const DisposableIncome: React.FC = () => {
         incomeItems={incomeItems}
         expenseItems={expenseItems}
         filterType={filterType}
-        getIncomeTypeLabel={getIncomeTypeLabel}
-        getExpenseTypeLabel={getExpenseTypeLabel}
         deleteIncome={deleteIncome}
         deleteExpense={deleteExpense}
         onEditIncome={handleEditIncome}

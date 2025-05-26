@@ -21,31 +21,6 @@ export interface ExpenseItem {
   month?: number; // 月份信息
 }
 
-// 收入类型选项
-export const INCOME_TYPES = [
-  { value: "salary", label: "工资" },
-  { value: "bonus", label: "奖金" },
-  { value: "investment", label: "投资" },
-  { value: "rent", label: "租金" },
-  { value: "other", label: "其他" },
-];
-
-// 支出类型选项
-export const EXPENSE_TYPES = [
-  { value: "rent", label: "房租" },
-  { value: "mortgage", label: "房贷" },
-  { value: "utilities", label: "水电" },
-  { value: "food", label: "餐饮" },
-  { value: "transport", label: "交通" },
-  { value: "entertainment", label: "娱乐" },
-  { value: "shopping", label: "购物" },
-  { value: "medical", label: "医疗" },
-  { value: "education", label: "教育" },
-  { value: "insurance", label: "保险" },
-  { value: "loan", label: "贷款" },
-  { value: "other", label: "其他" },
-];
-
 // 月度薪资数据类型
 export interface MonthlySalary {
   month: number;
@@ -117,6 +92,7 @@ export const useDisposableIncomeState = () => {
 
   // 保存收入数据到本地存储
   useEffect(() => {
+    console.log("incomeItems :>> ", incomeItems);
     try {
       if (incomeItems.length > 0) {
         Taro.setStorageSync("incomeItems", JSON.stringify(incomeItems));
@@ -291,22 +267,10 @@ export const useDisposableIncomeState = () => {
     );
   };
 
-  // 获取收入类型标签
-  const getIncomeTypeLabel = (type: string) => {
-    const found = INCOME_TYPES.find((item) => item.value === type);
-    return found ? found.label : type;
-  };
-
-  // 获取支出类型标签
-  const getExpenseTypeLabel = (type: string) => {
-    const found = EXPENSE_TYPES.find((item) => item.value === type);
-    return found ? found.label : type;
-  };
-
   // 检查是否有工资收入
   const hasSalaryIncome = incomeItems.some(
     (item) => item.type === "salary" && Number(item.amount) > 0
-  )
+  );
 
   // 根据月度工资数据更新收入
   const updateMonthlyIncome = (salaries: MonthlySalary[]) => {
@@ -355,9 +319,6 @@ export const useDisposableIncomeState = () => {
     hasSalaryIncome,
     calculateSummary,
 
-    // 工具方法
-    getIncomeTypeLabel,
-    getExpenseTypeLabel,
   };
 };
 

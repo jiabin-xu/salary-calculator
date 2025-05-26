@@ -7,8 +7,6 @@ interface FinancialItemsListProps {
   incomeItems: IncomeItem[];
   expenseItems: ExpenseItem[];
   filterType: "all" | "income" | "expense";
-  getIncomeTypeLabel: (type: string) => string;
-  getExpenseTypeLabel: (type: string) => string;
   deleteIncome: (id: string) => void;
   deleteExpense: (id: string) => void;
   onEditIncome?: (item: IncomeItem) => void;
@@ -22,8 +20,6 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
   incomeItems,
   expenseItems,
   filterType,
-  getIncomeTypeLabel,
-  getExpenseTypeLabel,
   deleteIncome,
   deleteExpense,
   onEditIncome,
@@ -114,30 +110,6 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
         </View>
       </View>
 
-      <View className="mb-4">
-        <Picker
-          mode="selector"
-          range={monthOptions}
-          rangeKey="label"
-          onChange={handleMonthChange}
-          value={currentMonthIndex}
-        >
-          <View className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
-            <View className="flex items-center">
-              <Text className="mr-2 text-lg">
-                {getMonthIcon(monthOptions[currentMonthIndex].value)}
-              </Text>
-              <Text className="text-gray-700 font-medium">
-                {monthOptions[currentMonthIndex].label}
-              </Text>
-            </View>
-            <Text className="text-gray-500">
-              <Text className="transform rotate-90 inline-block">➤</Text>
-            </Text>
-          </View>
-        </Picker>
-      </View>
-
       <ScrollView scrollY className="max-h-96">
         {/* 收入项目 */}
         {(filterType === "all" || filterType === "income") &&
@@ -146,7 +118,6 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
               key={item.id}
               item={item}
               isIncome={true}
-              getLabel={getIncomeTypeLabel}
               onDelete={deleteIncome}
               onEdit={onEditIncome}
             />
@@ -159,7 +130,6 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
               key={item.id}
               item={item}
               isIncome={false}
-              getLabel={getExpenseTypeLabel}
               onDelete={deleteExpense}
               onEdit={onEditExpense}
             />
