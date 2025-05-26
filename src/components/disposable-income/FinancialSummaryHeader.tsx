@@ -5,17 +5,20 @@ import { FinancialSummary } from "../../hooks/useDisposableIncomeState";
 interface FinancialSummaryHeaderProps {
   summary: FinancialSummary;
   currentMonth: string;
+  yearlyData: {
+    income: number;
+    expense: number;
+    disposable: number;
+  };
 }
 
 const FinancialSummaryHeader: React.FC<FinancialSummaryHeaderProps> = ({
   summary,
   currentMonth,
+  yearlyData,
 }) => {
-  // 计算趋势，这里简单设为正向趋势，实际应从props传入
-  const disposableUp = true;
-
   return (
-    <View className="w-full h-60 bg-blue-500 relative overflow-hidden">
+    <View className="w-full bg-blue-500 relative overflow-hidden pb-4">
       <Image
         src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
         className="w-full h-full absolute inset-0 object-cover opacity-70"
@@ -29,25 +32,25 @@ const FinancialSummaryHeader: React.FC<FinancialSummaryHeaderProps> = ({
       </View>
 
       {/* 本月财务概览 */}
-      <View className="absolute bottom-0 left-0 right-0 p-4">
-        <Text className="text-white text-sm mb-2">{currentMonth} 收支概览</Text>
-        <View className="flex justify-between items-center mb-2">
-          <Text className="text-white text-2xl font-bold">
-            ¥{summary.disposableIncome.toFixed(0)}
-          </Text>
-          <Text className="text-blue-100 text-xs">
-            可支配收入
-            <Text
-              className={`ml-1 ${
-                disposableUp ? "text-green-300" : "text-red-300"
-              }`}
-            >
-              {disposableUp ? "↑" : "↓"}
+      <View className="pt-20 px-4 relative z-10">
+        <View className="flex justify-between items-end mb-4">
+          <View>
+            <Text className="text-white text-sm">
+              {currentMonth} 可支配收入
             </Text>
-          </Text>
+            <Text className="text-white text-2xl font-bold block mt-1">
+              ¥{summary.disposableIncome.toFixed(0)}
+            </Text>
+          </View>
+          <View className="text-right">
+            <Text className="text-white text-sm">全年可支配收入</Text>
+            <Text className="text-white text-2xl font-bold block mt-1">
+              ¥{yearlyData.disposable.toFixed(0)}
+            </Text>
+          </View>
         </View>
 
-        <View className="w-full h-1 bg-white/30 rounded-full overflow-hidden mt-1">
+        <View className="w-full h-1 bg-white/30 rounded-full overflow-hidden mt-3">
           <View
             className="h-full bg-white"
             style={{
@@ -60,7 +63,7 @@ const FinancialSummaryHeader: React.FC<FinancialSummaryHeaderProps> = ({
           />
         </View>
 
-        <View className="flex justify-between text-xs text-blue-100 mt-1">
+        <View className="flex justify-between text-xs text-blue-100 mt-2">
           <Text>收入 ¥{summary.totalIncome.toFixed(0)}</Text>
           <Text>支出 ¥{summary.totalExpense.toFixed(0)}</Text>
         </View>

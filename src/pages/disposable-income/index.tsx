@@ -12,8 +12,6 @@ import useMonthlyData from "../../hooks/useMonthlyData";
 // 导入组件
 import SalarySelectionGuide from "../../components/disposable-income/SalarySelectionGuide";
 import FinancialSummaryHeader from "../../components/disposable-income/FinancialSummaryHeader";
-import YearlyForecastCard from "../../components/disposable-income/YearlyForecastCard";
-import { FinancialStatsSummary } from "../../components/disposable-income/FinancialStatsCard";
 import FinancialItemsList from "../../components/disposable-income/FinancialItemsList";
 import BottomActionButtons from "../../components/disposable-income/BottomActionButtons";
 import IncomeExpenseForm from "../../components/disposable-income/IncomeExpenseForm";
@@ -146,13 +144,8 @@ const DisposableIncome: React.FC = () => {
       <FinancialSummaryHeader
         summary={summary}
         currentMonth={currentMonth.name}
+        yearlyData={yearlyData}
       />
-
-      {/* 年度预测卡片 */}
-      <YearlyForecastCard yearlyData={yearlyData} />
-
-      {/* 固定与临时收支统计 */}
-      <FinancialStatsSummary summary={summary} />
 
       {/* 收支明细列表 */}
       <FinancialItemsList
