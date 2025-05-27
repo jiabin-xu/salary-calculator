@@ -10,8 +10,7 @@ import {
 interface FinancialListItemProps {
   item: IncomeItem | ExpenseItem;
   isIncome: boolean;
-  onDelete: (id: string) => void;
-  onEdit?: (item: IncomeItem | ExpenseItem) => void;
+  onEdit: (item: IncomeItem | ExpenseItem) => void;
 }
 
 const FinancialListItem: React.FC<FinancialListItemProps> = ({
@@ -23,9 +22,7 @@ const FinancialListItem: React.FC<FinancialListItemProps> = ({
 
   // 处理点击事件，触发编辑功能
   const handleClick = () => {
-    if (onEdit) {
-      onEdit(item);
-    }
+    onEdit(item);
   };
 
   // 获取类型标签

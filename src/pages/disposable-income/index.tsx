@@ -20,10 +20,8 @@ import { VChart } from "@visactor/vchart/esm/core";
 import { VChartEnvType } from "@visactor/taro-vchart/esm/typings";
 import { registerPieChart } from "@visactor/vchart/esm/chart";
 import { registerWXEnv } from "@visactor/vchart/esm/env";
-import {
-  registerDiscreteLegend,
-  registerTooltip,
-} from "@visactor/vchart/esm/component";
+import { registerTooltip } from "@visactor/vchart/esm/component";
+import { registerDiscreteLegend } from "@visactor/vchart/esm/component";
 import { registerCanvasTooltipHandler } from "@visactor/vchart/esm/plugin/components/tooltip-handler";
 import { getExpenseTypeLabel } from "@/utils/financialTypeUtils";
 
@@ -69,7 +67,6 @@ const DisposableIncome: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<
     IncomeItem | ExpenseItem | null
   >(null);
-  const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
 
   // 当前月份
   const currentMonth = getCurrentMonth;
@@ -129,7 +126,7 @@ const DisposableIncome: React.FC = () => {
 
     // 合并支出数据和可支配收入
     return [...expensesData, disposableIncomeItem];
-  }, [expenseItems, incomeItems, selectedMonth]);
+  }, [expenseItems, incomeItems]);
 
   // 更新饼图配置
   const chartSpec = useMemo(() => {
@@ -182,7 +179,7 @@ const DisposableIncome: React.FC = () => {
       },
       title: {
         visible: true,
-        text: selectedMonth ? `${selectedMonth}月收入分配` : "总收入分配",
+        text: "总收入分配",
       },
       label: {
         visible: true,
@@ -203,16 +200,7 @@ const DisposableIncome: React.FC = () => {
         },
       },
     };
-  }, [expenseChartData, selectedMonth]);
-
-  // 更新月份筛选，同时重新计算汇总数据
-  const handleMonthChange = useCallback(
-    (month: number | null) => {
-      setSelectedMonth(month);
-      calculateSummary(month);
-    },
-    [calculateSummary]
-  );
+  }, [expenseChartData]);
 
   // 计算年度数据
   const yearlyData = useMemo(
@@ -282,7 +270,7 @@ const DisposableIncome: React.FC = () => {
         handleCloseForm();
 
         // 更新汇总数据
-        calculateSummary(selectedMonth);
+        calculateSummary();
       } catch (error) {
         Taro.showToast({ title: error.message, icon: "none" });
       }
@@ -295,7 +283,6 @@ const DisposableIncome: React.FC = () => {
       updateExpense,
       currentMonth,
       calculateSummary,
-      selectedMonth,
     ]
   );
 
@@ -336,6 +323,26 @@ const DisposableIncome: React.FC = () => {
     []
   );
 
+  // 处理删除项目
+  const handleDeleteItem = useCallback(
+    (id: string) => {
+      try {
+        if (formType === "income") {
+          deleteIncome(id);
+        } else {
+          deleteExpense(id);
+        }
+        // 重置表单状态
+        handleCloseForm();
+        // 更新汇总数据
+        calculateSummary();
+      } catch (error) {
+        Taro.showToast({ title: error.message, icon: "none" });
+      }
+    },
+    [formType, deleteIncome, deleteExpense, calculateSummary]
+  );
+
   // 首次访问并且没有工资收入，显示引导页
   if (isFirstVisit && !hasSalaryIncome) {
     return <FamilyFinanceGuide onStart={onStart} />;
@@ -346,7 +353,7 @@ const DisposableIncome: React.FC = () => {
       {/* 顶部财务摘要 */}
       <FinancialSummaryHeader
         summary={summary}
-        currentMonth={selectedMonth ? `${selectedMonth}月` : currentMonth.name}
+        currentMonth={currentMonth.name}
         yearlyData={yearlyData}
       />
       <View>
@@ -373,13 +380,9 @@ const DisposableIncome: React.FC = () => {
         incomeItems={incomeItems}
         expenseItems={expenseItems}
         filterType={filterType}
-        deleteIncome={deleteIncome}
-        deleteExpense={deleteExpense}
         onEditIncome={handleEditIncome}
         onEditExpense={handleEditExpense}
         onFilterChange={handleFilterChange}
-        onMonthChange={handleMonthChange}
-        selectedMonth={selectedMonth}
       />
 
       {/* 底部添加按钮 */}
@@ -401,6 +404,7 @@ const DisposableIncome: React.FC = () => {
           selectedItem={selectedItem || undefined}
           onSubmit={handleSubmitData}
           onClose={handleCloseForm}
+          onDelete={handleDeleteItem}
         />
       )}
     </View>

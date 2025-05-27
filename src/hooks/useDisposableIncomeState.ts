@@ -43,7 +43,6 @@ export interface FinancialSummary {
   temporaryIncome: number;
   fixedExpense: number;
   temporaryExpense: number;
-  selectedMonth?: number | null;
 }
 
 // 生成唯一ID
@@ -114,15 +113,11 @@ export const useDisposableIncomeState = () => {
   }, [expenseItems]);
 
   // 计算汇总数据
-  const calculateSummary = (selectedMonth?: number | null) => {
+  const calculateSummary = () => {
     // 根据月份筛选收入和支出
-    const filteredIncomes = selectedMonth
-      ? incomeItems.filter(item => item.month === selectedMonth)
-      : incomeItems;
+    const filteredIncomes = incomeItems;
 
-    const filteredExpenses = selectedMonth
-      ? expenseItems.filter(item => item.month === selectedMonth)
-      : expenseItems;
+    const filteredExpenses = expenseItems;
 
     // 计算固定收入
     const fixedIncome = filteredIncomes
@@ -171,7 +166,6 @@ export const useDisposableIncomeState = () => {
       temporaryIncome,
       fixedExpense,
       temporaryExpense,
-      selectedMonth
     };
 
     setSummary(newSummary);

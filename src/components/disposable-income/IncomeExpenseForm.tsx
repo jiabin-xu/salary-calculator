@@ -12,6 +12,7 @@ interface IncomeExpenseFormProps {
   selectedItem?: IncomeItem | ExpenseItem;
   onSubmit: (data: IncomeItem | ExpenseItem) => void;
   onClose: () => void;
+  onDelete?: (id: string) => void;
 }
 
 const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
@@ -21,6 +22,7 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
   selectedItem,
   onSubmit,
   onClose,
+  onDelete,
 }) => {
   // 本地状态，用于跟踪表单中的数据变化
   const [formData, setFormData] = useState<IncomeItem | ExpenseItem>(
@@ -58,6 +60,14 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
   // 提交表单
   const handleSubmit = () => {
     onSubmit(formData);
+  };
+
+  // 处理删除
+  const handleDelete = () => {
+    if (selectedItem && onDelete) {
+      onDelete(selectedItem.id);
+      onClose();
+    }
   };
 
   return (
@@ -119,11 +129,24 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
               />
             </FormField>
 
-            <View
-              className="bg-green-500 text-white text-center p-3 rounded-lg mt-6"
-              onClick={handleSubmit}
-            >
-              {selectedItem ? "保存修改" : "确认添加"}
+            <View className="mt-6">
+              <View className="flex flex-row gap-2">
+                <View
+                  className="bg-green-500 text-white text-center p-3 rounded-lg flex-grow"
+                  onClick={handleSubmit}
+                >
+                  {selectedItem ? "保存修改" : "确认添加"}
+                </View>
+
+                {selectedItem && onDelete && (
+                  <View
+                    className="bg-gray-200 text-gray-700 text-center p-3 rounded-lg w-20"
+                    onClick={handleDelete}
+                  >
+                    删除
+                  </View>
+                )}
+              </View>
             </View>
           </View>
         ) : (
@@ -164,11 +187,24 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
               />
             </FormField>
 
-            <View
-              className="bg-red-500 text-white text-center p-3 rounded-lg mt-6"
-              onClick={handleSubmit}
-            >
-              {selectedItem ? "保存修改" : "确认添加"}
+            <View className="mt-6">
+              <View className="flex flex-row gap-2">
+                <View
+                  className="bg-red-500 text-white text-center p-3 rounded-lg flex-grow"
+                  onClick={handleSubmit}
+                >
+                  {selectedItem ? "保存修改" : "确认添加"}
+                </View>
+
+                {selectedItem && onDelete && (
+                  <View
+                    className="bg-gray-200 text-gray-700 text-center p-3 rounded-lg w-20"
+                    onClick={handleDelete}
+                  >
+                    删除
+                  </View>
+                )}
+              </View>
             </View>
           </View>
         )}
