@@ -26,13 +26,13 @@ const FinancialSummaryHeader: React.FC<FinancialSummaryHeaderProps> = ({
       <View className="absolute inset-0 bg-gradient-to-b from-blue-600/40 to-blue-900/60" />
 
       {/* 页面标题 */}
-      <View className="absolute top-0 left-0 right-0 p-4">
+      {/* <View className="absolute top-0 left-0 right-0 p-4">
         <Text className="text-white text-xl font-bold">可支配收入</Text>
         <Text className="text-blue-100 text-sm mt-1">管理您的收入与支出</Text>
-      </View>
+      </View> */}
 
       {/* 本月财务概览 */}
-      <View className="pt-20 px-4 relative z-10">
+      <View className="pt-4 px-4 relative z-10">
         <View className="flex justify-between items-end mb-4">
           <View>
             <Text className="text-white text-sm">

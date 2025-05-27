@@ -45,7 +45,7 @@ const FinancialListItem: React.FC<FinancialListItemProps> = ({
     >
       <View className="flex items-center">
         <View
-          className={`w-12 h-12 rounded-full flex items-center justify-center mr-3`}
+          className={`w-12 h-10 rounded-full flex items-center justify-center mr-3`}
         >
           <Text className="text-2xl">{getTypeIcon(item.type, isIncome)}</Text>
         </View>

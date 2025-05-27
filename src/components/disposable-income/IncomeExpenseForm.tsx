@@ -110,11 +110,11 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
               />
             </FormField>
 
-            <FormField label="描述">
+            <FormField label="备注说明">
               <Input
                 type="text"
                 value={formData.description}
-                placeholder="如爸爸的工资等"
+                placeholder="如爸爸的工资、副业收入等"
                 onChange={(value) => updateFormData({ description: value })}
               />
             </FormField>
@@ -155,11 +155,11 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({
               />
             </FormField>
 
-            <FormField label="描述">
+            <FormField label="备注说明">
               <Input
                 type="text"
                 value={formData.description}
-                placeholder="可选，如扣款日期等"
+                placeholder="如每月房租、教育基金等"
                 onChange={(value) => updateFormData({ description: value })}
               />
             </FormField>
