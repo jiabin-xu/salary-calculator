@@ -7,8 +7,8 @@ import { useShareAppMessage, useShareTimeline } from "@tarojs/taro";
  * @param imageUrl 分享图片URL，可选
  */
 export const useShare = (
-  title: string = "薪资计算器 - 轻松计算税后收入",
-  path: string = "/pages/index/index",
+  title: string = "薪资计算器 - 轻松计算家庭可支配收入",
+  path: string = "/pages/disposable-income/index",
   imageUrl?: string
 ) => {
   // 分享给朋友
