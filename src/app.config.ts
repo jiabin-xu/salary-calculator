@@ -2,7 +2,8 @@ export default defineAppConfig({
   pages: [
     'pages/index/index',
     'pages/result/index',
-    'pages/disposable-income/index'
+    'pages/disposable-income/index',
+    'pages/realTimeEarnings/index',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -25,6 +26,12 @@ export default defineAppConfig({
       {
         pagePath: 'pages/disposable-income/index',
         text: '记账',
+        iconPath: 'assets/icons/income.png',
+        selectedIconPath: 'assets/icons/income-active.png'
+      },
+      {
+        pagePath: 'pages/realTimeEarnings/index',
+        text: '实时工资',
         iconPath: 'assets/icons/income.png',
         selectedIconPath: 'assets/icons/income-active.png'
       }
