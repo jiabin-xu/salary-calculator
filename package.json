@@ -1,6 +1,6 @@
 {
   "name": "salary-calculator",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "薪资计算器",
   "templateInfo": {
