@@ -6,6 +6,7 @@ import PageHeader from "../../components/salary/PageHeader";
 import WorkSettingsForm from "../../components/salary/WorkSettingsForm";
 import EarningsDisplay from "../../components/salary/EarningsDisplay";
 import EarningsStats from "../../components/salary/EarningsStats";
+import { useShare } from "../../utils/shareHooks";
 
 const RealTimeEarnings: React.FC = () => {
   const [isDetailMode, setIsDetailMode] = useState(false);
@@ -15,6 +16,11 @@ const RealTimeEarnings: React.FC = () => {
   const [currentEarnings, setCurrentEarnings] = useState<number>(0);
   const [isWorkEnded, setIsWorkEnded] = useState(false);
   const [isBeforeWork, setIsBeforeWork] = useState(false);
+
+  useShare(
+    "💰 实时收入计算器 | 看看你每分钟赚多少",
+    "/pages/realTimeEarnings/index"
+  );
 
   // 计算每日工作时长（小时）
   const calculateDailyWorkHours = (): number => {
