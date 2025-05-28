@@ -27,17 +27,6 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
   // 根据月份筛选支出项目
   const filteredExpenseItems = expenseItems;
 
-  // 月份相关图标/季节样式
-  const getMonthIcon = (month: number | null) => {
-    if (month === null) return "📅"; // 日历图标表示全部月份
-
-    // 根据季节返回不同图标
-    if (month >= 3 && month <= 5) return "🌸"; // 春季
-    if (month >= 6 && month <= 8) return "☀️"; // 夏季
-    if (month >= 9 && month <= 11) return "🍂"; // 秋季
-    return "❄️"; // 冬季
-  };
-
   return (
     <View className="mt-4 mx-4">
       <View className="flex justify-between items-center mb-3">
@@ -109,7 +98,9 @@ const FinancialItemsList: React.FC<FinancialItemsListProps> = ({
             <View className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-3">
               <Text className="text-gray-400 text-2xl">{"📊"}</Text>
             </View>
-            <Text className="text-gray-400 text-sm">{"暂无收支记录"}</Text>
+            <Text className="text-gray-400 text-sm">
+              {"开始记录您的第一笔收支吧！"}
+            </Text>
           </View>
         )}
       </ScrollView>

@@ -13,19 +13,19 @@ const FamilyFinanceGuide: React.FC<FamilyFinanceGuideProps> = ({ onStart }) => {
         className="w-48 h-48 rounded-full object-cover mb-8"
       />
       <Text className="text-2xl font-bold text-blue-800 mb-3">
-        家庭财务规划工具
+        智能记账助手
       </Text>
       <Text className="text-gray-600 text-center mb-8">
-        帮助您全面了解家庭收支状况，合理规划家庭财务，实现家庭财富稳健增长。
+        1分钟建立个人财务计划，轻松掌握收支状况，让每一分钱都花得值得。告别月光，从智能记账开始！
       </Text>
       <View
         className="bg-blue-600 text-white text-center p-4 rounded-lg w-full"
         onClick={onStart}
       >
-        开始使用
+        开启理财之旅
       </View>
       <Text className="text-xs text-gray-500 mt-4">
-        您可以分别添加家庭成员的各项收入，包括工资、投资和其他收入来源
+        一站式管理工资、投资、支出，让财务管理变得简单有趣
       </Text>
     </View>
   );
