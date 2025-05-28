@@ -32,8 +32,8 @@ export default defineAppConfig({
       {
         pagePath: 'pages/realTimeEarnings/index',
         text: '实时工资',
-        iconPath: 'assets/icons/income.png',
-        selectedIconPath: 'assets/icons/income-active.png'
+        iconPath: 'assets/icons/realtime.png',
+        selectedIconPath: 'assets/icons/realtime-active.png'
       }
     ]
   }

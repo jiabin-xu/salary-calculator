@@ -25,7 +25,8 @@ const EarningsDisplay: React.FC<EarningsDisplayProps> = ({
   const getStatusText = () => {
     if (isWorkEnded) return "今日工作已结束 ✨";
     if (isBeforeWork) return "工作即将开始 ⏰";
-    return `距离下班还有 ${workEndTime} 🌟`;
+    return "工作进行中 🌟";
+    // return `距离下班还有 ${workEndTime} 🌟`;
   };
 
   const getEarningsText = () => {
