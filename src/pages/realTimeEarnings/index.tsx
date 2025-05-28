@@ -13,13 +13,33 @@ const RealTimeEarnings: React.FC = () => {
   const [workStartTime, setWorkStartTime] = useState<string>("09:00");
   const [workEndTime, setWorkEndTime] = useState<string>("18:00");
   const [currentEarnings, setCurrentEarnings] = useState<number>(0);
-  const [isWorking, setIsWorking] = useState<boolean>(false);
+  const [isWorkEnded, setIsWorkEnded] = useState(false);
+  const [isBeforeWork, setIsBeforeWork] = useState(false);
+
+  // 计算每日工作时长（小时）
+  const calculateDailyWorkHours = (): number => {
+    const [startHour, startMinute] = workStartTime.split(":").map(Number);
+    const [endHour, endMinute] = workEndTime.split(":").map(Number);
+
+    const startTimeInMinutes = startHour * 60 + startMinute;
+    const endTimeInMinutes = endHour * 60 + endMinute;
+
+    // 计算工作时长（分钟）
+    const workMinutes = endTimeInMinutes - startTimeInMinutes;
+
+    return workMinutes / 60;
+  };
 
   const calculateHourlyRate = () => {
     const monthlyAmount = parseFloat(monthlySalary || "0");
     if (isNaN(monthlyAmount)) return 0;
-    return monthlyAmount / 22 / 8;
+
+    const dailyWorkHours = calculateDailyWorkHours();
+    // 每月按21.75个工作日计算
+    return monthlyAmount / 21.75 / dailyWorkHours;
   };
+
+  const hourlyRate = calculateHourlyRate();
 
   const calculateCurrentEarnings = () => {
     const now = new Date();
@@ -35,22 +55,32 @@ const RealTimeEarnings: React.FC = () => {
     const startTimeInSeconds = (startHour * 60 + startMinute) * 60;
     const endTimeInSeconds = (endHour * 60 + endMinute) * 60;
 
-    if (
-      currentTimeInSeconds >= startTimeInSeconds &&
-      currentTimeInSeconds <= endTimeInSeconds
-    ) {
-      setIsWorking(true);
-      const workedSeconds = currentTimeInSeconds - startTimeInSeconds;
-      const hourlyRate = calculateHourlyRate();
+    // 如果已经过了下班时间，显示全天工资
+    if (currentTimeInSeconds > endTimeInSeconds) {
+      const totalWorkSeconds = endTimeInSeconds - startTimeInSeconds;
       const secondRate = hourlyRate / 3600;
-      const earned = secondRate * workedSeconds;
+      const earned = secondRate * totalWorkSeconds;
       setCurrentEarnings(earned > 0 ? earned : 0);
-    } else {
-      setIsWorking(false);
-      if (currentTimeInSeconds < startTimeInSeconds) {
-        setCurrentEarnings(0);
-      }
+      setIsWorkEnded(true);
+      setIsBeforeWork(false);
+      return;
     }
+
+    // 如果还没到上班时间
+    if (currentTimeInSeconds < startTimeInSeconds) {
+      setCurrentEarnings(0);
+      setIsWorkEnded(false);
+      setIsBeforeWork(true);
+      return;
+    }
+
+    // 正常工作时间内
+    const workedSeconds = currentTimeInSeconds - startTimeInSeconds;
+    const secondRate = hourlyRate / 3600;
+    const earned = secondRate * workedSeconds;
+    setCurrentEarnings(earned > 0 ? earned : 0);
+    setIsWorkEnded(false);
+    setIsBeforeWork(false);
   };
 
   const handleStartWork = () => {
@@ -62,12 +92,16 @@ const RealTimeEarnings: React.FC = () => {
       return;
     }
     setIsDetailMode(true);
+    setIsWorkEnded(false);
+    setIsBeforeWork(false);
     calculateCurrentEarnings();
   };
 
   const handleReset = () => {
     setIsDetailMode(false);
     setCurrentEarnings(0);
+    setIsWorkEnded(false);
+    setIsBeforeWork(false);
   };
 
   const handleTimeChange = (type: "start" | "end", e: any) => {
@@ -81,21 +115,21 @@ const RealTimeEarnings: React.FC = () => {
 
   // 每秒更新收入
   useInterval(() => {
-    if (isDetailMode) {
+    if (isDetailMode && !isWorkEnded) {
       calculateCurrentEarnings();
     }
   }, 1000);
 
-  const hourlyRate = calculateHourlyRate();
+  const getPageSubtitle = () => {
+    if (!isDetailMode) return "设置工作时间开始计算";
+    if (isWorkEnded) return "今日工作已完成";
+    if (isBeforeWork) return "等待工作开始";
+    return "实时追踪你的收入增长";
+  };
 
   return (
     <View className="bg-gray-50 min-h-screen pb-8">
-      <PageHeader
-        title="实时工资"
-        subtitle={
-          isDetailMode ? "实时追踪你的收入增长" : "设置工作时间开始计算"
-        }
-      />
+      <PageHeader title="实时工资" subtitle={getPageSubtitle()} />
 
       {!isDetailMode ? (
         <WorkSettingsForm
@@ -113,6 +147,8 @@ const RealTimeEarnings: React.FC = () => {
             workStartTime={workStartTime}
             workEndTime={workEndTime}
             currentEarnings={currentEarnings}
+            isWorkEnded={isWorkEnded}
+            isBeforeWork={isBeforeWork}
           />
 
           <EarningsStats
