@@ -72,6 +72,7 @@ const DisposableIncome: React.FC = () => {
 
   // 使用封装的图表 hook
   const { chartSpec } = useDisposableIncomeChart(incomeItems, expenseItems);
+  console.log("chartSpec :>> ", chartSpec);
 
   // 计算年度数据
   const yearlyData = useMemo(

@@ -20,7 +20,7 @@ const FinancialSummaryHeader: React.FC<FinancialSummaryHeaderProps> = ({
   return (
     <View className="w-full bg-blue-500 relative overflow-hidden pb-4">
       <Image
-        src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+        src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=750&q=80"
         className="w-full h-full absolute inset-0 object-cover opacity-70"
       />
       <View className="absolute inset-0 bg-gradient-to-b from-blue-600/40 to-blue-900/60" />

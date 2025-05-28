@@ -60,6 +60,8 @@ export const useDisposableIncomeChart = (
       }
     );
 
+    console.log("expensesData :>> ", expensesData);
+
     // 添加可支配收入项
     const disposableIncomeItem = {
       type: "可支配收入",
@@ -91,7 +93,7 @@ export const useDisposableIncomeChart = (
         {
           id: "expenses",
           values:
-            chartData.length > 0
+            chartData.length > 1
               ? chartData
               : [{ type: "暂无数据", value: "100" }],
         },
@@ -146,6 +148,8 @@ export const useDisposableIncomeChart = (
       },
     };
   }, [chartData]);
+
+  console.log("chartData :>> ", chartData);
 
   return {
     chartData,

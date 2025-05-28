@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '家庭可支配收入',
+  navigationBarTitleText: '记账',
   enableShareAppMessage: true,
   enableShareTimeline: true
 })

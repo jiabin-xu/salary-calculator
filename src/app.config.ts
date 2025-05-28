@@ -24,7 +24,7 @@ export default defineAppConfig({
       },
       {
         pagePath: 'pages/disposable-income/index',
-        text: '可支配收入',
+        text: '记账',
         iconPath: 'assets/icons/income.png',
         selectedIconPath: 'assets/icons/income-active.png'
       }

@@ -9,7 +9,7 @@ const FamilyFinanceGuide: React.FC<FamilyFinanceGuideProps> = ({ onStart }) => {
   return (
     <View className="flex flex-col items-center justify-center h-screen bg-blue-50 px-6">
       <Image
-        src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+        src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
         className="w-48 h-48 rounded-full object-cover mb-8"
       />
       <Text className="text-2xl font-bold text-blue-800 mb-3">
