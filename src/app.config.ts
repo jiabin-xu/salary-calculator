@@ -4,6 +4,8 @@ export default defineAppConfig({
     'pages/result/index',
     'pages/disposable-income/index',
     'pages/realTimeEarnings/index',
+    'pages/pension/index',
+    'pages/pension/result',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -34,6 +36,12 @@ export default defineAppConfig({
         text: '实时工资',
         iconPath: 'assets/icons/realtime.png',
         selectedIconPath: 'assets/icons/realtime-active.png'
+      },
+      {
+        pagePath: 'pages/pension/index',
+        text: '养老金',
+        iconPath: 'assets/icons/calculator.png',
+        selectedIconPath: 'assets/icons/calculator-active.png'
       }
     ]
   }

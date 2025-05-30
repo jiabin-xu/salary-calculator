@@ -10,11 +10,20 @@ import {
 import { socialInsuranceRates } from "../../data/taxRates";
 import { useShare } from "@/utils/shareHooks";
 
+interface PensionResult {
+  monthlyPension: number;
+  basicPension: number;
+  personalAccountPension: number;
+  totalPension: number;
+}
+
 const ResultPage: React.FC = () => {
   const router = useRouter();
   useShare();
   const [params, setParams] = useState<SalaryParams | null>(null);
-  const [result, setResult] = useState<SalaryResult | null>(null);
+  const [result, setResult] = useState<SalaryResult | PensionResult | null>(
+    null
+  );
   const [specialDeductionsTotal, setSpecialDeductionsTotal] =
     useState<number>(0);
 
@@ -31,6 +40,8 @@ const ResultPage: React.FC = () => {
         bonusMonth,
         bonusType,
         totalDeductions,
+        type,
+        data,
       } = router.params;
 
       if (!salary || !cityId) {
@@ -60,6 +71,11 @@ const ResultPage: React.FC = () => {
       // 计算结果
       const calculatedResult = calculateYearlySalary(parsedParams);
       setResult(calculatedResult);
+
+      if (type === "pension" && data) {
+        const formData = JSON.parse(decodeURIComponent(data));
+        calculatePensionResult(formData);
+      }
     } catch (err) {
       console.error("解析参数错误:", err);
       Taro.showToast({
@@ -68,6 +84,37 @@ const ResultPage: React.FC = () => {
       });
     }
   }, [router.params]);
+
+  const calculatePensionResult = (formData: any) => {
+    const {
+      currentAge,
+      retirementAge,
+      insuredYears,
+      paymentBase,
+      personalAccountBalance,
+    } = formData;
+
+    // 计算养老金的逻辑
+    // 1. 计算缴费指数
+    const paymentIndex = 2.95; // 这里应该根据实际情况计算
+
+    // 2. 计算基础养老金
+    const basicPension =
+      Number(paymentBase) * paymentIndex * 0.01 * Number(insuredYears);
+
+    // 3. 计算个人账户养老金
+    const personalAccountPension = Number(personalAccountBalance) / 139; // 139是北京市的计发月数
+
+    // 4. 计算总养老金
+    const totalPension = basicPension + personalAccountPension;
+
+    setResult({
+      monthlyPension: totalPension,
+      basicPension,
+      personalAccountPension,
+      totalPension,
+    });
+  };
 
   // 格式化金额
   const formatMoney = (amount: number, decimalPlaces = 1) => {
@@ -410,7 +457,7 @@ const ResultPage: React.FC = () => {
           </View>
 
           {/* 生育保险 */}
-          <View className="border-t border-gray-100 py-3">
+          <View className="border-t border-gray-100 py-3 bg-gray-50">
             <View className="flex items-center">
               <View className="w-1/4">
                 <Text className="text-xs font-medium text-gray-700">
