@@ -94,18 +94,18 @@ const ResultPage: React.FC = () => {
       personalAccountBalance,
     } = formData;
 
-    // 计算养老金的逻辑
+    // 计算退休金的逻辑
     // 1. 计算缴费指数
     const paymentIndex = 2.95; // 这里应该根据实际情况计算
 
-    // 2. 计算基础养老金
+    // 2. 计算基础退休金
     const basicPension =
       Number(paymentBase) * paymentIndex * 0.01 * Number(insuredYears);
 
-    // 3. 计算个人账户养老金
+    // 3. 计算个人账户退休金
     const personalAccountPension = Number(personalAccountBalance) / 139; // 139是北京市的计发月数
 
-    // 4. 计算总养老金
+    // 4. 计算总退休金
     const totalPension = basicPension + personalAccountPension;
 
     setResult({

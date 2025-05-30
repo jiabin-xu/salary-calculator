@@ -1,11 +1,12 @@
 export default defineAppConfig({
   pages: [
+    'pages/pension/index',
+    'pages/pension-result/index',
     'pages/index/index',
     'pages/result/index',
     'pages/disposable-income/index',
     'pages/realTimeEarnings/index',
-    'pages/pension/index',
-    'pages/pension/result',
+
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -20,8 +21,14 @@ export default defineAppConfig({
     borderStyle: 'black',
     list: [
       {
+        pagePath: 'pages/pension/index',
+        text: '退休金',
+        iconPath: 'assets/icons/pension.png',
+        selectedIconPath: 'assets/icons/pension-active.png'
+      },
+      {
         pagePath: 'pages/index/index',
-        text: '税后工资',
+        text: '个税工资',
         iconPath: 'assets/icons/calculator.png',
         selectedIconPath: 'assets/icons/calculator-active.png'
       },
@@ -36,12 +43,6 @@ export default defineAppConfig({
         text: '实时工资',
         iconPath: 'assets/icons/realtime.png',
         selectedIconPath: 'assets/icons/realtime-active.png'
-      },
-      {
-        pagePath: 'pages/pension/index',
-        text: '养老金',
-        iconPath: 'assets/icons/calculator.png',
-        selectedIconPath: 'assets/icons/calculator-active.png'
       }
     ]
   }

@@ -4,6 +4,8 @@ import Taro from "@tarojs/taro";
 import Input from "../../components/Input";
 import FormField from "../../components/FormField";
 import provinceData from "@/data/provice.json";
+import PageHeader from "@/components/salary/PageHeader";
+import { useShare } from "@/utils/shareHooks";
 
 interface PensionFormData {
   city: string;
@@ -24,6 +26,7 @@ const initialFormData: PensionFormData = {
 };
 
 export default function PensionCalculator() {
+  useShare("退休金计算器", "/pages/pension/index");
   const [formData, setFormData] = useState<PensionFormData>(initialFormData);
   const [averageWage, setAverageWage] = useState<number>(0);
   const [averageContributionIndex, setAverageContributionIndex] =
@@ -90,7 +93,7 @@ export default function PensionCalculator() {
 
     // 跳转到结果页面，传递计算出的缴费指数
     Taro.navigateTo({
-      url: `/pages/pension/result?data=${JSON.stringify({
+      url: `/pages/pension-result/index?data=${JSON.stringify({
         ...formData,
         averageContributionIndex,
       })}`,
@@ -98,78 +101,81 @@ export default function PensionCalculator() {
   };
 
   return (
-    <View className="p-4">
-      <FormField label="城市" required inline>
-        <Picker
-          mode="selector"
-          range={provinceData.map((p) => p.province)}
-          onChange={(e) =>
-            handleInputChange("city", provinceData[e.detail.value].province)
-          }
+    <View className="">
+      <PageHeader title="退休金计算器" subtitle="估算未来退休金" />
+      <View className="p-4">
+        <FormField label="城市" required inline>
+          <Picker
+            mode="selector"
+            range={provinceData.map((p) => p.province)}
+            onChange={(e) =>
+              handleInputChange("city", provinceData[e.detail.value].province)
+            }
+          >
+            <View className="bg-gray-100 p-2 rounded">
+              {formData.city || "请选择工作城市"}
+            </View>
+          </Picker>
+        </FormField>
+
+        <FormField label="现在年龄" required inline>
+          <Input
+            type="number"
+            value={formData.currentAge}
+            onChange={(value) => handleInputChange("currentAge", value)}
+            placeholder="请输入现在年龄"
+            suffix="岁"
+          />
+        </FormField>
+
+        <FormField label="退休年龄" required inline>
+          <Input
+            type="number"
+            value={formData.retirementAge}
+            onChange={(value) => handleInputChange("retirementAge", value)}
+            placeholder="请输入退休年龄"
+            suffix="岁"
+          />
+        </FormField>
+
+        <FormField label="缴费基数" required inline>
+          <Input
+            type="digit"
+            value={formData.paymentBase}
+            onChange={(value) => handleInputChange("paymentBase", value)}
+            placeholder="请输入缴费基数"
+            prefix="￥"
+          />
+        </FormField>
+
+        <FormField label="已参保年份" required inline>
+          <Input
+            type="number"
+            value={formData.contributionYears}
+            onChange={(value) => handleInputChange("contributionYears", value)}
+            placeholder="请输入已参保年份"
+            suffix="年"
+          />
+        </FormField>
+
+        <FormField label="个人账户储存额" required inline>
+          <Input
+            type="digit"
+            value={formData.personalAccountBalance}
+            onChange={(value) =>
+              handleInputChange("personalAccountBalance", value)
+            }
+            placeholder="请输入个人账户余额"
+            prefix="￥"
+          />
+        </FormField>
+
+        <View
+          className="mt-8 bg-blue-500 text-white p-2 rounded-lg text-center"
+          onClick={calculatePension}
         >
-          <View className="bg-gray-100 p-2 rounded">
-            {formData.city || "请选择工作城市"}
-          </View>
-        </Picker>
-      </FormField>
-
-      <FormField label="现在年龄" required inline>
-        <Input
-          type="number"
-          value={formData.currentAge}
-          onChange={(value) => handleInputChange("currentAge", value)}
-          placeholder="请输入现在年龄"
-          suffix="岁"
-        />
-      </FormField>
-
-      <FormField label="退休年龄" required inline>
-        <Input
-          type="number"
-          value={formData.retirementAge}
-          onChange={(value) => handleInputChange("retirementAge", value)}
-          placeholder="请输入退休年龄"
-          suffix="岁"
-        />
-      </FormField>
-
-      <FormField label="缴费基数" required inline>
-        <Input
-          type="digit"
-          value={formData.paymentBase}
-          onChange={(value) => handleInputChange("paymentBase", value)}
-          placeholder="请输入缴费基数"
-          prefix="￥"
-        />
-      </FormField>
-
-      <FormField label="已参保年份" required inline>
-        <Input
-          type="number"
-          value={formData.contributionYears}
-          onChange={(value) => handleInputChange("contributionYears", value)}
-          placeholder="请输入已参保年份"
-          suffix="年"
-        />
-      </FormField>
-
-      <FormField label="个人账户储存额" required inline>
-        <Input
-          type="digit"
-          value={formData.personalAccountBalance}
-          onChange={(value) =>
-            handleInputChange("personalAccountBalance", value)
-          }
-          placeholder="请输入个人账户余额"
-          prefix="￥"
-        />
-      </FormField>
-
-      <View
-        className="mt-8 bg-blue-500 text-white p-2 rounded-lg text-center"
-        onClick={calculatePension}
-      >
-        计算养老金
+          计算退休金
+        </View>
       </View>
     </View>
   );
