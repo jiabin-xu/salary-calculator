@@ -1,0 +1,122 @@
+[
+  {
+    "province": "北京",
+    "salary": 18750
+  },
+  {
+    "province": "上海",
+    "salary": 19100
+  },
+  {
+    "province": "天津",
+    "salary": 10400
+  },
+  {
+    "province": "重庆",
+    "salary": 7900
+  },
+  {
+    "province": "山西",
+    "salary": 6700
+  },
+  {
+    "province": "内蒙古",
+    "salary": 8450
+  },
+  {
+    "province": "辽宁",
+    "salary": 7100
+  },
+  {
+    "province": "吉林",
+    "salary": 6800
+  },
+  {
+    "province": "黑龙江",
+    "salary": 6300
+  },
+  {
+    "province": "江苏",
+    "salary": 10165
+  },
+  {
+    "province": "浙江",
+    "salary": 10400
+  },
+  {
+    "province": "安徽",
+    "salary": 6700
+  },
+  {
+    "province": "福建",
+    "salary": 8450
+  },
+  {
+    "province": "江西",
+    "salary": 6700
+  },
+  {
+    "province": "山东",
+    "salary": 7400
+  },
+  {
+    "province": "河南",
+    "salary": 6300
+  },
+  {
+    "province": "湖北",
+    "salary": 7400
+  },
+  {
+    "province": "湖南",
+    "salary": 7000
+  },
+  {
+    "province": "广东",
+    "salary": 11700
+  },
+  {
+    "province": "广西",
+    "salary": 6700
+  },
+  {
+    "province": "海南",
+    "salary": 7400
+  },
+  {
+    "province": "四川",
+    "salary": 7400
+  },
+  {
+    "province": "贵州",
+    "salary": 6700
+  },
+  {
+    "province": "云南",
+    "salary": 6700
+  },
+  {
+    "province": "西藏",
+    "salary": 15000
+  },
+  {
+    "province": "陕西",
+    "salary": 7000
+  },
+  {
+    "province": "甘肃",
+    "salary": 6700
+  },
+  {
+    "province": "青海",
+    "salary": 8450
+  },
+  {
+    "province": "宁夏",
+    "salary": 8450
+  },
+  {
+    "province": "新疆",
+    "salary": 8450
+  }
+]
