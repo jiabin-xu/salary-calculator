@@ -31,9 +31,9 @@ export default function PensionCalculator() {
 
   // 当城市改变时，直接从provinceData获取平均工资
   useEffect(() => {
-    if (formData.cityCode) {
+    if (formData.city) {
       const selectedProvince = provinceData.find(
-        (p) => p.province === formData.cityCode
+        (p) => p.province === formData.city
       );
       if (selectedProvince) {
         setAverageWage(selectedProvince.salary);
@@ -44,7 +44,7 @@ export default function PensionCalculator() {
         }
       }
     }
-  }, [formData.cityCode]);
+  }, [formData.city]);
 
   // 当缴费基数改变时，计算缴费指数
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function PensionCalculator() {
 
   const calculatePension = () => {
     const {
-      cityCode,
+      city,
       currentAge,
       retirementAge,
       paymentBase,
@@ -74,7 +74,7 @@ export default function PensionCalculator() {
     } = formData;
 
     if (
-      !cityCode ||
+      !city ||
       !currentAge ||
       !retirementAge ||
       !paymentBase ||
@@ -133,16 +133,7 @@ export default function PensionCalculator() {
         />
       </FormField>
 
-      <FormField
-        label="缴费基数"
-        required
-        inline
-        helpText={
-          averageWage
-            ? `当前城市平均工资为：¥${averageWage}，您的缴费指数为：${averageContributionIndex}`
-            : "请先选择城市"
-        }
-      >
+      <FormField label="缴费基数" required inline>
         <Input
           type="digit"
           value={formData.paymentBase}
@@ -175,7 +166,7 @@ export default function PensionCalculator() {
       </FormField>
 
       <View
-        className="mt-8 bg-blue-500 text-white p-4 rounded-lg text-center"
+        className="mt-8 bg-blue-500 text-white p-2 rounded-lg text-center"
         onClick={calculatePension}
       >
         计算养老金
