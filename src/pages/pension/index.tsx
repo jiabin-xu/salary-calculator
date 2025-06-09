@@ -1,182 +1,55 @@
-import { View, Picker } from "@tarojs/components";
-import { useState, useEffect } from "react";
-import Taro from "@tarojs/taro";
-import Input from "../../components/Input";
-import FormField from "../../components/FormField";
-import provinceData from "@/data/provice.json";
-import PageHeader from "@/components/salary/PageHeader";
+import { View } from "@tarojs/components";
+import { useState } from "react";
 import { useShare } from "@/utils/shareHooks";
+import PageHeader from "@/components/salary/PageHeader";
+import RetirementAgeCalculator from "./RetirementAgeCalculator";
+import PensionCalculator from "./PensionCalculator";
 
-interface PensionFormData {
-  city: string;
-  currentAge: string; // 现在年龄
-  retirementAge: string; // 退休年龄
-  paymentBase: string; // 缴费基数
-  contributionYears: string; // 缴费年限
-  personalAccountBalance: string; // 个人账户储存额
-}
-
-const initialFormData: PensionFormData = {
-  city: "",
-  currentAge: "",
-  retirementAge: "",
-  paymentBase: "",
-  contributionYears: "",
-  personalAccountBalance: "",
-};
-
-export default function PensionCalculator() {
+export default function PensionPage() {
   useShare("退休金计算器", "/pages/pension/index");
-  const [formData, setFormData] = useState<PensionFormData>(initialFormData);
-  const [averageWage, setAverageWage] = useState<number>(0);
-  const [averageContributionIndex, setAverageContributionIndex] =
-    useState<number>(0);
-
-  // 当城市改变时，直接从provinceData获取平均工资
-  useEffect(() => {
-    if (formData.city) {
-      const selectedProvince = provinceData.find(
-        (p) => p.province === formData.city
-      );
-      if (selectedProvince) {
-        setAverageWage(selectedProvince.salary);
-        // 如果已经有缴费基数，重新计算缴费指数
-        if (formData.paymentBase) {
-          const index = Number(formData.paymentBase) / selectedProvince.salary;
-          setAverageContributionIndex(Number(index.toFixed(2)));
-        }
-      }
-    }
-  }, [formData.city]);
-
-  // 当缴费基数改变时，计算缴费指数
-  useEffect(() => {
-    if (formData.paymentBase && averageWage) {
-      const index = Number(formData.paymentBase) / averageWage;
-      setAverageContributionIndex(Number(index.toFixed(2)));
-    } else {
-      setAverageContributionIndex(0);
-    }
-  }, [formData.paymentBase, averageWage]);
-
-  const handleInputChange = (field: keyof PensionFormData, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
-  const calculatePension = () => {
-    const {
-      city,
-      currentAge,
-      retirementAge,
-      paymentBase,
-      contributionYears,
-      personalAccountBalance,
-    } = formData;
-
-    if (
-      !city ||
-      !currentAge ||
-      !retirementAge ||
-      !paymentBase ||
-      !contributionYears ||
-      !personalAccountBalance
-    ) {
-      Taro.showToast({
-        title: "请填写完整信息",
-        icon: "none",
-      });
-      return;
-    }
-
-    // 跳转到结果页面，传递计算出的缴费指数
-    Taro.navigateTo({
-      url: `/pages/pension-result/index?data=${JSON.stringify({
-        ...formData,
-        averageContributionIndex,
-      })}`,
-    });
-  };
+  const [activeTab, setActiveTab] = useState<"pension" | "age">("age");
 
   return (
-    <View className="">
-      <PageHeader title="退休金计算器" subtitle="估算未来退休金" />
-      <View className="p-4">
-        <FormField label="城市" required inline>
-          <Picker
-            mode="selector"
-            range={provinceData.map((p) => p.province)}
-            onChange={(e) =>
-              handleInputChange("city", provinceData[e.detail.value].province)
-            }
-          >
-            <View className="bg-gray-100 p-2 rounded">
-              {formData.city || "请选择工作城市"}
-            </View>
-          </Picker>
-        </FormField>
+    <View className="bg-gray-50 min-h-screen">
+      <PageHeader
+        title="退休金计算器"
+        subtitle="一键查询退休年龄及预估退休金"
+      />
 
-        <FormField label="现在年龄" required inline>
-          <Input
-            type="number"
-            value={formData.currentAge}
-            onChange={(value) => handleInputChange("currentAge", value)}
-            placeholder="请输入现在年龄"
-            suffix="岁"
-          />
-        </FormField>
-
-        <FormField label="退休年龄" required inline>
-          <Input
-            type="number"
-            value={formData.retirementAge}
-            onChange={(value) => handleInputChange("retirementAge", value)}
-            placeholder="请输入退休年龄"
-            suffix="岁"
-          />
-        </FormField>
-
-        <FormField label="缴费基数" required inline>
-          <Input
-            type="digit"
-            value={formData.paymentBase}
-            onChange={(value) => handleInputChange("paymentBase", value)}
-            placeholder="请输入缴费基数"
-            prefix="￥"
-          />
-        </FormField>
-
-        <FormField label="已参保年份" required inline>
-          <Input
-            type="number"
-            value={formData.contributionYears}
-            onChange={(value) => handleInputChange("contributionYears", value)}
-            placeholder="请输入已参保年份"
-            suffix="年"
-          />
-        </FormField>
-
-        <FormField label="个人账户储存额" required inline>
-          <Input
-            type="digit"
-            value={formData.personalAccountBalance}
-            onChange={(value) =>
-              handleInputChange("personalAccountBalance", value)
-            }
-            placeholder="请输入个人账户余额"
-            prefix="￥"
-          />
-        </FormField>
-
+      <View className="flex border-b border-gray-200 bg-white mb-4 text-lg">
         <View
-          className="mt-8 bg-blue-500 text-white p-2 rounded-lg text-center"
-          onClick={calculatePension}
+          className={`flex-1 text-center py-4 ${
+            activeTab === "age"
+              ? "text-blue-600 border-b-4 border-blue-600 font-bold"
+              : "text-gray-600"
+          }`}
+          onClick={() => setActiveTab("age")}
         >
-          计算退休金
+          退休年龄查询
+        </View>
+        <View
+          className={`flex-1 text-center py-4 ${
+            activeTab === "pension"
+              ? "text-blue-600 border-b-4 border-blue-600 font-bold"
+              : "text-gray-600"
+          }`}
+          onClick={() => setActiveTab("pension")}
+        >
+          退休金计算
         </View>
       </View>
+
+      <View className="px-4 py-2 bg-yellow-50 mx-4 rounded-lg mb-4 text-sm text-yellow-800">
+        <View className="font-bold mb-1">温馨提示：</View>
+        <View>• 建议先查询您的法定退休年龄</View>
+        <View>• 退休金计算结果仅供参考</View>
+      </View>
+
+      {activeTab === "age" ? (
+        <RetirementAgeCalculator />
+      ) : (
+        <PensionCalculator />
+      )}
     </View>
   );
 }

@@ -23,7 +23,7 @@ export default defineAppConfig({
     list: [
       {
         pagePath: 'pages/pension/index',
-        text: '退休金',
+        text: '退休',
         iconPath: 'assets/icons/pension.png',
         selectedIconPath: 'assets/icons/pension-active.png'
       },
