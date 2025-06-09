@@ -1,7 +1,6 @@
 import { View } from "@tarojs/components";
 import { useState } from "react";
 import { useShare } from "@/utils/shareHooks";
-import PageHeader from "@/components/salary/PageHeader";
 import RetirementAgeCalculator from "./RetirementAgeCalculator";
 import PensionCalculator from "./PensionCalculator";
 
@@ -11,10 +10,10 @@ export default function PensionPage() {
 
   return (
     <View className="bg-gray-50 min-h-screen">
-      <PageHeader
+      {/* <PageHeader
         title="退休金计算器"
         subtitle="一键查询退休年龄及预估退休金"
-      />
+      /> */}
 
       <View className="flex border-b border-gray-200 bg-white mb-4 text-lg">
         <View
