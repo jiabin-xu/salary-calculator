@@ -1,5 +1,6 @@
 import { View } from "@tarojs/components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "@tarojs/taro";
 import { useShare } from "@/utils/shareHooks";
 import RetirementAgeCalculator from "./RetirementAgeCalculator";
 import PensionCalculator from "./PensionCalculator";
@@ -7,6 +8,15 @@ import PensionCalculator from "./PensionCalculator";
 export default function PensionPage() {
   useShare("退休金计算器", "/pages/pension/index");
   const [activeTab, setActiveTab] = useState<"pension" | "age">("age");
+  const router = useRouter();
+
+  useEffect(() => {
+    // 根据URL参数设置初始标签页
+    const { tab } = router.params;
+    if (tab === "pension" || tab === "age") {
+      setActiveTab(tab);
+    }
+  }, [router.params]);
 
   return (
     <View className="bg-gray-50 min-h-screen">
