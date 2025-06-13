@@ -11,7 +11,7 @@ export default defineAppConfig({
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: '智慧规划',
+    navigationBarTitleText: '退休计算器',
     navigationBarTextStyle: 'black'
   }
 })

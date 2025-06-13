@@ -59,7 +59,7 @@ const HomePage: React.FC = () => {
   return (
     <View className="bg-gray-50 min-h-screen">
       {/* 顶部标题栏 */}
-      <View className="bg-white px-6 pt-12 pb-4 flex justify-between items-center">
+      <View className="bg-white px-6 pt-4 pb-4 flex justify-between items-center">
         <Text className="text-2xl font-bold text-gray-800">退休计算器</Text>
         <Button
           className="w-8 h-8 mr-0 rounded-full bg-gray-100 flex items-center justify-center active:bg-gray-200"
